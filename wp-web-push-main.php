@@ -9,6 +9,8 @@ class WebPush_Main {
   public function __construct() {
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_webpush_register'));
+
+    add_action('transition_post_status', array($this, 'on_transition_post_status'), 10, 3);
   }
 
   public static function init() {
@@ -34,6 +36,14 @@ class WebPush_Main {
     WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
 
     wp_die();
+  }
+
+  public static function on_transition_post_status($new_status, $old_status, $post) {
+    if (empty($post) || $new_status !== "publish") {
+      return;
+    }
+
+    // TODO: Send notification
   }
 }
 
