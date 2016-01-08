@@ -1,6 +1,7 @@
 <?php
 
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
+require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
 class WebPush_Main {
   private static $instance;
@@ -30,9 +31,7 @@ class WebPush_Main {
     // TODO: Enable nonce verification.
     // check_ajax_referer('register_nonce');
 
-    // TODO: Use $_POST['endpoint'] and $_POST['key']
-
-    echo $_POST['endpoint'] . ' & ' . $_POST['key'];
+    WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
 
     wp_die();
   }

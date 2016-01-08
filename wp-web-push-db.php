@@ -15,6 +15,15 @@ class WebPush_DB {
     return self::$instance;
   }
 
+  public static function add_subscription($endpoint, $userKey) {
+    global $wpdb;
+
+    $wpdb->insert($wpdb->prefix . 'webpush_subscription', array(
+      'endpoint' => $endpoint,
+      'userKey' => $userKey,
+    ));
+  }
+
   public static function on_activate() {
     global $wpdb;
 
