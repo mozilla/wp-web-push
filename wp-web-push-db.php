@@ -27,7 +27,7 @@ class WebPush_DB {
   public static function on_activate() {
     global $wpdb;
 
-    if (WebPush_DB::getInstance()->version == get_option('webpush_db_version')) {
+    if (WebPush_DB::getInstance()->version === get_option('webpush_db_version')) {
       return;
     }
 
