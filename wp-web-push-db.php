@@ -24,6 +24,13 @@ class WebPush_DB {
     ));
   }
 
+  public static function get_subscriptions() {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'webpush_subscription';
+    return $wpdb->get_results('SELECT `endpoint`,`userKey` FROM ' . $table_name);
+  }
+
   public static function on_activate() {
     global $wpdb;
 

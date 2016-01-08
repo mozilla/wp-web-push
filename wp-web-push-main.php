@@ -43,7 +43,10 @@ class WebPush_Main {
       return;
     }
 
-    // TODO: Send notification
+    $subscriptions = WebPush_DB::get_subscriptions();
+    foreach($subscriptions as $subscription) {
+      sendNotification($subscription->endpoint);
+    }
   }
 }
 
