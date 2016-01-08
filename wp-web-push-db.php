@@ -2,6 +2,7 @@
 
 class WebPush_DB {
   private static $instance;
+  private $version = "0.0.1";
 
   public function __construct() {
   }
@@ -14,13 +15,33 @@ class WebPush_DB {
     return self::$instance;
   }
 
-  public function on_activate() {
+  public static function on_activate() {
+    global $wpdb;
+
+    if (WebPush_DB::getInstance()->version == get_option('webpush_db_version')) {
+      return;
+    }
+
+    $table_name = $wpdb->prefix . 'webpush_subscription';
+
+    $sql = 'CREATE TABLE ' . $table_name . ' (
+      `id` INT NOT NULL AUTO_INCREMENT,
+      `endpoint` VARCHAR(300) NOT NULL,
+      `userKey` VARCHAR(300) NOT NULL,
+      PRIMARY KEY (`id`)
+    );';
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+
+    update_option('webpush_db_version', WebPush_DB::getInstance()->version);
   }
 
-  public function on_deactivate() {
+  public static function on_deactivate() {
   }
 
-  public function on_uninstall() {
+  public static function on_uninstall() {
+    // TODO: Remove table
   }
 }
 
