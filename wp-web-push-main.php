@@ -1,5 +1,7 @@
 <?php
 
+require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
+
 class WebPush_Main {
   private static $instance;
 
