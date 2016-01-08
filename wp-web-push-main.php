@@ -14,7 +14,11 @@ class WebPush_Main {
   }
 
   public function enqueue_frontend_scripts() {
-    wp_enqueue_script('sw-registration-script', plugins_url('lib/js/sw-manager.js', __FILE__ ));
+    wp_register_script('sw-registration-script', plugins_url('lib/js/sw-manager.js', __FILE__ ));
+    wp_localize_script('sw-registration-script', 'ServiceWorker', array(
+      'url' => plugins_url('lib/js/sw.js', __FILE__),
+    ));
+    wp_enqueue_script('sw-registration-script');
   }
 }
 
