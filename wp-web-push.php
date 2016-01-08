@@ -3,8 +3,13 @@
 Plugin Name: WordPress Web Push
 */
 
-require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php' );
+require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');
+require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
 WebPush_Main::init();
+
+register_activation_hook(__FILE__, array('WebPush_DB', 'on_activate'));
+register_deactivation_hook(__FILE__, array('WebPush_DB', 'on_deactivate'));
+register_uninstall_hook(__FILE__, array('WebPush_DB', 'on_uninstall'));
 
 ?>
