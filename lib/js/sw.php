@@ -9,7 +9,7 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('push', function(event) {
   event.waitUntil(
     self.registration.showNotification('A Title', {
-      body: 'A Body',
+      body: '<?php echo admin_url('admin-ajax.php'); ?>',
     })
   );
 });

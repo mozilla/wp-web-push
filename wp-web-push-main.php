@@ -8,6 +8,8 @@ class WebPush_Main {
 
   public function __construct() {
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
+    add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
+    add_action('parse_request', array($this, 'on_parse_request'));
 
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_webpush_register'));
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_webpush_get_payload'));
@@ -24,15 +26,14 @@ class WebPush_Main {
   public function enqueue_frontend_scripts() {
     wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__ ));
     wp_localize_script('sw-manager-script', 'ServiceWorker', array(
-      'url' => plugins_url('lib/js/sw.js', __FILE__),
+      'url' => home_url('/') . '?webpush_file=worker',
       'register_url' => admin_url('admin-ajax.php'),
       // 'register_nonce' => wp_create_nonce('register_nonce'),
-      // 'get_payload_nonce' => wp_create_nonce('get_payload_nonce'),
     ));
     wp_enqueue_script('sw-manager-script');
   }
 
-  public function handle_webpush_register() {
+  public static function handle_webpush_register() {
     // TODO: Enable nonce verification.
     // check_ajax_referer('register_nonce');
 
@@ -41,11 +42,26 @@ class WebPush_Main {
     wp_die();
   }
 
-  public function handle_webpush_get_payload() {
+  public static function handle_webpush_get_payload() {
     // TODO: Enable nonce verification.
     // check_ajax_referer('register_nonce');
 
     wp_send_json(get_option('webpush_payload'));
+  }
+
+  public static function on_query_vars($qvars) {
+    $qvars[] = 'webpush_file';
+    return $qvars;
+  }
+
+  public static function on_parse_request($query) {
+    $file = $query->query_vars['webpush_file'];
+
+    if ($file === 'worker') {
+      header('Content-Type: application/javascript');
+      require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
+      exit;
+    }
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
