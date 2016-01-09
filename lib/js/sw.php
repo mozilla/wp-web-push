@@ -8,8 +8,14 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('push', function(event) {
   event.waitUntil(
-    self.registration.showNotification('A Title', {
-      body: '<?php echo admin_url('admin-ajax.php'); ?>',
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      return self.registration.showNotification(data.title, {
+        body: data.body,
+      });
     })
   );
 });
