@@ -44,7 +44,8 @@ class WebPush_DB {
       `id` INT NOT NULL AUTO_INCREMENT,
       `endpoint` VARCHAR(300) NOT NULL,
       `userKey` VARCHAR(300) NOT NULL,
-      PRIMARY KEY (`id`)
+      PRIMARY KEY (`id`),
+      UNIQUE (`endpoint`)
     );';
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
