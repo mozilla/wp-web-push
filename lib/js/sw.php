@@ -7,14 +7,19 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('notificationclick', function(event) {
+  var data = event.notification.data;
+  var url = data.url;
+
   event.waitUntil(
     self.clients.matchAll()
     .then(function(clientList) {
-      if (clientList.length > 0) {
-        return clientList[0].focus();
+      for (var i = 0; i < clientList.length; i++) {
+        if (clientList[i].url === url) {
+          return clientList[i].focus();
+        }
       }
 
-      return self.clients.openWindow('<?php bloginfo('url'); ?>');
+      return self.clients.openWindow(url);
     })
   );
 });
@@ -28,6 +33,7 @@ self.addEventListener('push', function(event) {
     .then(function(data) {
       return self.registration.showNotification(data.title, {
         body: data.body,
+        data: data,
       });
     })
   );
