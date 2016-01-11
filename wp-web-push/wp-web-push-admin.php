@@ -31,7 +31,7 @@ class WebPush_Admin {
         wp_die(__('Wrong value for the Notification Title', 'wpwebpush'));
       }
 ?>
-<div class="updated"><p><strong><?php _e('Settings saved'); ?></strong></p></div>
+<div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
 <?php
     }
 ?>
@@ -55,7 +55,7 @@ class WebPush_Admin {
 </table>
 
 <p class="submit">
-<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes', 'wpwebpush'); ?>" />
+<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
 </p>
 
 </form>
