@@ -54,9 +54,7 @@ class WebPush_Admin {
 </tr>
 </table>
 
-<p class="submit">
-<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
-</p>
+<?php submit_button(__('Save Changes'), 'primary'); ?>
 
 </form>
 
