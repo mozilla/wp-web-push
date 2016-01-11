@@ -11,7 +11,9 @@ self.addEventListener('notificationclick', function(event) {
   var url = data.url;
 
   event.waitUntil(
-    self.clients.matchAll()
+    self.clients.matchAll({
+      type: "window",
+    })
     .then(function(clientList) {
       for (var i = 0; i < clientList.length; i++) {
         if (clientList[i].url === url) {
