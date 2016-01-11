@@ -58,7 +58,13 @@ class WebPush_DB {
   }
 
   public static function on_uninstall() {
-    // TODO: Remove table
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'webpush_subscription';
+    $wpdb->query('DROP TABLE ' . $table_name);
+
+    delete_option('webpush_db_version');
+    delete_option('webpush_payload');
   }
 }
 
