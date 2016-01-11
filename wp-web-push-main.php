@@ -69,8 +69,10 @@ class WebPush_Main {
       return;
     }
 
+    $title_option = get_option('webpush_title');
+
     update_option('webpush_payload', array(
-      'title' => get_bloginfo('name'),
+      'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'body' => get_the_title($post->ID),
       'url' => get_permalink($post->ID),
     ));

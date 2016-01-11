@@ -52,6 +52,9 @@ class WebPush_DB {
     dbDelta($sql);
 
     update_option('webpush_db_version', WebPush_DB::getInstance()->version);
+
+    // Set default options.
+    update_option('webpush_title', 'blog_title');
   }
 
   public static function on_deactivate() {
@@ -65,6 +68,7 @@ class WebPush_DB {
 
     delete_option('webpush_db_version');
     delete_option('webpush_payload');
+    delete_option('webpush_title');
   }
 }
 
