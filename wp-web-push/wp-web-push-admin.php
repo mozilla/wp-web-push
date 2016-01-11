@@ -1,6 +1,6 @@
 <?php
 
-load_plugin_textdomain( 'wpwebpush', '', dirname( plugin_basename( __FILE__ ) ) . '/lang' );
+load_plugin_textdomain('wpwebpush', '', dirname(plugin_basename(__FILE__)) . '/lang');
 
 class WebPush_Admin {
   private static $instance;
@@ -48,14 +48,14 @@ class WebPush_Admin {
 <fieldset>
 <label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : '' ?> /> <?php _e('Use the Site Title', 'wpwebpush'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
 <label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : '' ?> /> <?php _e('Custom', 'wpwebpush'); ?>:</label>
-<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : __('Your custom title', 'wpwebpush') ?>" class="long-text" />
+<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'wpwebpush') ?>" class="long-text" />
 </fieldset>
 </td>
 </tr>
 </table>
 
 <p class="submit">
-<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'wpwebpush'); ?>" />
+<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e('Save Changes', 'wpwebpush'); ?>" />
 </p>
 
 </form>
