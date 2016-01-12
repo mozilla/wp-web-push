@@ -1,6 +1,8 @@
 # wp-web-push
 > Web Push plugin for WordPress.
 
+[![Build Status](https://travis-ci.org/marco-c/wp-web-push.svg?branch=master)](https://travis-ci.org/marco-c/wp-web-push)
+
 ## Running tests
 
 Install dependencies:
