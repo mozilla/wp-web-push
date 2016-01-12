@@ -5,7 +5,7 @@
 
 Install dependencies:
 ```bash
-./install-wp-tests.sh wp_test root root localhost latest
+./install-wp-tests.sh MYSQL_DATABASE_NAME MYSQL_USER MYSQL_PASSWORD localhost latest
 ```
 
 Run tests:
