@@ -24,10 +24,13 @@ class WebPush_Main {
   }
 
   public function enqueue_frontend_scripts() {
-    wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__ ));
+    wp_enqueue_script('localforage-script', plugins_url('lib/js/localforage.min.js', __FILE__));
+
+    wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__));
     wp_localize_script('sw-manager-script', 'ServiceWorker', array(
       'url' => home_url('/') . '?webpush_file=worker',
       'register_url' => admin_url('admin-ajax.php'),
+      'min_visits' => get_option('webpush_min_visits'),
       // 'register_nonce' => wp_create_nonce('register_nonce'),
     ));
     wp_enqueue_script('sw-manager-script');
