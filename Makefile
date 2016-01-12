@@ -18,6 +18,7 @@ tools/wp-cli.phar:
 
 tools/phpunit.phar:
 	mkdir -p tools
-	wget -P tools -N https://phar.phpunit.de/phpunit.phar
+	wget -P tools -N https://phar.phpunit.de/phpunit-old.phar
+	mv tools/phpunit-old.phar tools/phpunit.phar
 	chmod +x $(PHPUNIT)
 
