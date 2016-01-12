@@ -1,4 +1,4 @@
-.PHONY: reinstall download
+.PHONY: reinstall test
 
 WP_CLI = tools/wp-cli.phar
 PHPUNIT = tools/phpunit.phar
@@ -8,7 +8,8 @@ reinstall: $(WP_CLI)
 	zip wp-web-push.zip -r wp-web-push/
 	$(WP_CLI) plugin install --activate wp-web-push.zip --path=$(WORDPRESS_PATH)
 
-download: $(WP_CLI) $(PHPUNIT)
+test: $(PHPUNIT)
+	$(PHPUNIT)
 
 tools/wp-cli.phar:
 	mkdir -p tools
