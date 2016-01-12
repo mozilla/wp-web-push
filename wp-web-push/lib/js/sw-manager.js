@@ -5,7 +5,12 @@ if (navigator.serviceWorker) {
 
     localforage.getItem('visits')
     .then(function(visits) {
-      localforage.setItem('visits', visits ? ++visits : 1);
+      if (!visits) {
+        visits = 1;
+      } else {
+        visits++;
+      }
+      localforage.setItem('visits', visits);
 
       if (visits < ServiceWorker.min_visits) {
         return;
