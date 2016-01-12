@@ -21,15 +21,28 @@ class WebPush_Admin {
 
   public function options() {
     $title_option = get_option('webpush_title');
+    $min_visits_option = get_option('webpush_min_visits');
 
-    if(isset($_POST['webpush_title'])) {
+    if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
       if ($_POST['webpush_title'] === 'blog_title') {
-        update_option('webpush_title', 'blog_title');
+        $title_option = 'blog_title';
       } else if ($_POST['webpush_title'] === 'custom') {
-        update_option('webpush_title', $_POST['webpush_title_custom']);
+        $title_option = $_POST['webpush_title_custom'];
       } else {
         wp_die(__('Wrong value for the Notification Title', 'wpwebpush'));
       }
+
+      if ($_POST['webpush_min_visits'] === '0') {
+        $min_visits_option = 0;
+      } else if ($_POST['webpush_min_visits'] === 'custom') {
+        $min_visits_option = intval($_POST['webpush_min_visits_custom']);
+      } else {
+        wp_die(__('Wrong value for `Registration Behavior`', 'wpwebpush'));
+      }
+
+      update_option('webpush_title', $title_option);
+      update_option('webpush_min_visits', $min_visits_option);
+
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
 <?php
@@ -42,6 +55,8 @@ class WebPush_Admin {
 <form method="post" action="">
 <table class="form-table">
 
+<input type="hidden" name="webpush_form" value="submitted" />
+
 <tr>
 <th scope="row"><?php _e('Notification Title', 'wpwebpush'); ?></th>
 <td>
@@ -52,6 +67,19 @@ class WebPush_Admin {
 </fieldset>
 </td>
 </tr>
+
+<tr>
+<th scope="row"><?php _e('Registration Behavior', 'wpwebpush'); ?></th>
+<td>
+<fieldset>
+<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : '' ?> /> <?php _e('Ask the user to register as soon as he visits the site.', 'wpwebpush'); ?></label><br />
+<label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : '' ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
+<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3 ?>" class="small-text" />
+</fieldset>
+</td>
+</tr>
+
+
 </table>
 
 <?php submit_button(__('Save Changes'), 'primary'); ?>
