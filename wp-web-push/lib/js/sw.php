@@ -40,3 +40,24 @@ self.addEventListener('push', function(event) {
     })
   );
 });
+
+self.addEventListener('pushsubscriptionchange', function(event) {
+  event.waitUntil(
+    self.registration.pushManager.subscribe({
+      userVisibleOnly: true,
+    })
+    .then(function(subscription) {
+      var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+
+      var formData = new FormData();
+      formData.append('action', 'webpush_register');
+      formData.append('endpoint', subscription.endpoint);
+      formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+
+      return fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+        method: 'post',
+        body: formData,
+      });
+    })
+  );
+});
