@@ -81,8 +81,10 @@ class WebPush_Main {
     ));
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    foreach($subscriptions as $subscription) {
-      sendNotification($subscription->endpoint);
+    foreach ($subscriptions as $subscription) {
+      if (!sendNotification($subscription->endpoint)) {
+        WebPush_DB::remove_subscription($subscription->endpoint);
+      }
     }
   }
 }
