@@ -83,6 +83,8 @@ class WebPush_Main {
     $subscriptions = WebPush_DB::get_subscriptions();
     foreach ($subscriptions as $subscription) {
       if (!sendNotification($subscription->endpoint)) {
+        // If there's an error while sending the push notification,
+        // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
       }
     }
