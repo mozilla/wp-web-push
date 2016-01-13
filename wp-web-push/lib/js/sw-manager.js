@@ -22,7 +22,9 @@ if (navigator.serviceWorker) {
           return subscription;
         }
 
-        return registration.pushManager.subscribe({ userVisibleOnly: true });
+        return registration.pushManager.subscribe({
+          userVisibleOnly: true,
+        });
       })
       .then(function(subscription) {
         var key = subscription.getKey ? subscription.getKey('p256dh') : '';
