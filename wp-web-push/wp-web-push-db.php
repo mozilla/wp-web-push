@@ -24,6 +24,14 @@ class WebPush_DB {
     ));
   }
 
+  public static function remove_subscription($endpoint) {
+    global $wpdb;
+
+    $wpdb->delete($wpdb->prefix . 'webpush_subscription', array(
+      'endpoint' => $endpoint,
+    ));
+  }
+
   public static function get_subscriptions() {
     global $wpdb;
 
