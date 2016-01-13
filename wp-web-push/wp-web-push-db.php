@@ -64,6 +64,7 @@ class WebPush_DB {
     // Set default options.
     update_option('webpush_title', 'blog_title');
     update_option('webpush_min_visits', 3);
+    update_option('webpush_triggers', array());
   }
 
   public static function on_deactivate() {
@@ -79,6 +80,7 @@ class WebPush_DB {
     delete_option('webpush_payload');
     delete_option('webpush_title');
     delete_option('webpush_min_visits');
+    delete_option('webpush_triggers');
   }
 }
 
