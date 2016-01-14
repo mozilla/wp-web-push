@@ -9,6 +9,12 @@ function sendNotification($endpoint, $gcmKey) {
   $body = '';
 
   if (strpos($endpoint, GCM_REQUEST_URL) === 0) {
+    if (!$gcmKey) {
+      // If the GCM key isn't set, ignore the request to send a notification
+      // and return true so the caller doesn't think the request failed.
+      return true;
+    }
+
     $endpointSections = explode('/', $endpoint);
     $subscriptionId = $endpointSections[sizeof($endpointSections) - 1];
     $body = json_encode(array('registration_ids' => array($subscriptionId)));

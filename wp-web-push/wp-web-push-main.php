@@ -79,9 +79,11 @@ class WebPush_Main {
       'url' => get_permalink($post->ID),
     ));
 
+    $gcmKey = get_option('webpush_gcm_key');
+
     $subscriptions = WebPush_DB::get_subscriptions();
     foreach ($subscriptions as $subscription) {
-      if (!sendNotification($subscription->endpoint)) {
+      if (!sendNotification($subscription->endpoint, $gcmKey)) {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
