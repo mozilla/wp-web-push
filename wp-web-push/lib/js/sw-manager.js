@@ -16,7 +16,7 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      return registration.pushManager.getSubscription()
+      registration.pushManager.getSubscription()
       .then(function(subscription) {
         if (subscription) {
           return subscription;
@@ -37,13 +37,6 @@ if (navigator.serviceWorker) {
         fetch(ServiceWorker.register_url, {
           method: 'post',
           body: formData,
-        })
-        // TODO: Remove, it's used only for debugging.
-        .then(function(response) {
-          return response.text();
-        })
-        .then(function(body) {
-          console.log('Server replied: ' + body);
         });
       });
     });
