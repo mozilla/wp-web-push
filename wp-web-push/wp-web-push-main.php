@@ -31,24 +31,17 @@ class WebPush_Main {
       'url' => home_url('/') . '?webpush_file=worker',
       'register_url' => admin_url('admin-ajax.php'),
       'min_visits' => get_option('webpush_min_visits'),
-      // 'register_nonce' => wp_create_nonce('register_nonce'),
     ));
     wp_enqueue_script('sw-manager-script');
   }
 
   public static function handle_webpush_register() {
-    // TODO: Enable nonce verification.
-    // check_ajax_referer('register_nonce');
-
     WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
 
     wp_die();
   }
 
   public static function handle_webpush_get_payload() {
-    // TODO: Enable nonce verification.
-    // check_ajax_referer('register_nonce');
-
     wp_send_json(get_option('webpush_payload'));
   }
 

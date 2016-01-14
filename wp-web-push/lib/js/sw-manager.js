@@ -33,7 +33,6 @@ if (navigator.serviceWorker) {
         formData.append('action', 'webpush_register');
         formData.append('endpoint', subscription.endpoint);
         formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-        // formData.append('_ajax_nonce', ServiceWorker.register_nonce);
 
         fetch(ServiceWorker.register_url, {
           method: 'post',
