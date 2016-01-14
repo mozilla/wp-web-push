@@ -70,7 +70,7 @@ class WebPush_Admin {
       $allowed_trigger_values = $this->array_values_recursive($ALLOWED_TRIGGERS);
       foreach($triggers_option as $trigger_option) {
         if(!in_array($trigger_option, $allowed_trigger_values)) {
-          wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'wpwebpush'));
+          wp_die(sprintf(__('Invalid value in Push Triggers: %s', 'wpwebpush'), $trigger_option));
         }
       }
 
