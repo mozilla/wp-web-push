@@ -65,6 +65,8 @@ class WebPush_DB {
     update_option('webpush_title', 'blog_title');
     update_option('webpush_min_visits', 3);
     update_option('webpush_triggers', array());
+    update_option('webpush_gcm_key', '');
+    update_option('webpush_gcm_sender_id', '');
   }
 
   public static function on_deactivate() {
@@ -81,6 +83,8 @@ class WebPush_DB {
     delete_option('webpush_title');
     delete_option('webpush_min_visits');
     delete_option('webpush_triggers');
+    delete_option('webpush_gcm_key');
+    delete_option('webpush_gcm_sender_id');
   }
 }
 
