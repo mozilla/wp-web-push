@@ -7,6 +7,8 @@ class WebPush_Main {
   private static $instance;
 
   public function __construct() {
+    add_action('wp_head', array($this, 'add_manifest'));
+
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
     add_action('parse_request', array($this, 'on_parse_request'));
@@ -21,6 +23,10 @@ class WebPush_Main {
     if (!self::$instance) {
       self::$instance = new self();
     }
+  }
+
+  public static function add_manifest() {
+    echo '<link rel="manifest" href="' . home_url('/') . '?webpush_file=manifest">';
   }
 
   public function enqueue_frontend_scripts() {
@@ -58,6 +64,12 @@ class WebPush_Main {
       require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
       exit;
     }
+
+    if ($file === 'manifest') {
+      header('Content-Type: application/json');
+      require_once(plugin_dir_path(__FILE__) . 'lib/manifest.php');
+      exit;
+    }
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
@@ -73,9 +85,11 @@ class WebPush_Main {
       'url' => get_permalink($post->ID),
     ));
 
+    $gcmKey = get_option('webpush_gcm_key');
+
     $subscriptions = WebPush_DB::get_subscriptions();
     foreach ($subscriptions as $subscription) {
-      if (!sendNotification($subscription->endpoint)) {
+      if (!sendNotification($subscription->endpoint, $gcmKey)) {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);

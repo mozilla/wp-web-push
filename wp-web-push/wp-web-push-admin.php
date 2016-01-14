@@ -45,9 +45,8 @@ class WebPush_Admin {
     $title_option = get_option('webpush_title');
     $min_visits_option = get_option('webpush_min_visits');
     $triggers_option = get_option('webpush_triggers');
-    if(!$triggers_option) {
-      $triggers_option = array();
-    }
+    $gcm_key_option = get_option('webpush_gcm_key');
+    $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
 
     if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
       if ($_POST['webpush_title'] === 'blog_title') {
@@ -74,9 +73,14 @@ class WebPush_Admin {
         }
       }
 
+      $gcm_key_option = $_POST['webpush_gcm_key'];
+      $gcm_sender_id_option = $_POST['webpush_gcm_sender_id'];
+
       update_option('webpush_title', $title_option);
       update_option('webpush_min_visits', $min_visits_option);
       update_option('webpush_triggers', $triggers_option);
+      update_option('webpush_gcm_key', $gcm_key_option);
+      update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
 
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
@@ -125,6 +129,21 @@ class WebPush_Admin {
 </td>
 </tr>
 
+</table>
+
+<table class="form-table">
+
+<h2 class="title"><?php _e('GCM Configuration', 'wpwebpush'); ?></h2>
+
+<tr>
+<th scope="row"><label for="webpush_gcm_key"><?php _e('GCM Key', 'wpwebpush'); ?></label></th>
+<td><input name="webpush_gcm_key" type="text" value="<?php echo $gcm_key_option; ?>" class="regular-text code" /></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Sender ID', 'wpwebpush'); ?></label></th>
+<td><input name="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
+</tr>
 
 </table>
 
