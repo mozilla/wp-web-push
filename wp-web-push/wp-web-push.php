@@ -1,6 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress Web Push
+Text Domain: wpwebpush
 */
 
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');

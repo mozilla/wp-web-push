@@ -1,6 +1,6 @@
 <?php
 
-load_plugin_textdomain('wpwebpush', '', dirname(plugin_basename(__FILE__)) . '/lang');
+load_plugin_textdomain('wpwebpush');
 
 class WebPush_Admin {
   private static $instance;
