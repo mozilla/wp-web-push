@@ -26,7 +26,7 @@ class WebPush_Main {
   }
 
   public static function add_manifest() {
-    echo '<link rel="manifest" href="' . plugins_url('lib/manifest.json', __FILE__) . '">';
+    echo '<link rel="manifest" href="' . home_url('/') . '?webpush_file=manifest">';
   }
 
   public function enqueue_frontend_scripts() {
@@ -62,6 +62,12 @@ class WebPush_Main {
     if ($file === 'worker') {
       header('Content-Type: application/javascript');
       require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
+      exit;
+    }
+
+    if ($file === 'manifest') {
+      header('Content-Type: application/json');
+      require_once(plugin_dir_path(__FILE__) . 'lib/manifest.php');
       exit;
     }
   }
