@@ -5,7 +5,7 @@ function sendNotification($endpoint) {
     'blocking' => true,
     'headers' => array(
       // Ask the push service to store the message for 4 weeks.
-      'TTL': 2419200,
+      'TTL' => 2419200,
     ),
   ));
 
