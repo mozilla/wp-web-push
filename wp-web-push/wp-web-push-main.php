@@ -7,6 +7,8 @@ class WebPush_Main {
   private static $instance;
 
   public function __construct() {
+    add_action('wp_head', array($this, 'add_manifest'));
+
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
     add_action('parse_request', array($this, 'on_parse_request'));
@@ -21,6 +23,10 @@ class WebPush_Main {
     if (!self::$instance) {
       self::$instance = new self();
     }
+  }
+
+  public static function add_manifest() {
+    echo '<link rel="manifest" href="' . plugins_url('lib/manifest.json', __FILE__) . '">';
   }
 
   public function enqueue_frontend_scripts() {
