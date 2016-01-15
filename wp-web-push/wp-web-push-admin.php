@@ -7,6 +7,15 @@ class WebPush_Admin {
 
   public function __construct() {
     add_action('admin_menu', array($this, 'on_admin_menu'));
+    add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'));
+  }
+
+  function add_dashboard_widgets() {
+    wp_add_dashboard_widget('wp-web-push_dashboard_widget', __('Web Push', 'wpwebpush'), array($this, 'dashboard_widget'));
+  }
+
+  function dashboard_widget() {
+    echo "Widget content.";
   }
 
   public static function init() {
@@ -35,7 +44,6 @@ class WebPush_Admin {
   }
 
   public function options() {
-
     $ALLOWED_TRIGGERS = array(
       array('text' => __('New Post'), 'key' => 'new-post'),
       array('text' => __('New Comment'), 'key' => 'new-comment'), // To Do:  Is this useless without saying which post?  Surely not all posts...
