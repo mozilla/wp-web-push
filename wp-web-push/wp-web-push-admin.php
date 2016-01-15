@@ -43,7 +43,7 @@ class WebPush_Admin {
     );
 
     $title_option = get_option('webpush_title');
-    $min_visits_option = get_option('webpush_min_visits');
+    $min_visits_option = intval(get_option('webpush_min_visits'));
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
