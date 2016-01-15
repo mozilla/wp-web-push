@@ -65,10 +65,10 @@ class WebPush_Admin {
         wp_die(__('Invalid value for `Registration Behavior`', 'wpwebpush'));
       }
 
-      $triggers_option = $_POST['webpush_triggers'];
+      $triggers_option = array_key_exists('webpush_triggers', $_POST) ? $_POST['webpush_triggers'] : array();
       $allowed_trigger_values = $this->array_values_recursive($ALLOWED_TRIGGERS);
-      foreach($triggers_option as $trigger_option) {
-        if(!in_array($trigger_option, $allowed_trigger_values)) {
+      foreach ($triggers_option as $trigger_option) {
+        if (!in_array($trigger_option, $allowed_trigger_values)) {
           wp_die(sprintf(__('Invalid value in Push Triggers: %s', 'wpwebpush'), $trigger_option));
         }
       }
