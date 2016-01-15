@@ -57,6 +57,10 @@ class WebPush_Main {
   }
 
   public static function on_parse_request($query) {
+    if (!array_key_exists('webpush_file', $query->query_vars)) {
+      return;
+    }
+
     $file = $query->query_vars['webpush_file'];
 
     if ($file === 'worker') {
