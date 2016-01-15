@@ -15,7 +15,8 @@ class WebPush_Admin {
   }
 
   function dashboard_widget() {
-    echo "Widget content.";
+    $notification_count = get_option('webpush_notification_count');
+    printf(_n('Sent %s notification.', 'Sent %s notifications.', $notification_count, 'wpwebpush'), number_format_i18n($notification_count));
   }
 
   public static function init() {
