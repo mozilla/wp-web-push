@@ -89,6 +89,8 @@ class WebPush_Main {
       'url' => get_permalink($post->ID),
     ));
 
+    $notification_count = get_option('webpush_notification_count');
+
     $gcmKey = get_option('webpush_gcm_key');
 
     $subscriptions = WebPush_DB::get_subscriptions();
@@ -97,8 +99,12 @@ class WebPush_Main {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
+      } else {
+        $notification_count++;
       }
     }
+
+    update_option('webpush_notification_count', $notification_count);
   }
 }
 

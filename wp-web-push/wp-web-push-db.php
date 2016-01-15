@@ -67,6 +67,7 @@ class WebPush_DB {
     update_option('webpush_triggers', array());
     update_option('webpush_gcm_key', '');
     update_option('webpush_gcm_sender_id', '');
+    update_option('webpush_notification_count', 0);
   }
 
   public static function on_deactivate() {
@@ -85,6 +86,7 @@ class WebPush_DB {
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');
     delete_option('webpush_gcm_sender_id');
+    delete_option('webpush_notification_count');
   }
 }
 
