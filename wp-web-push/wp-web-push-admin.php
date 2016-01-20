@@ -16,7 +16,10 @@ class WebPush_Admin {
 
   function dashboard_widget() {
     $notification_count = get_option('webpush_notification_count');
-    printf(_n('Sent %s notification.', 'Sent %s notifications.', $notification_count, 'wpwebpush'), number_format_i18n($notification_count));
+    $opened_notification_count = get_option('webpush_opened_notification_count');
+    printf(_n('%s notification sent.', '%s notifications sent.', $notification_count, 'wpwebpush'), number_format_i18n($notification_count));
+    echo '<br>';
+    printf(_n('%s notification clicked.', '%s notifications clicked.', $opened_notification_count, 'wpwebpush'), number_format_i18n($opened_notification_count));
   }
 
   public static function init() {

@@ -53,10 +53,15 @@ class WebPush_Main {
 
   public static function on_query_vars($qvars) {
     $qvars[] = 'webpush_file';
+    $qvars[] = 'webpush_from_notification';
     return $qvars;
   }
 
   public static function on_parse_request($query) {
+    if (array_key_exists('webpush_from_notification', $query->query_vars)) {
+      update_option('webpush_opened_notification_count', get_option('webpush_opened_notification_count') + 1);
+    }
+
     if (!array_key_exists('webpush_file', $query->query_vars)) {
       return;
     }
