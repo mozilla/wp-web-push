@@ -21,7 +21,10 @@ self.addEventListener('notificationclick', function(event) {
         }
       }
 
-      return self.clients.openWindow(url);
+      var newURL = new URL(url);
+      newURL.searchParams.set('webpush_from_notification', 1);
+
+      return self.clients.openWindow(newURL);
     })
   );
 });
