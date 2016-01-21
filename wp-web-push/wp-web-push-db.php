@@ -63,6 +63,7 @@ class WebPush_DB {
 
     // Set default options.
     update_option('webpush_title', 'blog_title');
+    update_option('webpush_icon', 'blog_icon');
     update_option('webpush_min_visits', 3);
     update_option('webpush_triggers', array());
     update_option('webpush_gcm_key', '');
@@ -83,6 +84,7 @@ class WebPush_DB {
     delete_option('webpush_db_version');
     delete_option('webpush_payload');
     delete_option('webpush_title');
+    delete_option('webpush_icon');
     delete_option('webpush_min_visits');
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');

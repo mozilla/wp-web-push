@@ -87,10 +87,12 @@ class WebPush_Main {
     }
 
     $title_option = get_option('webpush_title');
+    $icon_option = get_option('webpush_icon');
 
     update_option('webpush_payload', array(
       'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'body' => get_the_title($post->ID),
+      'icon' => $icon_option === 'blog_icon' ? get_site_icon_url() : $icon_option,
       'url' => get_permalink($post->ID),
     ));
 
