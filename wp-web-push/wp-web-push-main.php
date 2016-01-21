@@ -3,11 +3,18 @@
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
+load_plugin_textdomain('wpwebpush', false, dirname(plugin_basename(__FILE__)) . '/lang');
+
 class WebPush_Main {
   private static $instance;
+  public static $ALLOWED_TRIGGERS;
 
   public function __construct() {
     add_action('wp_head', array($this, 'add_manifest'));
+    self::$ALLOWED_TRIGGERS = array(
+      array('text' => __('New Post', 'wpwebpush'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status')
+    );
+    self::add_trigger_handlers();
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
@@ -15,8 +22,6 @@ class WebPush_Main {
 
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_webpush_register'));
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_webpush_get_payload'));
-
-    add_action('transition_post_status', array($this, 'on_transition_post_status'), 10, 3);
   }
 
   public static function init() {
@@ -82,7 +87,7 @@ class WebPush_Main {
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
-    if (empty($post) || $new_status !== "publish") {
+    if (empty($post) || $new_status !== 'publish') {
       return;
     }
 
@@ -112,6 +117,37 @@ class WebPush_Main {
     }
 
     update_option('webpush_notification_count', $notification_count);
+  }
+
+  public static function get_trigger_by_key_value($key, $value) {
+    foreach(self::$ALLOWED_TRIGGERS as $trigger) {
+      if($trigger[$key] === $value) {
+        return $trigger;
+      }
+    }
+    return false;
+  }
+
+  public static function get_triggers_by_key_value($key, $value) {
+    $matches = array();
+
+    foreach(self::$ALLOWED_TRIGGERS as $trigger) {
+      if($trigger[$key] === $value) {
+        $matches[] = $trigger;
+      }
+    }
+    return $matches;
+  }
+
+  public function add_trigger_handlers() {
+    $enabled_triggers = get_option('webpush_triggers');
+    foreach($enabled_triggers as $trigger) {
+      $trigger_detail = self::get_trigger_by_key_value('key', $trigger);
+
+      if($trigger_detail) {
+        add_action($trigger_detail['hook'], array($this, $trigger_detail['action']), 10, 3);
+      }
+    }
   }
 }
 
