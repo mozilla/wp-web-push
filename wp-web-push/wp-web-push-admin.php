@@ -12,6 +12,10 @@ class WebPush_Admin {
   }
 
   function on_admin_notices() {
+    if (!current_user_can('manage_options')) {
+      return;
+    }
+
     $options_url = add_query_arg(array('page' => 'web-push-options'), admin_url('options-general.php'));
 
     if (!get_option('webpush_gcm_key') or !get_option('webpush_gcm_sender_id')) {
