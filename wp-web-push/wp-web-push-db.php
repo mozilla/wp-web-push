@@ -2,7 +2,7 @@
 
 class WebPush_DB {
   private static $instance;
-  private $version = "0.0.1";
+  private $version = '0.0.1';
 
   public function __construct() {
   }
@@ -65,11 +65,18 @@ class WebPush_DB {
     update_option('webpush_title', 'blog_title');
     update_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
     update_option('webpush_min_visits', 3);
-    update_option('webpush_triggers', array());
     update_option('webpush_gcm_key', '');
     update_option('webpush_gcm_sender_id', '');
     update_option('webpush_notification_count', 0);
     update_option('webpush_opened_notification_count', 0);
+
+    $default_triggers = WebPush_Main::get_triggers_by_key_value('enable_by_default', true);
+    $default_triggers_keys = array();
+    foreach($default_triggers as $trigger) {
+      $default_triggers_keys[] = $trigger['key'];
+    }
+
+    update_option('webpush_triggers', $default_triggers_keys);
   }
 
   public static function on_deactivate() {

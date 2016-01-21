@@ -1,6 +1,6 @@
 <?php
 
-load_plugin_textdomain('wpwebpush');
+load_plugin_textdomain('wpwebpush', false, dirname(plugin_basename(__FILE__)) . '/lang');
 
 class WebPush_Admin {
   private static $instance;
@@ -32,28 +32,8 @@ class WebPush_Admin {
     add_options_page(__('Web Push Options', 'wpwebpush'), __('Web Push', 'wpwebpush'), 'manage_options', 'web-push-options', array($this, 'options'));
   }
 
-  // http://php.net/manual/en/function.array-values.php
-  private function array_values_recursive($array) {
-    $flat = array();
-
-    foreach ($array as $value) {
-      if (is_array($value)) {
-          $flat = array_merge($flat, $this->array_values_recursive($value));
-      }
-      else {
-          $flat[] = $value;
-      }
-    }
-    return $flat;
-  }
-
   public function options() {
-    $ALLOWED_TRIGGERS = array(
-      array('text' => __('New Post'), 'key' => 'new-post'),
-      array('text' => __('New Comment'), 'key' => 'new-comment'), // To Do:  Is this useless without saying which post?  Surely not all posts...
-      array('text' => __('Updated Post'), 'key' => 'update-post')
-    );
-
+    $allowed_triggers = WebPush_Main::$ALLOWED_TRIGGERS;
     $title_option = get_option('webpush_title');
     $icon_option = get_option('webpush_icon');
     $min_visits_option = intval(get_option('webpush_min_visits'));
@@ -117,12 +97,17 @@ class WebPush_Admin {
         wp_die(__('Invalid value for `Registration Behavior`', 'wpwebpush'));
       }
 
-      $triggers_option = array_key_exists('webpush_triggers', $_POST) ? $_POST['webpush_triggers'] : array();
-      $allowed_trigger_values = $this->array_values_recursive($ALLOWED_TRIGGERS);
-      foreach ($triggers_option as $trigger_option) {
-        if (!in_array($trigger_option, $allowed_trigger_values)) {
-          wp_die(sprintf(__('Invalid value in Push Triggers: %s', 'wpwebpush'), $trigger_option));
+      if(isset($_POST['webpush_triggers'])) {
+        $triggers_option = $_POST['webpush_triggers'];
+        foreach($triggers_option as $trigger_option) {
+          if(!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
+            wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'wpwebpush'));
+          }
         }
+      }
+      else {
+        // If it's not set it means they've removed all options
+        $triggers_option = array();
       }
 
       $gcm_key_option = $_POST['webpush_gcm_key'];
@@ -206,7 +191,7 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Push Triggers', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
-  <?php foreach($ALLOWED_TRIGGERS as $trigger): ?>
+  <?php foreach($allowed_triggers as $trigger): ?>
   <label><input type="checkbox" name="webpush_triggers[]" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> /> <?php _e($trigger['text'], 'wpwebpush'); ?></label><br />
   <?php endforeach; ?>
 </fieldset>
