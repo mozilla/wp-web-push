@@ -70,8 +70,9 @@ class WebPush_Admin {
         wp_die(__('Invalid value for the Notification Title', 'wpwebpush'));
       }
 
-      // Update icon.
-      if ($_POST['webpush_icon'] === 'blog_icon') {
+      if ($_POST['webpush_icon'] === '') {
+        $icon_option = '';
+      } else if ($_POST['webpush_icon'] === 'blog_icon') {
         $icon_option = 'blog_icon';
       } else if ($_POST['webpush_icon'] === 'custom') {
         if (isset($_FILES['webpush_icon_custom']) && ($_FILES['webpush_icon_custom']['size'] > 0)) {
@@ -100,8 +101,8 @@ class WebPush_Admin {
           wp_update_attachment_metadata($attach_id,  $attach_data);
 
           $icon_option = wp_get_attachment_url($attach_id);
-        } else if ($icon_option === 'blog_icon') {
-          // If it was set to use the blog icon and there's no file selected, die.
+        } else if ($icon_option === 'blog_icon' || $icon_option === '') {
+          // If it wasn't set to custom and there's no file selected, die.
           wp_die(__('Invalid value for the Notification Icon', 'wpwebpush'));
         }
       } else {
@@ -152,9 +153,9 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Notification Title', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : '' ?> /> <?php _e('Use the Site Title', 'wpwebpush'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
-<label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : '' ?> /> <?php _e('Custom:'); ?></label>
-<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'wpwebpush') ?>" class="long-text" />
+<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'wpwebpush'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
+<label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
+<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'wpwebpush'); ?>" class="long-text" />
 </fieldset>
 </td>
 </tr>
@@ -163,7 +164,9 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Notification Icon', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : '' ?> /> <?php _e('Use the Site Icon', 'wpwebpush'); ?></label>
+<label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'wpwebpush'); ?></label>
+<br />
+<label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'wpwebpush'); ?></label>
 <?php
   $site_icon_url = get_site_icon_url();
   if ($site_icon_url) {
@@ -171,9 +174,9 @@ class WebPush_Admin {
   }
 ?>
 <br />
-<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' ? 'checked' : '' ?> /> <?php _e('Custom'); ?></label>
+<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
 <?php
-  if ($icon_option !== 'blog_icon') {
+  if ($icon_option !== 'blog_icon' && $icon_option !== '') {
     echo '<img src="' . $icon_option . '">';
   }
 ?>
@@ -186,9 +189,9 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Registration Behavior', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : '' ?> /> <?php _e('Ask the user to register as soon as he visits the site.', 'wpwebpush'); ?></label><br />
-<label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : '' ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
-<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3 ?>" class="small-text" />
+<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site.', 'wpwebpush'); ?></label><br />
+<label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
+<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3; ?>" class="small-text" />
 </fieldset>
 </td>
 </tr>
@@ -198,7 +201,7 @@ class WebPush_Admin {
 <td>
 <fieldset>
   <?php foreach($ALLOWED_TRIGGERS as $trigger): ?>
-  <label><input type="checkbox" name="webpush_triggers[]" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : '' ?> /> <?php _e($trigger['text'], 'wpwebpush'); ?></label><br />
+  <label><input type="checkbox" name="webpush_triggers[]" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> /> <?php _e($trigger['text'], 'wpwebpush'); ?></label><br />
   <?php endforeach; ?>
 </fieldset>
 </td>
