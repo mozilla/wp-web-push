@@ -166,14 +166,20 @@ class WebPush_Admin {
 <fieldset>
 <label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'wpwebpush'); ?></label>
 <br />
+<?php
+  if (function_exists('get_site_icon_url')) {
+?>
 <label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'wpwebpush'); ?></label>
 <?php
-  $site_icon_url = get_site_icon_url();
-  if ($site_icon_url) {
-    echo '<img src="' . $site_icon_url . '">';
-  }
+    $site_icon_url = get_site_icon_url();
+    if ($site_icon_url) {
+      echo '<img src="' . $site_icon_url . '">';
+    }
 ?>
 <br />
+<?php
+  }
+?>
 <label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
 <?php
   if ($icon_option !== 'blog_icon' && $icon_option !== '') {
