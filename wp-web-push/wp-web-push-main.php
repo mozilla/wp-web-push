@@ -141,6 +141,9 @@ class WebPush_Main {
 
   public function add_trigger_handlers() {
     $enabled_triggers = get_option('webpush_triggers');
+    if(!$enabled_triggers) {
+      $enabled_triggers = array();
+    }
     foreach($enabled_triggers as $trigger) {
       $trigger_detail = self::get_trigger_by_key_value('key', $trigger);
 
