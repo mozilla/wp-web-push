@@ -8,6 +8,22 @@ class WebPush_Admin {
   public function __construct() {
     add_action('admin_menu', array($this, 'on_admin_menu'));
     add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'));
+    add_action('admin_notices', array($this, 'on_admin_notices'));
+  }
+
+  function on_admin_notices() {
+    if (!current_user_can('manage_options')) {
+      // There's no point in showing the notice to users that can't modify the options.
+      return;
+    }
+
+    if (get_option('webpush_gcm_key') && get_option('webpush_gcm_sender_id')) {
+      // No need to show the notice if the settings are set.
+      return;
+    }
+
+    $options_url = add_query_arg(array('page' => 'web-push-options'), admin_url('options-general.php'));
+    echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'wpwebpush'), $options_url) . '</p></div>';
   }
 
   function add_dashboard_widgets() {
