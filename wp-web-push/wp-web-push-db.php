@@ -63,7 +63,7 @@ class WebPush_DB {
 
     // Set default options.
     update_option('webpush_title', 'blog_title');
-    update_option('webpush_icon', 'blog_icon');
+    update_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
     update_option('webpush_min_visits', 3);
     update_option('webpush_triggers', array());
     update_option('webpush_gcm_key', '');
