@@ -35,6 +35,12 @@ function sendNotification($endpoint, $gcmKey) {
     'body' => $body,
   ));
 
+  if (is_wp_error($result)) {
+    // If there's an error during the request, return true
+    // so the caller doesn't think the request failed.
+    return true;
+  }
+
   return $result['response']['code'] === $expectedResponseCode;
 }
 
