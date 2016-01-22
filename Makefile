@@ -5,6 +5,7 @@ PHPUNIT = tools/phpunit.phar
 
 reinstall: $(WP_CLI)
 	$(WP_CLI) plugin uninstall --deactivate wp-web-push --path=$(WORDPRESS_PATH)
+	rm -f wp-web-push.zip
 	zip wp-web-push.zip -r wp-web-push/
 	$(WP_CLI) plugin install --activate wp-web-push.zip --path=$(WORDPRESS_PATH)
 
