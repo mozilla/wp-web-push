@@ -52,13 +52,20 @@ class WebPush_Main {
 
     $triggers_option = get_option('webpush_triggers');
     $title_option = get_option('webpush_title');
-    $icon_option = get_option('webpush_icon');
+
+    $icon = get_option('webpush_icon');
+    if ($icon === 'blog_icon') {
+      $icon = get_site_icon_url();
+    } else if ($icon === 'post_icon') {
+      // We don't have a post here.
+      $icon = '';
+    }
 
     wp_send_json(array(
       'showWelcome' => in_array('on-subscription', $triggers_option),
       'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'body' => __('Successfully subscribed to notifications'),
-      'icon' => $icon_option === 'blog_icon' ? get_site_icon_url() : $icon_option,
+      'icon' => $icon,
     ));
   }
 
@@ -102,12 +109,19 @@ class WebPush_Main {
     }
 
     $title_option = get_option('webpush_title');
-    $icon_option = get_option('webpush_icon');
+
+    $icon = get_option('webpush_icon');
+    if ($icon === 'blog_icon') {
+      $icon = get_site_icon_url();
+    } else if ($icon === 'post_icon') {
+      $post_thumbnail_id = get_post_thumbnail_id($post->ID);
+      $icon = $post_thumbnail_id ? wp_get_attachment_url($post_thumbnail_id) : '';
+    }
 
     update_option('webpush_payload', array(
       'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'body' => get_the_title($post->ID),
-      'icon' => $icon_option === 'blog_icon' ? get_site_icon_url() : $icon_option,
+      'icon' => $icon,
       'url' => get_permalink($post->ID),
     ));
 

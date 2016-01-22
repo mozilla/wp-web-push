@@ -70,6 +70,8 @@ class WebPush_Admin {
         $icon_option = '';
       } else if ($_POST['webpush_icon'] === 'blog_icon') {
         $icon_option = 'blog_icon';
+      } else if ($_POST['webpush_icon'] === 'post_icon') {
+        $icon_option = 'post_icon';
       } else if ($_POST['webpush_icon'] === 'custom') {
         if (isset($_FILES['webpush_icon_custom']) && ($_FILES['webpush_icon_custom']['size'] > 0)) {
           $file_type = wp_check_filetype(basename($_FILES['webpush_icon_custom']['name']));
@@ -97,7 +99,7 @@ class WebPush_Admin {
           wp_update_attachment_metadata($attach_id, $attach_data);
 
           $icon_option = wp_get_attachment_url($attach_id);
-        } else if ($icon_option === 'blog_icon' || $icon_option === '') {
+        } else if ($icon_option === 'blog_icon' || $icon_option === '' || $icon_option === 'post_icon') {
           // If it wasn't set to custom and there's no file selected, die.
           wp_die(__('Invalid value for the Notification Icon', 'wpwebpush'));
         }
@@ -167,6 +169,8 @@ class WebPush_Admin {
 <fieldset>
 <label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'wpwebpush'); ?></label>
 <br />
+<label><input type="radio" name="webpush_icon" value="post_icon" <?php echo $icon_option === 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Post Thumbnail', 'wpwebpush'); ?></label>
+<br />
 <?php
   if (function_exists('get_site_icon_url')) {
 ?>
@@ -181,9 +185,9 @@ class WebPush_Admin {
 <?php
   }
 ?>
-<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
+<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
 <?php
-  if ($icon_option !== 'blog_icon' && $icon_option !== '') {
+  if ($icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon') {
     echo '<img src="' . $icon_option . '">';
   }
 ?>
