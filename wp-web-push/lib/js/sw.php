@@ -8,6 +8,10 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('notificationclick', function(event) {
   var data = event.notification.data;
+  if (!data) {
+    return;
+  }
+
   var url = data.url;
 
   event.waitUntil(

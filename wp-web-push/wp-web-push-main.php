@@ -12,7 +12,8 @@ class WebPush_Main {
   public function __construct() {
     add_action('wp_head', array($this, 'add_manifest'));
     self::$ALLOWED_TRIGGERS = array(
-      array('text' => __('New Post', 'wpwebpush'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status')
+      array('text' => __('New Post', 'wpwebpush'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status'),
+      array('text' => __('On Subscription', 'wpwebpush'), 'key' => 'on-subscription', 'enable_by_default' => true),
     );
     self::add_trigger_handlers();
 
@@ -49,7 +50,16 @@ class WebPush_Main {
   public static function handle_webpush_register() {
     WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
 
-    wp_die();
+    $triggers_option = get_option('webpush_triggers');
+    $title_option = get_option('webpush_title');
+    $icon_option = get_option('webpush_icon');
+
+    wp_send_json(array(
+      'showWelcome' => in_array('on-subscription', $triggers_option),
+      'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
+      'body' => __('Successfully subscribed to notifications'),
+      'icon' => $icon_option === 'blog_icon' ? get_site_icon_url() : $icon_option,
+    ));
   }
 
   public static function handle_webpush_get_payload() {
@@ -147,7 +157,7 @@ class WebPush_Main {
     foreach($enabled_triggers as $trigger) {
       $trigger_detail = self::get_trigger_by_key_value('key', $trigger);
 
-      if($trigger_detail) {
+      if ($trigger_detail and array_key_exists('hook', $trigger_detail)) {
         add_action($trigger_detail['hook'], array($this, $trigger_detail['action']), 10, 3);
       }
     }
