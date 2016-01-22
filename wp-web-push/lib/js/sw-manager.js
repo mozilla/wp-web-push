@@ -37,6 +37,26 @@ if (navigator.serviceWorker) {
         fetch(ServiceWorker.register_url, {
           method: 'post',
           body: formData,
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          localforage.getItem('welcomeShown')
+          .then(function(welcomeShown) {
+            if (welcomeShown) {
+              return;
+            }
+
+            if (data.showWelcome) {
+              registration.showNotification(data.title, {
+                body: data.body,
+                icon: data.icon,
+              });
+            }
+
+            localforage.setItem('welcomeShown', true);
+          });
         });
       });
     });
