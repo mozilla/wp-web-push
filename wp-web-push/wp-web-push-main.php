@@ -101,7 +101,8 @@ class WebPush_Main {
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
-    if (empty($post) || $new_status !== 'publish') {
+    if (empty($post) || $new_status !== 'publish' ||
+        !in_array('new-post', get_option('webpush_triggers'))) {
       return;
     }
 
