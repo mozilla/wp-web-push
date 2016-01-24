@@ -38,19 +38,6 @@ class WebPush_Main {
   public function enqueue_frontend_scripts() {
     wp_enqueue_script('localforage-script', plugins_url('lib/js/localforage.min.js', __FILE__));
 
-    wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__));
-    wp_localize_script('sw-manager-script', 'ServiceWorker', array(
-      'url' => home_url('/') . '?webpush_file=worker',
-      'register_url' => admin_url('admin-ajax.php'),
-      'min_visits' => get_option('webpush_min_visits'),
-    ));
-    wp_enqueue_script('sw-manager-script');
-  }
-
-  public static function handle_webpush_register() {
-    WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
-
-    $triggers_option = get_option('webpush_triggers');
     $title_option = get_option('webpush_title');
 
     $icon = get_option('webpush_icon');
@@ -61,12 +48,22 @@ class WebPush_Main {
       $icon = '';
     }
 
-    wp_send_json(array(
-      'showWelcome' => in_array('on-subscription', $triggers_option),
-      'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
-      'body' => __('Successfully subscribed to notifications'),
-      'icon' => $icon,
+    wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__));
+    wp_localize_script('sw-manager-script', 'ServiceWorker', array(
+      'url' => home_url('/') . '?webpush_file=worker',
+      'register_url' => admin_url('admin-ajax.php'),
+      'min_visits' => get_option('webpush_min_visits'),
+      'welcome_enabled' => in_array('on-subscription', get_option('webpush_triggers')),
+      'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
+      'welcome_body' => __('Successfully subscribed to notifications'),
+      'welcome_icon' => $icon,
     ));
+    wp_enqueue_script('sw-manager-script');
+  }
+
+  public static function handle_webpush_register() {
+    WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
+    wp_die();
   }
 
   public static function handle_webpush_get_payload() {

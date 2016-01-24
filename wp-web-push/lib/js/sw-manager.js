@@ -38,20 +38,17 @@ if (navigator.serviceWorker) {
           method: 'post',
           body: formData,
         })
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
+        .then(function() {
           localforage.getItem('welcomeShown')
           .then(function(welcomeShown) {
             if (welcomeShown) {
               return;
             }
 
-            if (data.showWelcome) {
-              registration.showNotification(data.title, {
-                body: data.body,
-                icon: data.icon,
+            if (ServiceWorker.welcome_enabled) {
+              registration.showNotification(ServiceWorker.welcome_title, {
+                body: ServiceWorker.welcome_body,
+                icon: ServiceWorker.welcome_icon,
               });
             }
 
