@@ -1,0 +1,9 @@
+#webpush-notification-button {
+  position: fixed;
+  bottom: 20px;
+  right: 16px;
+  width: 64px;
+  height: 64px;
+  z-index: 2147483647;
+  cursor: pointer;
+}

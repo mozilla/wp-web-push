@@ -10,12 +10,15 @@ class WebPush_Main {
   public static $ALLOWED_TRIGGERS;
 
   public function __construct() {
-    add_action('wp_head', array($this, 'add_manifest'));
     self::$ALLOWED_TRIGGERS = array(
       array('text' => __('New Post', 'wpwebpush'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status'),
       array('text' => __('On Subscription', 'wpwebpush'), 'key' => 'on-subscription', 'enable_by_default' => true),
     );
     self::add_trigger_handlers();
+
+    add_action('wp_head', array($this, 'add_manifest'));
+
+    add_action('wp_footer', array($this, 'add_notification_button'), 9999);
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
@@ -33,6 +36,10 @@ class WebPush_Main {
 
   public static function add_manifest() {
     echo '<link rel="manifest" href="' . home_url('/') . '?webpush_file=manifest">';
+  }
+
+  public static function add_notification_button() {
+    echo '<div id="webpush-notification-button"><img id="webpush-notification-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
   }
 
   public function enqueue_frontend_scripts() {
@@ -57,8 +64,12 @@ class WebPush_Main {
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
+      'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
+      'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
     ));
     wp_enqueue_script('sw-manager-script');
+
+    wp_enqueue_style('notification-button-style', plugins_url('lib/style/notification_button.css', __FILE__));
   }
 
   public static function handle_webpush_register() {
