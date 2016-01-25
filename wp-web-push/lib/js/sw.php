@@ -55,11 +55,6 @@ self.addEventListener('pushsubscriptionchange', function(event) {
       userVisibleOnly: true,
     })
     .then(function(subscription) {
-      if (!subscription) {
-        // The user has unsubscribed (through the browser UI).
-        return localforage.setItem('notificationsEnabled', false);
-      }
-
       var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
       var formData = new FormData();
