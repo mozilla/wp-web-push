@@ -1,5 +1,9 @@
 if (navigator.serviceWorker) {
   function setNotificationsIndicator(enabled) {
+    if (!ServiceWorker.notification_icon) {
+      return;
+    }
+
     var notificationButtonImage = document.getElementById('webpush-notification-button-image');
     if (enabled) {
       notificationButtonImage.src = ServiceWorker.notification_enabled_icon;
@@ -106,6 +110,10 @@ if (navigator.serviceWorker) {
     return navigator.serviceWorker.register(ServiceWorker.url);
   })
   .then(function() {
+    if (!ServiceWorker.notification_icon) {
+      return;
+    }
+
     document.getElementById('webpush-notification-button').onclick = function() {
       notificationsEnabled()
       .then(function(enabled) {
@@ -116,7 +124,8 @@ if (navigator.serviceWorker) {
         }
       });
     };
-
+  })
+  .then(function() {
     return notificationsEnabled();
   })
   .then(function(notificationsEnabled) {
@@ -135,7 +144,7 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      if (!notificationsEnabled) {
+      if (ServiceWorker.notification_icon && !notificationsEnabled) {
         return;
       }
 
