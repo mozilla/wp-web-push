@@ -1,7 +1,126 @@
 if (navigator.serviceWorker) {
-  navigator.serviceWorker.register(ServiceWorker.url)
-  .then(function(registration) {
-    console.log('Service Worker successfully registered.');
+  function setNotificationsIndicator(enabled) {
+    var notificationButtonImage = document.getElementById('webpush-notification-button-image');
+    if (enabled) {
+      notificationButtonImage.src = ServiceWorker.notification_enabled_icon;
+    } else {
+      notificationButtonImage.src = ServiceWorker.notification_disabled_icon;
+    }
+  }
+
+  function notificationsEnabled() {
+    return localforage.getItem('notificationsEnabled')
+    .then(function(enabled) {
+      // Set to 'true' by default.
+      if (enabled !== true && enabled !== false) {
+        return localforage.setItem('notificationsEnabled', true)
+        .then(function() {
+          return true;
+        });
+      }
+
+      return enabled;
+    });
+  }
+
+  function setNotificationsEnabled(enabled) {
+    return localforage.setItem('notificationsEnabled', enabled)
+    .then(setNotificationsIndicator);
+  }
+
+  function disableNotifications() {
+    navigator.serviceWorker.getRegistration()
+    .then(function(registration) {
+      return registration.pushManager.getSubscription();
+    })
+    .then(function(subscription) {
+      if (subscription) {
+        return subscription.unsubscribe();
+      }
+    })
+    .then(function() {
+      setNotificationsEnabled(false);
+    });
+  }
+
+  function showWelcome() {
+    navigator.serviceWorker.getRegistration()
+    .then(function(registration) {
+      localforage.getItem('welcomeShown')
+      .then(function(welcomeShown) {
+        if (welcomeShown) {
+          return;
+        }
+
+        if (ServiceWorker.welcome_enabled) {
+          registration.showNotification(ServiceWorker.welcome_title, {
+            body: ServiceWorker.welcome_body,
+            icon: ServiceWorker.welcome_icon,
+          });
+        }
+
+        localforage.setItem('welcomeShown', true);
+      });
+    });
+  }
+
+  function enableNotifications() {
+    navigator.serviceWorker.getRegistration()
+    .then(function(registration) {
+      return registration.pushManager.getSubscription()
+      .then(function(subscription) {
+        if (subscription) {
+          return subscription;
+        }
+
+        return registration.pushManager.subscribe({
+          userVisibleOnly: true,
+        });
+      });
+    })
+    .then(function(subscription) {
+      var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+
+      var formData = new FormData();
+      formData.append('action', 'webpush_register');
+      formData.append('endpoint', subscription.endpoint);
+      formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+
+      return fetch(ServiceWorker.register_url, {
+        method: 'post',
+        body: formData,
+      });
+    })
+    .then(showWelcome)
+    .then(function() {
+      setNotificationsEnabled(true);
+    });
+  }
+
+  var onLoad = new Promise(function(resolve, reject) {
+    window.onload = resolve;
+  });
+
+  onLoad
+  .then(function() {
+    return navigator.serviceWorker.register(ServiceWorker.url);
+  })
+  .then(function() {
+    document.getElementById('webpush-notification-button').onclick = function() {
+      notificationsEnabled()
+      .then(function(enabled) {
+        if (enabled) {
+          disableNotifications();
+        } else {
+          enableNotifications();
+        }
+      });
+    };
+
+    return notificationsEnabled();
+  })
+  .then(function(notificationsEnabled) {
+    setNotificationsIndicator(notificationsEnabled);
 
     localforage.getItem('visits')
     .then(function(visits) {
@@ -16,46 +135,11 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      registration.pushManager.getSubscription()
-      .then(function(subscription) {
-        if (subscription) {
-          return subscription;
-        }
+      if (!notificationsEnabled) {
+        return;
+      }
 
-        return registration.pushManager.subscribe({
-          userVisibleOnly: true,
-        });
-      })
-      .then(function(subscription) {
-        var key = subscription.getKey ? subscription.getKey('p256dh') : '';
-
-        var formData = new FormData();
-        formData.append('action', 'webpush_register');
-        formData.append('endpoint', subscription.endpoint);
-        formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-
-        fetch(ServiceWorker.register_url, {
-          method: 'post',
-          body: formData,
-        })
-        .then(function() {
-          localforage.getItem('welcomeShown')
-          .then(function(welcomeShown) {
-            if (welcomeShown) {
-              return;
-            }
-
-            if (ServiceWorker.welcome_enabled) {
-              registration.showNotification(ServiceWorker.welcome_title, {
-                body: ServiceWorker.welcome_body,
-                icon: ServiceWorker.welcome_icon,
-              });
-            }
-
-            localforage.setItem('welcomeShown', true);
-          });
-        });
-      });
+      enableNotifications();
     });
   });
 }
