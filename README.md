@@ -14,3 +14,7 @@ Run tests:
 ```bash
 make test
 ```
+
+## Credits
+
+"Bell" icon designed by [Daouna Jeong](https://thenounproject.com/daouna/) from the [Noun Project](https://thenounproject.com/).
