@@ -65,7 +65,7 @@ class WebPush_DB {
     update_option('webpush_title', 'blog_title');
     update_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
     update_option('webpush_min_visits', 3);
-    update_option('webpush_notification_icon', false);
+    update_option('webpush_notification_icon', true);
     update_option('webpush_gcm_key', '');
     update_option('webpush_gcm_sender_id', '');
     update_option('webpush_notification_count', 0);
