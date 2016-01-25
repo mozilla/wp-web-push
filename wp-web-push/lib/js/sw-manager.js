@@ -67,15 +67,15 @@ if (navigator.serviceWorker) {
   function enableNotifications() {
     navigator.serviceWorker.getRegistration()
     .then(function(registration) {
-      return registration.pushManager.getSubscription();
-    })
-    .then(function(subscription) {
-      if (subscription) {
-        return subscription;
-      }
+      return registration.pushManager.getSubscription()
+      .then(function(subscription) {
+        if (subscription) {
+          return subscription;
+        }
 
-      return registration.pushManager.subscribe({
-        userVisibleOnly: true,
+        return registration.pushManager.subscribe({
+          userVisibleOnly: true,
+        });
       });
     })
     .then(function(subscription) {
