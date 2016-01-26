@@ -165,10 +165,12 @@ class WebPush_Admin {
 <form method="post" action="" enctype="multipart/form-data">
 <table class="form-table">
 
+<h2 class="title"><?php _e('Notification UI Options', 'wpwebpush'); ?></h2>
+
 <input type="hidden" name="webpush_form" value="submitted" />
 
 <tr>
-<th scope="row"><?php _e('Notification Title', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Title', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
 <label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'wpwebpush'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
@@ -179,7 +181,7 @@ class WebPush_Admin {
 </tr>
 
 <tr>
-<th scope="row"><?php _e('Notification Icon', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Icon', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
 <label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'wpwebpush'); ?></label>
@@ -211,14 +213,26 @@ class WebPush_Admin {
 </td>
 </tr>
 
+</table>
+
+<table class="form-table">
+
+<h2 class="title"><?php _e('Subscription Behavior', 'wpwebpush'); ?></h2>
+
 <tr>
-<th scope="row"><?php _e('Registration Behavior', 'wpwebpush'); ?></th>
+<th scope="row"></th>
+<td>
+<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'wpwebpush'); ?></label>
+</td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e('Automatic prompting', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
 <label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site', 'wpwebpush'); ?></label><br />
 <label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
 <input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3; ?>" class="small-text" /><br />
-<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'wpwebpush'); ?></label>
 </fieldset>
 </td>
 </tr>
