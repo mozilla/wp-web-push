@@ -18,7 +18,7 @@ class WebPush_Main {
 
     add_action('wp_head', array($this, 'add_manifest'));
 
-    if (get_option('webpush_notification_icon')) {
+    if (get_option('webpush_notification_button')) {
       add_action('wp_footer', array($this, 'add_notification_button'), 9999);
     }
 
@@ -67,13 +67,13 @@ class WebPush_Main {
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
-      'notification_icon' => get_option('webpush_notification_icon'),
+      'notification_icon' => get_option('webpush_notification_button'),
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
     ));
     wp_enqueue_script('sw-manager-script');
 
-    if (get_option('webpush_notification_icon')) {
+    if (get_option('webpush_notification_button')) {
       wp_enqueue_style('notification-button-style', plugins_url('lib/style/notification_button.css', __FILE__));
     }
   }
