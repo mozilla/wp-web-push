@@ -67,7 +67,7 @@ class WebPush_Main {
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
-      'notification_icon' => get_option('webpush_notification_button'),
+      'notification_icon' => get_option('webpush_subscription_button'),
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
     ));
