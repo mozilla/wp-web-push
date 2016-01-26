@@ -18,8 +18,8 @@ class WebPush_Main {
 
     add_action('wp_head', array($this, 'add_manifest'));
 
-    if (get_option('webpush_notification_icon')) {
-      add_action('wp_footer', array($this, 'add_notification_button'), 9999);
+    if (get_option('webpush_subscription_button')) {
+      add_action('wp_footer', array($this, 'add_subscription_button'), 9999);
     }
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
@@ -41,7 +41,7 @@ class WebPush_Main {
     echo '<link rel="manifest" href="' . home_url('/') . '?webpush_file=manifest">';
   }
 
-  public static function add_notification_button() {
+  public static function add_subscription_button() {
     echo '<div id="webpush-notification-button"><img id="webpush-notification-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
   }
 
@@ -67,13 +67,13 @@ class WebPush_Main {
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
-      'notification_icon' => get_option('webpush_notification_icon'),
+      'notification_icon' => get_option('webpush_subscription_button'),
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
     ));
     wp_enqueue_script('sw-manager-script');
 
-    if (get_option('webpush_notification_icon')) {
+    if (get_option('webpush_subscription_button')) {
       wp_enqueue_style('notification-button-style', plugins_url('lib/style/notification_button.css', __FILE__));
     }
   }
