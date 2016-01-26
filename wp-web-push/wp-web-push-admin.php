@@ -119,6 +119,8 @@ class WebPush_Admin {
         $min_visits_option = 0;
       } else if ($_POST['webpush_min_visits'] === 'custom') {
         $min_visits_option = intval($_POST['webpush_min_visits_custom']);
+      } else if ($_POST['webpush_min_visits'] === '-1') {
+        $min_visits_option = -1;
       } else {
         wp_die(__('Invalid value for `Registration Behavior`', 'wpwebpush'));
       }
@@ -231,8 +233,9 @@ class WebPush_Admin {
 <td>
 <fieldset>
 <label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site', 'wpwebpush'); ?></label><br />
-<label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
-<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3; ?>" class="small-text" /><br />
+<label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
+<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? $min_visits_option : 3; ?>" class="small-text" /><br />
+<label><input type="radio" name="webpush_min_visits" value="-1" <?php echo $min_visits_option === -1 ? 'checked' : ''; ?> /> <?php _e('Never automatically ask the user to register', 'wpwebpush'); ?></label>
 </fieldset>
 </td>
 </tr>

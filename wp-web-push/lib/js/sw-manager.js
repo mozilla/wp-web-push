@@ -74,7 +74,7 @@ if (navigator.serviceWorker) {
       return registration.pushManager.getSubscription()
       .then(function(subscription) {
         if (subscription) {
-          return [ subscription, false ];
+          return false;
         }
 
         fetch(ServiceWorker.register_url + '?action=webpush_prompt');
@@ -82,30 +82,42 @@ if (navigator.serviceWorker) {
         return registration.pushManager.subscribe({
           userVisibleOnly: true,
         })
-        .then(function(subscription) {
-          return [ subscription, true ];
-        })
+        .then(function() {
+          return true;
+        });
       });
     })
-    .then(function([ subscription, newRegistration ]) {
+    .then(sendSubscription)
+    .then(showWelcome);
+  }
+
+  function sendSubscription(isNewRegistration) {
+    navigator.serviceWorker.getRegistration()
+    .then(function(registration) {
+      return registration.pushManager.getSubscription();
+    })
+    .then(function(subscription) {
+      if (!subscription) {
+        return;
+      }
+
       var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
       var formData = new FormData();
       formData.append('action', 'webpush_register');
       formData.append('endpoint', subscription.endpoint);
       formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-      if (newRegistration) {
+      if (isNewRegistration) {
         formData.append('newRegistration', true);
       }
 
       return fetch(ServiceWorker.register_url, {
         method: 'post',
         body: formData,
-      });
-    })
-    .then(showWelcome)
-    .then(function() {
-      setNotificationsEnabled(true);
+      })
+      .then(function() {
+        setNotificationsEnabled(true);
+      })
     });
   }
 
@@ -156,7 +168,11 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      enableNotifications();
+      if (ServiceWorker.min_visits != -1) {
+        enableNotifications();
+      } else {
+        sendSubscription();
+      }
     });
   });
 }
