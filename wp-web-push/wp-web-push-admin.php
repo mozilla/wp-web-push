@@ -36,6 +36,13 @@ class WebPush_Admin {
     printf(_n('%s notification sent.', '%s notifications sent.', $notification_count, 'wpwebpush'), number_format_i18n($notification_count));
     echo '<br>';
     printf(_n('%s notification clicked.', '%s notifications clicked.', $opened_notification_count, 'wpwebpush'), number_format_i18n($opened_notification_count));
+    echo '<br>';
+
+    $prompt_count = get_option('webpush_prompt_count');
+    $accepted_prompt_count = get_option('webpush_accepted_prompt_count');
+    printf(_n('%s user prompted.', '%s users prompted.', $prompt_count, 'wpwebpush'), number_format_i18n($prompt_count));
+    echo '<br>';
+    printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'wpwebpush'), number_format_i18n($accepted_prompt_count));
   }
 
   public static function init() {

@@ -70,6 +70,8 @@ class WebPush_DB {
     update_option('webpush_gcm_sender_id', '');
     update_option('webpush_notification_count', 0);
     update_option('webpush_opened_notification_count', 0);
+    update_option('webpush_prompt_count', 0);
+    update_option('webpush_accepted_prompt_count', 0);
 
     $default_triggers = WebPush_Main::get_triggers_by_key_value('enable_by_default', true);
     $default_triggers_keys = array();
@@ -100,6 +102,8 @@ class WebPush_DB {
     delete_option('webpush_gcm_sender_id');
     delete_option('webpush_notification_count');
     delete_option('webpush_opened_notification_count');
+    delete_option('webpush_prompt_count');
+    delete_option('webpush_accepted_prompt_count');
   }
 }
 
