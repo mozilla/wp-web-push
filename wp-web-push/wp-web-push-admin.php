@@ -60,6 +60,7 @@ class WebPush_Admin {
     $title_option = get_option('webpush_title');
     $icon_option = get_option('webpush_icon');
     $min_visits_option = intval(get_option('webpush_min_visits'));
+    $notification_button_option = get_option('webpush_notification_button');
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
@@ -122,6 +123,12 @@ class WebPush_Admin {
         wp_die(__('Invalid value for `Registration Behavior`', 'wpwebpush'));
       }
 
+      if (isset($_POST['webpush_notification_button'])) {
+        $notification_button_option = true;
+      } else {
+        $notification_button_option = false;
+      }
+
       if(isset($_POST['webpush_triggers'])) {
         $triggers_option = $_POST['webpush_triggers'];
         foreach($triggers_option as $trigger_option) {
@@ -141,6 +148,7 @@ class WebPush_Admin {
       update_option('webpush_title', $title_option);
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
+      update_option('webpush_notification_button', $notification_button_option);
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
@@ -207,9 +215,10 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Registration Behavior', 'wpwebpush'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site.', 'wpwebpush'); ?></label><br />
+<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site', 'wpwebpush'); ?></label><br />
 <label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
-<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3; ?>" class="small-text" />
+<input type="text" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 ? $min_visits_option : 3; ?>" class="small-text" /><br />
+<label><input type="checkbox" name="webpush_notification_button" <?php echo $notification_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'wpwebpush'); ?></label>
 </fieldset>
 </td>
 </tr>
