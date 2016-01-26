@@ -26,8 +26,9 @@ class WebPush_Main {
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
     add_action('parse_request', array($this, 'on_parse_request'));
 
-    add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_webpush_register'));
-    add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_webpush_get_payload'));
+    add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_register'));
+    add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_get_payload'));
+    add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
   }
 
   public static function init() {
@@ -77,13 +78,23 @@ class WebPush_Main {
     }
   }
 
-  public static function handle_webpush_register() {
+  public static function handle_register() {
     WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
+
+    if (isset($_POST['newRegistration'])) {
+      update_option('webpush_accepted_prompt_count', get_option('webpush_accepted_prompt_count') + 1);
+    }
+
     wp_die();
   }
 
-  public static function handle_webpush_get_payload() {
+  public static function handle_get_payload() {
     wp_send_json(get_option('webpush_payload'));
+  }
+
+  public static function handle_prompt() {
+    update_option('webpush_prompt_count', get_option('webpush_prompt_count') + 1);
+    wp_die();
   }
 
   public static function on_query_vars($qvars) {

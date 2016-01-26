@@ -74,21 +74,29 @@ if (navigator.serviceWorker) {
       return registration.pushManager.getSubscription()
       .then(function(subscription) {
         if (subscription) {
-          return subscription;
+          return [ subscription, false ];
         }
+
+        fetch(ServiceWorker.register_url + '?action=webpush_prompt');
 
         return registration.pushManager.subscribe({
           userVisibleOnly: true,
-        });
+        })
+        .then(function(subscription) {
+          return [ subscription, true ];
+        })
       });
     })
-    .then(function(subscription) {
+    .then(function([ subscription, newRegistration ]) {
       var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
       var formData = new FormData();
       formData.append('action', 'webpush_register');
       formData.append('endpoint', subscription.endpoint);
       formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+      if (newRegistration) {
+        formData.append('newRegistration', true);
+      }
 
       return fetch(ServiceWorker.register_url, {
         method: 'post',
