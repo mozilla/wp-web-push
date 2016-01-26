@@ -13,18 +13,7 @@ if (navigator.serviceWorker) {
   }
 
   function notificationsEnabled() {
-    return localforage.getItem('notificationsEnabled')
-    .then(function(enabled) {
-      // Set to 'true' by default.
-      if (enabled !== true && enabled !== false) {
-        return localforage.setItem('notificationsEnabled', true)
-        .then(function() {
-          return true;
-        });
-      }
-
-      return enabled;
-    });
+    return localforage.getItem('notificationsEnabled');
   }
 
   function setNotificationsEnabled(enabled) {
@@ -164,7 +153,7 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      if (ServiceWorker.notification_icon && !notificationsEnabled) {
+      if (ServiceWorker.notification_icon && notificationsEnabled === false) {
         return;
       }
 
