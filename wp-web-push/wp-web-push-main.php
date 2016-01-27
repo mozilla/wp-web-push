@@ -73,6 +73,7 @@ class WebPush_Main {
       'subscription_button' => get_option('webpush_subscription_button'),
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
+      'prompt_interval' => get_option('webpush_prompt_interval'),
     ));
     wp_enqueue_script('sw-manager-script');
 

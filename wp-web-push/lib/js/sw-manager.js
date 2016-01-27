@@ -69,7 +69,7 @@ if (navigator.serviceWorker) {
     .then(function(lastPrompted) {
       if (!lastPrompted) {
         fetch(ServiceWorker.register_url + '?action=webpush_prompt');
-      } else if (!ignorePromptInterval && (lastPrompted + 3 * 24 * 60 * 60 * 1000 > Date.now())) {
+      } else if (!ignorePromptInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
         // The permission was denied during the last three days, so we don't prompt
         // the user again to avoid bothering them (unless the user explicitly clicked
         // on the subscription button).
