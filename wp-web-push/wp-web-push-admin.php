@@ -61,6 +61,7 @@ class WebPush_Admin {
     $icon_option = get_option('webpush_icon');
     $min_visits_option = intval(get_option('webpush_min_visits'));
     $subscription_button_option = get_option('webpush_subscription_button');
+    $prompt_interval_option = get_option('webpush_prompt_interval');
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
@@ -131,6 +132,8 @@ class WebPush_Admin {
         $subscription_button_option = false;
       }
 
+      $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
+
       if(isset($_POST['webpush_triggers'])) {
         $triggers_option = $_POST['webpush_triggers'];
         foreach($triggers_option as $trigger_option) {
@@ -151,6 +154,7 @@ class WebPush_Admin {
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
       update_option('webpush_subscription_button', $subscription_button_option);
+      update_option('webpush_prompt_interval', $prompt_interval_option);
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
@@ -227,6 +231,14 @@ class WebPush_Admin {
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'wpwebpush'); ?></label>
 </td>
 </tr>
+
+<tr>
+<th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'wpwebpush'); ?></label></th>
+<td><input name="webpush_prompt_interval" type="text" value="<?php echo $prompt_interval_option; ?>" class="code" />
+<p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
+</td>
+</tr>
+
 
 <tr>
 <th scope="row"><?php _e('Automatic prompting', 'wpwebpush'); ?></th>

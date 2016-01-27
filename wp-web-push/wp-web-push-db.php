@@ -66,6 +66,7 @@ class WebPush_DB {
     update_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
     update_option('webpush_min_visits', 3);
     update_option('webpush_subscription_button', true);
+    update_option('webpush_prompt_interval', 3);
     update_option('webpush_gcm_key', '');
     update_option('webpush_gcm_sender_id', '');
     update_option('webpush_notification_count', 0);
@@ -97,6 +98,7 @@ class WebPush_DB {
     delete_option('webpush_icon');
     delete_option('webpush_min_visits');
     delete_option('webpush_subscription_button');
+    delete_option('webpush_prompt_interval');
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');
     delete_option('webpush_gcm_sender_id');
