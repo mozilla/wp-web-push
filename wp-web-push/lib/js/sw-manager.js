@@ -72,7 +72,6 @@ if (navigator.serviceWorker) {
             fetch(ServiceWorker.register_url + '?action=webpush_prompt');
           }
 
-          lastPrompted = Date.now();
           localforage.setItem('lastPrompted', Date.now());
         });
 
