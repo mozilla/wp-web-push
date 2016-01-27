@@ -42,7 +42,10 @@ class WebPush_Main {
   }
 
   public static function add_subscription_button() {
+    echo '<div id="webpush-subscription-container">';
     echo '<div id="webpush-notification-button"><img id="webpush-notification-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
+    echo '<div id="webpush-explanatory-bubble">Howdy!</div>';
+    echo '</div>';
   }
 
   public function enqueue_frontend_scripts() {
