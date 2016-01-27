@@ -234,7 +234,7 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'wpwebpush'); ?></label></th>
-<td><input name="webpush_prompt_interval" type="number" value="<?php echo $prompt_interval_option; ?>" class="code" />
+<td><input name="webpush_prompt_interval" type="number" value="<?php echo $prompt_interval_option; ?>" class="small-text" />
 <p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
 </td>
 </tr>
