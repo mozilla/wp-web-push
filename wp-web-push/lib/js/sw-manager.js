@@ -57,6 +57,40 @@ if (navigator.serviceWorker) {
     });
   }
 
+  function promptSubscription(pushManager) {
+    if (Notification.permission === 'granted') {
+      // No need to prompt, directly subscribe.
+      return pushManager.subscribe({
+        userVisibleOnly: true,
+      });
+    }
+
+    return localforage.getItem('lastPrompted')
+    .then(function(lastPrompted) {
+      if (!lastPrompted) {
+        fetch(ServiceWorker.register_url + '?action=webpush_prompt');
+      }
+
+      localforage.setItem('lastPrompted', Date.now());
+
+      return new Promise(function(resolve, reject) {
+        Notification.requestPermission(function(permission) {
+          if (permission !== 'granted') {
+            reject(new Error('Permission not granted'));
+            return;
+          }
+
+          resolve();
+        });
+      });
+    })
+    .then(function() {
+      return pushManager.subscribe({
+        userVisibleOnly: true,
+      });
+    });
+  }
+
   function enableNotifications() {
     navigator.serviceWorker.getRegistration()
     .then(function(registration) {
@@ -66,18 +100,7 @@ if (navigator.serviceWorker) {
           return;
         }
 
-        localforage.getItem('lastPrompted')
-        .then(function(lastPrompted) {
-          if (!lastPrompted) {
-            fetch(ServiceWorker.register_url + '?action=webpush_prompt');
-          }
-
-          localforage.setItem('lastPrompted', Date.now());
-        });
-
-        return registration.pushManager.subscribe({
-          userVisibleOnly: true,
-        });
+        return promptSubscription(registration.pushManager);
       });
     })
     .then(sendSubscription)
