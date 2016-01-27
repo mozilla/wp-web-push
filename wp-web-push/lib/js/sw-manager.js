@@ -163,7 +163,7 @@ if (navigator.serviceWorker) {
     document.getElementById('webpush-subscription-button-image').onclick = function() {
       notificationsEnabled()
       .then(function(enabled) {
-        if (enabled) {
+        if (enabled && Notification.permission === 'granted') {
           disableNotifications();
         } else {
           enableNotifications(true);
@@ -175,7 +175,7 @@ if (navigator.serviceWorker) {
     return notificationsEnabled();
   })
   .then(function(notificationsEnabled) {
-    setNotificationsIndicator(notificationsEnabled);
+    setNotificationsIndicator(notificationsEnabled && Notification.permission === 'granted');
 
     localforage.getItem('visits')
     .then(function(visits) {
