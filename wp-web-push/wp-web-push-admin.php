@@ -224,6 +224,7 @@ class WebPush_Admin {
 <table class="form-table">
 
 <h2 class="title"><?php _e('Subscription Behavior', 'wpwebpush'); ?></h2>
+<p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users (unless you know that your visitors are really interested) and always giving the option to subscribe/unsubscribe through the subscription button.'); ?></p>
 
 <tr>
 <th scope="row"></th>
