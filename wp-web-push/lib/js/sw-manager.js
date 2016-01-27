@@ -63,7 +63,7 @@ if (navigator.serviceWorker) {
       return registration.pushManager.getSubscription()
       .then(function(subscription) {
         if (subscription) {
-          return false;
+          return;
         }
 
         localforage.getItem('lastPrompted')
@@ -77,9 +77,6 @@ if (navigator.serviceWorker) {
 
         return registration.pushManager.subscribe({
           userVisibleOnly: true,
-        })
-        .then(function() {
-          return true;
         });
       });
     })
@@ -87,7 +84,7 @@ if (navigator.serviceWorker) {
     .then(showWelcome);
   }
 
-  function sendSubscription(isNewRegistration) {
+  function sendSubscription() {
     navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription();
@@ -97,23 +94,28 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+      localforage.getItem('hasRegistered')
+      .then(function(hasRegistered) {
+        localforage.setItem('hasRegistered', true);
 
-      var formData = new FormData();
-      formData.append('action', 'webpush_register');
-      formData.append('endpoint', subscription.endpoint);
-      formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-      if (isNewRegistration) {
-        formData.append('newRegistration', true);
-      }
+        var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
-      return fetch(ServiceWorker.register_url, {
-        method: 'post',
-        body: formData,
-      })
-      .then(function() {
-        setNotificationsEnabled(true);
-      })
+        var formData = new FormData();
+        formData.append('action', 'webpush_register');
+        formData.append('endpoint', subscription.endpoint);
+        formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+        if (!hasRegistered) {
+          formData.append('newRegistration', true);
+        }
+
+        return fetch(ServiceWorker.register_url, {
+          method: 'post',
+          body: formData,
+        })
+        .then(function() {
+          setNotificationsEnabled(true);
+        })
+      });
     });
   }
 
