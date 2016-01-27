@@ -5,11 +5,11 @@
   z-index: 2147483647;
 }
 
-#webpush-notification-button {
+#webpush-subscription-button {
   float: right;
 }
 
-#webpush-notification-button-image {
+#webpush-subscription-button-image {
   position: relative;
   margin-bottom: 20px;
   margin-right: 16px;

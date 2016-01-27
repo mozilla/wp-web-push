@@ -43,7 +43,7 @@ class WebPush_Main {
 
   public static function add_subscription_button() {
     echo '<div id="webpush-subscription-container">';
-    echo '<div id="webpush-notification-button"><img id="webpush-notification-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
+    echo '<div id="webpush-subscription-button"><img id="webpush-subscription-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
     echo '<div id="webpush-explanatory-bubble">Howdy!</div>';
     echo '</div>';
   }
@@ -70,14 +70,14 @@ class WebPush_Main {
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
-      'notification_icon' => get_option('webpush_subscription_button'),
+      'subscription_button' => get_option('webpush_subscription_button'),
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
     ));
     wp_enqueue_script('sw-manager-script');
 
     if (get_option('webpush_subscription_button')) {
-      wp_enqueue_style('notification-button-style', plugins_url('lib/style/notification_button.css', __FILE__));
+      wp_enqueue_style('subscription-button-style', plugins_url('lib/style/subscription_button.css', __FILE__));
     }
   }
 

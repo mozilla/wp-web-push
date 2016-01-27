@@ -1,14 +1,14 @@
 if (navigator.serviceWorker) {
   function setNotificationsIndicator(enabled) {
-    if (!ServiceWorker.notification_icon) {
+    if (!ServiceWorker.subscription_button) {
       return;
     }
 
-    var notificationButtonImage = document.getElementById('webpush-notification-button-image');
+    var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
-      notificationButtonImage.src = ServiceWorker.notification_enabled_icon;
+      subscriptionButtonImage.src = ServiceWorker.notification_enabled_icon;
     } else {
-      notificationButtonImage.src = ServiceWorker.notification_disabled_icon;
+      subscriptionButtonImage.src = ServiceWorker.notification_disabled_icon;
     }
   }
 
@@ -119,11 +119,11 @@ if (navigator.serviceWorker) {
     return navigator.serviceWorker.register(ServiceWorker.url);
   })
   .then(function() {
-    if (!ServiceWorker.notification_icon) {
+    if (!ServiceWorker.subscription_button) {
       return;
     }
 
-    document.getElementById('webpush-notification-button').onclick = function() {
+    document.getElementById('webpush-subscription-button-image').onclick = function() {
       notificationsEnabled()
       .then(function(enabled) {
         if (enabled) {
@@ -153,7 +153,7 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      if (ServiceWorker.notification_icon && notificationsEnabled === false) {
+      if (ServiceWorker.subscription_button && notificationsEnabled === false) {
         return;
       }
 
