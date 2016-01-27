@@ -170,8 +170,8 @@ class WebPush_Admin {
 
 <form method="post" action="" enctype="multipart/form-data">
 <table class="form-table">
-
 <h2 class="title"><?php _e('Notification UI Options', 'wpwebpush'); ?></h2>
+<p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.'); ?></p>
 
 <input type="hidden" name="webpush_form" value="submitted" />
 
@@ -218,12 +218,12 @@ class WebPush_Admin {
 </fieldset>
 </td>
 </tr>
-
 </table>
 
-<table class="form-table">
 
+<table class="form-table">
 <h2 class="title"><?php _e('Subscription Behavior', 'wpwebpush'); ?></h2>
+<p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users (unless you know that your visitors are really interested) and always giving the option to subscribe/unsubscribe through the subscription button.'); ?></p>
 
 <tr>
 <th scope="row"></th>
@@ -263,15 +263,15 @@ class WebPush_Admin {
 </fieldset>
 </td>
 </tr>
-
 </table>
 
-<table class="form-table">
 
-<h2 class="title"><?php _e('GCM Configuration', 'wpwebpush'); ?></h2>
+<table class="form-table">
+<h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'wpwebpush'); ?></h2>
+<p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support">here</a>. Once you have the required values, insert them in this section.'); ?></p>
 
 <tr>
-<th scope="row"><label for="webpush_gcm_key"><?php _e('GCM Key', 'wpwebpush'); ?></label></th>
+<th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'wpwebpush'); ?></label></th>
 <td><input name="webpush_gcm_key" type="text" value="<?php echo $gcm_key_option; ?>" class="regular-text code" /></td>
 </tr>
 
@@ -279,7 +279,6 @@ class WebPush_Admin {
 <th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Sender ID', 'wpwebpush'); ?></label></th>
 <td><input name="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
 </tr>
-
 </table>
 
 <?php submit_button(__('Save Changes'), 'primary'); ?>
