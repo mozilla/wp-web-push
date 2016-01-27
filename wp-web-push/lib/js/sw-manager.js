@@ -66,7 +66,14 @@ if (navigator.serviceWorker) {
           return false;
         }
 
-        fetch(ServiceWorker.register_url + '?action=webpush_prompt');
+        localforage.getItem('lastPrompted')
+        .then(function(lastPrompted) {
+          if (!lastPrompted) {
+            fetch(ServiceWorker.register_url + '?action=webpush_prompt');
+          }
+
+          localforage.setItem('lastPrompted', Date.now());
+        });
 
         return registration.pushManager.subscribe({
           userVisibleOnly: true,
