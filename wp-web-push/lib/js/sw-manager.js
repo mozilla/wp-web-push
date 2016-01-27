@@ -57,7 +57,7 @@ if (navigator.serviceWorker) {
     });
   }
 
-  function promptSubscription(pushManager) {
+  function promptSubscription(pushManager, ignorePromptInterval) {
     if (Notification.permission === 'granted') {
       // No need to prompt, directly subscribe.
       return pushManager.subscribe({
@@ -69,6 +69,11 @@ if (navigator.serviceWorker) {
     .then(function(lastPrompted) {
       if (!lastPrompted) {
         fetch(ServiceWorker.register_url + '?action=webpush_prompt');
+      } else if (!ignorePromptInterval && (lastPrompted + 3 * 24 * 60 * 60 * 1000 > Date.now())) {
+        // The permission was denied during the last three days, so we don't prompt
+        // the user again to avoid bothering them (unless the user explicitly clicked
+        // on the subscription button).
+        throw new Error('Already prompted not long ago. Don\'t prompt again for a while.');
       }
 
       localforage.setItem('lastPrompted', Date.now());
@@ -76,7 +81,7 @@ if (navigator.serviceWorker) {
       return new Promise(function(resolve, reject) {
         Notification.requestPermission(function(permission) {
           if (permission !== 'granted') {
-            reject(new Error('Permission not granted'));
+            reject(new Error('Permission denied.'));
             return;
           }
 
@@ -91,7 +96,7 @@ if (navigator.serviceWorker) {
     });
   }
 
-  function enableNotifications() {
+  function enableNotifications(ignorePromptInterval) {
     navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription()
@@ -100,7 +105,7 @@ if (navigator.serviceWorker) {
           return;
         }
 
-        return promptSubscription(registration.pushManager);
+        return promptSubscription(registration.pushManager, ignorePromptInterval);
       });
     })
     .then(sendSubscription)
@@ -161,7 +166,7 @@ if (navigator.serviceWorker) {
         if (enabled) {
           disableNotifications();
         } else {
-          enableNotifications();
+          enableNotifications(true);
         }
       });
     };
