@@ -14,8 +14,7 @@ This plugin uses the [W3C Push API](https://www.w3.org/TR/push-api/) to allow yo
 Once you\'ve installed this plugin, anyone visiting your site/app in [browsers that support the W3C Push API](http://caniuse.com/#feat=push-api) will be asked whether he/she wants to receive notifications from your site. You will immediately be able to send push notifications to anyone who consents.
 
 == Installation ==
-1. Download the plugin from the WordPress.org plugin directory
-1. Copy the wp-web-push directory to your WordPress plugins directory
+1. Download and install the plugin from the WordPress.org plugin directory
 1. Activate the plugin through the \"Plugins\" menu in WordPress
 
 Follow these additional [steps for setting up GCM (Google Chrome) support](https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support)
