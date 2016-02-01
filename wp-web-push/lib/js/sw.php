@@ -26,7 +26,12 @@ self.addEventListener('notificationclick', function(event) {
       }
 
       var newURL = new URL(url);
-      newURL.searchParams.set('webpush_from_notification', 1);
+      if (url.search) {
+        url.search += '&';
+      } else {
+        url.search += '?';
+      }
+      url.search += 'webpush_from_notification=1';
 
       return self.clients.openWindow(newURL);
     })
