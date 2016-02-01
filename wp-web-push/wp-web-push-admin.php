@@ -22,7 +22,7 @@ class WebPush_Admin {
       return;
     }
 
-    $options_url = add_query_arg(array('page' => 'web-push-options'), admin_url('options-general.php'));
+    $options_url = add_query_arg(array('page' => 'web-push-options#gcm'), admin_url('options-general.php'));
     echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'wpwebpush'), $options_url) . '</p></div>';
   }
 
@@ -267,7 +267,7 @@ class WebPush_Admin {
 
 
 <table class="form-table">
-<h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'wpwebpush'); ?></h2>
+<a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'wpwebpush'); ?></h2></a>
 <p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support">here</a>. Once you have the required values, insert them in this section.'); ?></p>
 
 <tr>
