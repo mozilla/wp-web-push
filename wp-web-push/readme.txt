@@ -33,7 +33,7 @@ Follow these additional [steps for setting up GCM (Google Chrome) support](https
 That depends on the browser! Each browser will display your notifications somewhat differently, but in general the notifications will look appropriate for the device/OS/browser on which they are displayed
 
 = When / how often will visitors be asked about accepting push notifications? =
-Each browser has its own heuristics for deciding when to ask its user about push notifications from your site. Most of them won\'t ask the first time someone visits your site, and most also implement a \"never ask me again\" response.
+The plugin is configurable; it is possible to modify when a visitor is prompted to accept push notifications (e.g. on the third visit to the site). Additionally, browsers may decide to suppress this notification, for example, if a user at one point selected a \"never ask me again\" response.
 
 == Changelog ==
 = 0.1 =
