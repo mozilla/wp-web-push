@@ -6,19 +6,35 @@ Tested up to: 4.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Web Push notifications for your website.
+Send push notifications to your visitors! Uses the W3C Push API.
+
+== Description ==
+This plugin uses the [W3C Push API](https://www.w3.org/TR/push-api/) to allow you to send push notifications to anyone who visits your site and signs up for notifications.
+
+Once you\'ve installed this plugin, anyone visiting your site/app in [browsers that support the W3C Push API](http://caniuse.com/#feat=push-api) will be asked whether he/she wants to receive notifications from your site. You will immediately be able to send push notifications to anyone who consents.
+
+Configure the plugin in the Settings > Web Push section of your WordPress installation. Here you can set various pieces of configuration, including:
+
+- The title for push notifications that appear from your site
+- When to attempt to register your visitor for push notifications (e.g. after how many visits)
+- Which types of events should trigger push notifications (e.g. new posts, comments, updates to posts)
 
 == Installation ==
-1. Install the plugin from the WordPress.org plugin directory
-2. Activate the plugin
+1. Download and install the plugin from the WordPress.org plugin directory
+1. Activate the plugin through the \"Plugins\" menu in WordPress
 
-To set up GCM (Google Chrome) support, you need to follow the steps outlined [here](https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support):
+Follow these additional [steps for setting up GCM (Google Chrome) support](https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support). In the Settings > Web Push section of your WordPress installation are configuration settings for this plugin; there you will find additional information for setting up GCM.
 
-1. Navigate to the [Google Developers Console](https://console.developers.google.com/) and set up a new project.
-2. Go to your project\'s homepage (ours is at https://console.developers.google.com/project/push-project-978, for example), then
-  1. Select the Enable Google APIs for use in your apps option.
-  2. In the next screen, click Cloud Messaging for Android under the Mobile APIs section.
-  3. Click the Enable API button.
-3. Now you need to make a note of your project number and API key because you\'ll need them later. To find them:
-  1. Project number: click Home on the left; the project number is clearly marked at the top of your project\'s home page.
-  2. API key: click Credentials on the left hand menu; the API key can be found on that screen.
+== Frequently Asked Questions ==
+= What browsers support the W3C Push API? =
+[browser support for the W3C Push API](http://caniuse.com/#feat=push-api) currently exists in Firefox, Chrome, and Chrome for Android, with others likely to follow
+
+= What will push notifications look like? =
+That depends on the browser! Each browser will display your notifications somewhat differently, but in general the notifications will look appropriate for the device/OS/browser on which they are displayed
+
+= When / how often will visitors be asked about accepting push notifications? =
+The plugin is configurable; it is possible to modify when a visitor is prompted to accept push notifications (e.g. on the third visit to the site). Additionally, browsers may decide to suppress this notification, for example, if a user at one point selected a \"never ask me again\" response.
+
+== Changelog ==
+= 0.1 =
+* Initial release.
