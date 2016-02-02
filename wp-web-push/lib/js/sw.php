@@ -7,6 +7,8 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+
   var data = event.notification.data;
   if (!data) {
     return;
