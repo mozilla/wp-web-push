@@ -1,0 +1,227 @@
+# Copyright (C) 2016 Web Push
+# This file is distributed under the same license as the Web Push package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Web Push 0.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/web-push\n"
+"POT-Creation-Date: 2016-02-02 00:35:59+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: wp-web-push-admin.php:26
+msgid ""
+"You need to set up the GCM-specific information in order to make push "
+"notifications work on Google Chrome. <a href=\"%s\">Do it now</a>."
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Web Push 0.0.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: wp-web-push-admin.php:30 wp-web-push-admin.php:55 wp-web-push-admin.php:169
+msgid "Web Push"
+msgstr ""
+
+#: wp-web-push-admin.php:36
+msgid "%s notification sent."
+msgid_plural "%s notifications sent."
+msgstr[0] ""
+msgstr[1] ""
+
+#: wp-web-push-admin.php:38
+msgid "%s notification clicked."
+msgid_plural "%s notifications clicked."
+msgstr[0] ""
+msgstr[1] ""
+
+#: wp-web-push-admin.php:43
+msgid "%s user prompted."
+msgid_plural "%s users prompted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: wp-web-push-admin.php:45
+msgid "%s user accepted to receive notifications."
+msgid_plural "%s users accepted to receive notifications."
+msgstr[0] ""
+msgstr[1] ""
+
+#: wp-web-push-admin.php:55
+msgid "Web Push Options"
+msgstr ""
+
+#: wp-web-push-admin.php:75
+msgid "Invalid value for the Notification Title"
+msgstr ""
+
+#: wp-web-push-admin.php:89
+msgid "The notification icon should be an image"
+msgstr ""
+
+#: wp-web-push-admin.php:95
+msgid "Error in handling upload for the notification icon: %s"
+msgstr ""
+
+#: wp-web-push-admin.php:113 wp-web-push-admin.php:116
+msgid "Invalid value for the Notification Icon"
+msgstr ""
+
+#: wp-web-push-admin.php:126
+msgid "Invalid value for `Registration Behavior`"
+msgstr ""
+
+#: wp-web-push-admin.php:163
+msgid "Settings saved."
+msgstr ""
+
+#: wp-web-push-admin.php:173
+msgid "Notification UI Options"
+msgstr ""
+
+#: wp-web-push-admin.php:174
+msgid ""
+"In this section, you can customize the information that appears in the "
+"notifications that will be shown to users."
+msgstr ""
+
+#: wp-web-push-admin.php:179
+msgid "Title"
+msgstr ""
+
+#: wp-web-push-admin.php:182
+msgid "Use the Site Title"
+msgstr ""
+
+#: wp-web-push-admin.php:183
+msgid "Custom:"
+msgstr ""
+
+#: wp-web-push-admin.php:184
+msgid "Your custom title"
+msgstr ""
+
+#: wp-web-push-admin.php:190
+msgid "Icon"
+msgstr ""
+
+#: wp-web-push-admin.php:193
+msgid "Don't use any icon"
+msgstr ""
+
+#: wp-web-push-admin.php:195
+msgid "Use the Post Thumbnail"
+msgstr ""
+
+#: wp-web-push-admin.php:200
+msgid "Use the Site Icon"
+msgstr ""
+
+#: wp-web-push-admin.php:211
+msgid "Custom"
+msgstr ""
+
+#: wp-web-push-admin.php:225
+msgid "Subscription Behavior"
+msgstr ""
+
+#: wp-web-push-admin.php:226
+msgid ""
+"In this section, you can customize the subscription behavior and tailor it "
+"to your site. We suggest limiting automatic prompting to avoid nagging users "
+"(unless you know that your visitors are really interested) and always giving "
+"the option to subscribe/unsubscribe through the subscription button."
+msgstr ""
+
+#: wp-web-push-admin.php:231
+msgid "Show subscription button"
+msgstr ""
+
+#: wp-web-push-admin.php:232
+msgid ""
+"A button in the bottom-right corner of the page that the user can use to "
+"subscribe/unsubscribe."
+msgstr ""
+
+#: wp-web-push-admin.php:237
+msgid "Interval between prompts"
+msgstr ""
+
+#: wp-web-push-admin.php:239
+msgid ""
+"If the user declines or dismisses the prompt, this is the time interval (in "
+"days) to wait before prompting again."
+msgstr ""
+
+#: wp-web-push-admin.php:245
+msgid "Automatic prompting"
+msgstr ""
+
+#: wp-web-push-admin.php:248
+msgid "Ask the user to register as soon as he visits the site"
+msgstr ""
+
+#: wp-web-push-admin.php:249
+msgid "Ask the user to register after N visits:"
+msgstr ""
+
+#: wp-web-push-admin.php:251
+msgid "Never automatically ask the user to register"
+msgstr ""
+
+#: wp-web-push-admin.php:257
+msgid "Push Triggers"
+msgstr ""
+
+#: wp-web-push-admin.php:270
+msgid "GCM (Google Chrome) Configuration"
+msgstr ""
+
+#: wp-web-push-admin.php:271
+msgid ""
+"To set up GCM (Google Chrome) support, you need to follow the steps outlined "
+"<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/Push_API/"
+"Using_the_Push_API#Extra_steps_for_Chrome_support\">here</a>. Once you have "
+"the required values, insert them in this section."
+msgstr ""
+
+#: wp-web-push-admin.php:274
+msgid "GCM API Key"
+msgstr ""
+
+#: wp-web-push-admin.php:279
+msgid "GCM Sender ID"
+msgstr ""
+
+#: wp-web-push-admin.php:284
+msgid "Save Changes"
+msgstr ""
+
+#: wp-web-push-main.php:14
+msgid "New Post"
+msgstr ""
+
+#: wp-web-push-main.php:15
+msgid "On Subscription"
+msgstr ""
+
+#: wp-web-push-main.php:71
+msgid "Successfully subscribed to notifications"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/marco-c/wp-web-push"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Web Push notifications for your website."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Mozilla"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.mozilla.org/"
+msgstr ""
