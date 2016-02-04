@@ -44,7 +44,7 @@ class WebPush_Main {
   public static function add_subscription_button() {
     echo '<div id="webpush-subscription-container">';
     echo '<div id="webpush-subscription-button"><img id="webpush-subscription-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
-    echo '<div id="webpush-explanatory-bubble">Howdy!</div>';
+    echo '<div id="webpush-explanatory-bubble"></div>';
     echo '</div>';
   }
 
@@ -74,6 +74,8 @@ class WebPush_Main {
       'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
       'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
       'prompt_interval' => get_option('webpush_prompt_interval'),
+      'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.'),
+      'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.'),
     ));
     wp_enqueue_script('sw-manager-script');
 

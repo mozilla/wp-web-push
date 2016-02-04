@@ -1,4 +1,13 @@
 if (navigator.serviceWorker) {
+  function setSubscriptionTip(tip) {
+    if (tip) {
+      document.getElementById('webpush-explanatory-bubble').textContent = tip;
+      document.getElementById('webpush-explanatory-bubble').style.display = 'block';
+    } else {
+      document.getElementById('webpush-explanatory-bubble').style.display = 'none';
+    }
+  }
+
   function setNotificationsIndicator(enabled) {
     if (!ServiceWorker.subscription_button) {
       return;
@@ -37,9 +46,9 @@ if (navigator.serviceWorker) {
   }
 
   function showWelcome() {
-    navigator.serviceWorker.getRegistration()
+    return navigator.serviceWorker.getRegistration()
     .then(function(registration) {
-      localforage.getItem('welcomeShown')
+      return localforage.getItem('welcomeShown')
       .then(function(welcomeShown) {
         if (welcomeShown) {
           return;
@@ -52,7 +61,7 @@ if (navigator.serviceWorker) {
           });
         }
 
-        localforage.setItem('welcomeShown', true);
+        return localforage.setItem('welcomeShown', true);
       });
     });
   }
@@ -97,7 +106,7 @@ if (navigator.serviceWorker) {
   }
 
   function enableNotifications(ignorePromptInterval) {
-    navigator.serviceWorker.getRegistration()
+    return navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription()
       .then(function(subscription) {
@@ -113,7 +122,7 @@ if (navigator.serviceWorker) {
   }
 
   function sendSubscription() {
-    navigator.serviceWorker.getRegistration()
+    return navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription();
     })
@@ -122,7 +131,7 @@ if (navigator.serviceWorker) {
         return;
       }
 
-      localforage.getItem('hasRegistered')
+      return localforage.getItem('hasRegistered')
       .then(function(hasRegistered) {
         localforage.setItem('hasRegistered', true);
 
@@ -163,10 +172,15 @@ if (navigator.serviceWorker) {
     document.getElementById('webpush-subscription-button-image').onclick = function() {
       notificationsEnabled()
       .then(function(enabled) {
+        setSubscriptionTip(null);
+
         if (enabled && Notification.permission === 'granted') {
           disableNotifications();
         } else {
-          enableNotifications(true);
+          enableNotifications(true)
+          .then(function() {
+            setSubscriptionTip(ServiceWorker.unsubscription_hint);
+          });
         }
       });
     };
@@ -181,6 +195,10 @@ if (navigator.serviceWorker) {
     .then(function(visits) {
       if (!visits) {
         visits = 1;
+
+        if (ServiceWorker.subscription_button) {
+          setSubscriptionTip(ServiceWorker.subscription_hint);
+        }
       } else {
         visits++;
       }
