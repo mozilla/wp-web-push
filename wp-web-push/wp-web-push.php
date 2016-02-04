@@ -10,6 +10,8 @@ License: GPLv2 or later
 Text Domain: wpwebpush
 */
 
+load_plugin_textdomain('wpwebpush', false, dirname(plugin_basename(__FILE__)) . '/lang');
+
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 

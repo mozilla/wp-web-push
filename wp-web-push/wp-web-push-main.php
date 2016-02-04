@@ -3,8 +3,6 @@
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
-load_plugin_textdomain('wpwebpush', false, dirname(plugin_basename(__FILE__)) . '/lang');
-
 class WebPush_Main {
   private static $instance;
   public static $ALLOWED_TRIGGERS;
