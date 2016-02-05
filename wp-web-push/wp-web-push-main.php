@@ -2,6 +2,7 @@
 
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
+require_once(plugin_dir_path(__FILE__) . 'WebAppManifestGenerator.php');
 
 class WebPush_Main {
   private static $instance;
@@ -14,8 +15,6 @@ class WebPush_Main {
     );
     self::add_trigger_handlers();
 
-    add_action('wp_head', array($this, 'add_manifest'));
-
     if (get_option('webpush_subscription_button')) {
       add_action('wp_footer', array($this, 'add_subscription_button'), 9999);
     }
@@ -27,16 +26,16 @@ class WebPush_Main {
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_register'));
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_get_payload'));
     add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
+
+    $manifestGenerator = WebAppManifestGenerator::getInstance();
+    $manifestGenerator->set_field('gcm_sender_id', get_option('webpush_gcm_sender_id'));
+    $manifestGenerator->set_field('gcm_user_visible_only', true);
   }
 
   public static function init() {
     if (!self::$instance) {
       self::$instance = new self();
     }
-  }
-
-  public static function add_manifest() {
-    echo '<link rel="manifest" href="' . home_url('/') . '?webpush_file=manifest">';
   }
 
   public static function add_subscription_button() {
@@ -121,12 +120,6 @@ class WebPush_Main {
     if ($file === 'worker') {
       header('Content-Type: application/javascript');
       require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
-      exit;
-    }
-
-    if ($file === 'manifest') {
-      header('Content-Type: application/json');
-      require_once(plugin_dir_path(__FILE__) . 'lib/manifest.php');
       exit;
     }
   }
