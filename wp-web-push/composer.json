@@ -1,0 +1,19 @@
+{
+    "name": "marco-c/wp-web-push",
+    "description": "Web Push plugin for Wordpress.",
+    "authors": [
+        {
+            "name": "Marco Castelluccio",
+            "email": "mcastelluccio@mozilla.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/marco-c/wp-web-app-manifest-generator"
+        }
+    ],
+    "require": {
+        "marco-c/wp-web-app-manifest-generator": "dev-master"
+    }
+}
