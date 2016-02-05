@@ -10,8 +10,8 @@ class WebPush_Main {
 
   public function __construct() {
     self::$ALLOWED_TRIGGERS = array(
-      array('text' => __('New Post', 'wpwebpush'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status'),
-      array('text' => __('On Subscription', 'wpwebpush'), 'key' => 'on-subscription', 'enable_by_default' => true),
+      array('text' => __('New Post', 'web-push'), 'key' => 'new-post', 'enable_by_default' => true, 'hook' => 'transition_post_status', 'action' => 'on_transition_post_status'),
+      array('text' => __('On Subscription', 'web-push'), 'key' => 'on-subscription', 'enable_by_default' => true),
     );
     self::add_trigger_handlers();
 

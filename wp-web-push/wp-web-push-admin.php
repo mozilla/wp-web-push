@@ -21,26 +21,26 @@ class WebPush_Admin {
     }
 
     $options_url = add_query_arg(array('page' => 'web-push-options#gcm'), admin_url('options-general.php'));
-    echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'wpwebpush'), $options_url) . '</p></div>';
+    echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'web-push'), $options_url) . '</p></div>';
   }
 
   function add_dashboard_widgets() {
-    wp_add_dashboard_widget('wp-web-push_dashboard_widget', __('Web Push', 'wpwebpush'), array($this, 'dashboard_widget'));
+    wp_add_dashboard_widget('wp-web-push_dashboard_widget', __('Web Push', 'web-push'), array($this, 'dashboard_widget'));
   }
 
   function dashboard_widget() {
     $notification_count = get_option('webpush_notification_count');
     $opened_notification_count = get_option('webpush_opened_notification_count');
-    printf(_n('%s notification sent.', '%s notifications sent.', $notification_count, 'wpwebpush'), number_format_i18n($notification_count));
+    printf(_n('%s notification sent.', '%s notifications sent.', $notification_count, 'web-push'), number_format_i18n($notification_count));
     echo '<br>';
-    printf(_n('%s notification clicked.', '%s notifications clicked.', $opened_notification_count, 'wpwebpush'), number_format_i18n($opened_notification_count));
+    printf(_n('%s notification clicked.', '%s notifications clicked.', $opened_notification_count, 'web-push'), number_format_i18n($opened_notification_count));
     echo '<br>';
 
     $prompt_count = get_option('webpush_prompt_count');
     $accepted_prompt_count = get_option('webpush_accepted_prompt_count');
-    printf(_n('%s user prompted.', '%s users prompted.', $prompt_count, 'wpwebpush'), number_format_i18n($prompt_count));
+    printf(_n('%s user prompted.', '%s users prompted.', $prompt_count, 'web-push'), number_format_i18n($prompt_count));
     echo '<br>';
-    printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'wpwebpush'), number_format_i18n($accepted_prompt_count));
+    printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'web-push'), number_format_i18n($accepted_prompt_count));
   }
 
   public static function init() {
@@ -50,7 +50,7 @@ class WebPush_Admin {
   }
 
   public function on_admin_menu() {
-    add_options_page(__('Web Push Options', 'wpwebpush'), __('Web Push', 'wpwebpush'), 'manage_options', 'web-push-options', array($this, 'options'));
+    add_options_page(__('Web Push Options', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
   }
 
   public function options() {
@@ -70,7 +70,7 @@ class WebPush_Admin {
       } else if ($_POST['webpush_title'] === 'custom') {
         $title_option = $_POST['webpush_title_custom'];
       } else {
-        wp_die(__('Invalid value for the Notification Title', 'wpwebpush'));
+        wp_die(__('Invalid value for the Notification Title', 'web-push'));
       }
 
       if ($_POST['webpush_icon'] === '') {
@@ -84,13 +84,13 @@ class WebPush_Admin {
           $file_type = wp_check_filetype(basename($_FILES['webpush_icon_custom']['name']));
 
           if (!in_array($file_type['type'], array('image/jpg', 'image/jpeg', 'image/gif', 'image/png'))) {
-            wp_die(__('The notification icon should be an image', 'wpwebpush'));
+            wp_die(__('The notification icon should be an image', 'web-push'));
           }
 
           $file = wp_handle_upload($_FILES['webpush_icon_custom'], array('test_form' => false));
 
           if (isset($file['error'])) {
-            wp_die(sprintf(__('Error in handling upload for the notification icon: %s', 'wpwebpush'), $file['error']));
+            wp_die(sprintf(__('Error in handling upload for the notification icon: %s', 'web-push'), $file['error']));
           }
 
           $attachment = array(
@@ -108,10 +108,10 @@ class WebPush_Admin {
           $icon_option = wp_get_attachment_url($attach_id);
         } else if ($icon_option === 'blog_icon' || $icon_option === '' || $icon_option === 'post_icon') {
           // If it wasn't set to custom and there's no file selected, die.
-          wp_die(__('Invalid value for the Notification Icon', 'wpwebpush'));
+          wp_die(__('Invalid value for the Notification Icon', 'web-push'));
         }
       } else {
-        wp_die(__('Invalid value for the Notification Icon', 'wpwebpush'));
+        wp_die(__('Invalid value for the Notification Icon', 'web-push'));
       }
 
       if ($_POST['webpush_min_visits'] === '0') {
@@ -121,7 +121,7 @@ class WebPush_Admin {
       } else if ($_POST['webpush_min_visits'] === '-1') {
         $min_visits_option = -1;
       } else {
-        wp_die(__('Invalid value for `Registration Behavior`', 'wpwebpush'));
+        wp_die(__('Invalid value for `Registration Behavior`', 'web-push'));
       }
 
       if (isset($_POST['webpush_subscription_button'])) {
@@ -136,7 +136,7 @@ class WebPush_Admin {
         $triggers_option = $_POST['webpush_triggers'];
         foreach($triggers_option as $trigger_option) {
           if(!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
-            wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'wpwebpush'));
+            wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'web-push'));
           }
         }
       }
@@ -164,38 +164,38 @@ class WebPush_Admin {
 ?>
 
 <div class="wrap">
-<h2><?php _e('Web Push', 'wpwebpush'); ?></h2>
+<h2><?php _e('Web Push', 'web-push'); ?></h2>
 
 <form method="post" action="" enctype="multipart/form-data">
 <table class="form-table">
-<h2 class="title"><?php _e('Notification UI Options', 'wpwebpush'); ?></h2>
+<h2 class="title"><?php _e('Notification UI Options', 'web-push'); ?></h2>
 <p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.'); ?></p>
 
 <input type="hidden" name="webpush_form" value="submitted" />
 
 <tr>
-<th scope="row"><?php _e('Title', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Title', 'web-push'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'wpwebpush'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
+<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
 <label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
-<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'wpwebpush'); ?>" class="long-text" />
+<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="long-text" />
 </fieldset>
 </td>
 </tr>
 
 <tr>
-<th scope="row"><?php _e('Icon', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Icon', 'web-push'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'wpwebpush'); ?></label>
+<label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'web-push'); ?></label>
 <br />
-<label><input type="radio" name="webpush_icon" value="post_icon" <?php echo $icon_option === 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Post Thumbnail', 'wpwebpush'); ?></label>
+<label><input type="radio" name="webpush_icon" value="post_icon" <?php echo $icon_option === 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Post Thumbnail', 'web-push'); ?></label>
 <br />
 <?php
   if (function_exists('get_site_icon_url')) {
 ?>
-<label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'wpwebpush'); ?></label>
+<label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'web-push'); ?></label>
 <?php
     $site_icon_url = get_site_icon_url();
     if ($site_icon_url) {
@@ -220,19 +220,19 @@ class WebPush_Admin {
 
 
 <table class="form-table">
-<h2 class="title"><?php _e('Subscription Behavior', 'wpwebpush'); ?></h2>
+<h2 class="title"><?php _e('Subscription Behavior', 'web-push'); ?></h2>
 <p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users (unless you know that your visitors are really interested) and always giving the option to subscribe/unsubscribe through the subscription button.'); ?></p>
 
 <tr>
 <th scope="row"></th>
 <td>
-<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'wpwebpush'); ?></label>
+<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe.')?></p>
 </td>
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'wpwebpush'); ?></label></th>
+<th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'web-push'); ?></label></th>
 <td><input name="webpush_prompt_interval" type="number" value="<?php echo $prompt_interval_option; ?>" class="small-text" />
 <p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
 </td>
@@ -240,23 +240,23 @@ class WebPush_Admin {
 
 
 <tr>
-<th scope="row"><?php _e('Automatic prompting', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Automatic prompting', 'web-push'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site', 'wpwebpush'); ?></label><br />
+<label><input type="radio" name="webpush_min_visits" value="0" <?php echo $min_visits_option === 0 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register as soon as he visits the site', 'web-push'); ?></label><br />
 <label><input type="radio" name="webpush_min_visits" value="custom" <?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? 'checked' : ''; ?> /> <?php _e('Ask the user to register after N visits:'); ?></label>
 <input type="number" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? $min_visits_option : 3; ?>" class="small-text" /><br />
-<label><input type="radio" name="webpush_min_visits" value="-1" <?php echo $min_visits_option === -1 ? 'checked' : ''; ?> /> <?php _e('Never automatically ask the user to register', 'wpwebpush'); ?></label>
+<label><input type="radio" name="webpush_min_visits" value="-1" <?php echo $min_visits_option === -1 ? 'checked' : ''; ?> /> <?php _e('Never automatically ask the user to register', 'web-push'); ?></label>
 </fieldset>
 </td>
 </tr>
 
 <tr>
-<th scope="row"><?php _e('Push Triggers', 'wpwebpush'); ?></th>
+<th scope="row"><?php _e('Push Triggers', 'web-push'); ?></th>
 <td>
 <fieldset>
   <?php foreach($allowed_triggers as $trigger): ?>
-  <label><input type="checkbox" name="webpush_triggers[]" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> /> <?php _e($trigger['text'], 'wpwebpush'); ?></label><br />
+  <label><input type="checkbox" name="webpush_triggers[]" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> /> <?php _e($trigger['text'], 'web-push'); ?></label><br />
   <?php endforeach; ?>
 </fieldset>
 </td>
@@ -265,16 +265,16 @@ class WebPush_Admin {
 
 
 <table class="form-table">
-<a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'wpwebpush'); ?></h2></a>
+<a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'web-push'); ?></h2></a>
 <p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support">here</a>. Once you have the required values, insert them in this section.'); ?></p>
 
 <tr>
-<th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'wpwebpush'); ?></label></th>
+<th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'web-push'); ?></label></th>
 <td><input name="webpush_gcm_key" type="text" value="<?php echo $gcm_key_option; ?>" class="regular-text code" /></td>
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Sender ID', 'wpwebpush'); ?></label></th>
+<th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Sender ID', 'web-push'); ?></label></th>
 <td><input name="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
 </tr>
 </table>

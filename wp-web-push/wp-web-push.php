@@ -7,10 +7,10 @@ Version: 0.0.1
 Author: Mozilla
 Author URI: https://www.mozilla.org/
 License: GPLv2 or later
-Text Domain: wpwebpush
+Text Domain: web-push
 */
 
-load_plugin_textdomain('wpwebpush', false, dirname(plugin_basename(__FILE__)) . '/lang');
+load_plugin_textdomain('web-push', false, dirname(plugin_basename(__FILE__)) . '/lang');
 
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
