@@ -238,14 +238,6 @@ class WebPush_Admin {
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'web-push'); ?></label></th>
-<td><input name="webpush_prompt_interval" type="number" value="<?php echo $prompt_interval_option; ?>" class="small-text" />
-<p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
-</td>
-</tr>
-
-
-<tr>
 <th scope="row"><?php _e('Automatic prompting', 'web-push'); ?></th>
 <td>
 <fieldset>
@@ -254,6 +246,13 @@ class WebPush_Admin {
 <input type="number" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? $min_visits_option : 3; ?>" class="small-text" /><br />
 <label><input type="radio" name="webpush_min_visits" value="-1" <?php echo $min_visits_option === -1 ? 'checked' : ''; ?> /> <?php _e('Never automatically ask the user to register', 'web-push'); ?></label>
 </fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_prompt_interval"><?php _e('Interval between prompts', 'web-push'); ?></label></th>
+<td><input name="webpush_prompt_interval" type="number" value="<?php echo $prompt_interval_option; ?>" class="small-text" />
+<p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
 </td>
 </tr>
 
