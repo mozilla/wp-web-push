@@ -266,7 +266,7 @@ class WebPush_Admin {
 
 <table class="form-table">
 <a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'web-push'); ?></h2></a>
-<p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support">here</a>. Once you have the required values, insert them in this section.'); ?></p>
+<p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04" target="_blank">here</a>. Once you have the required values, insert them in this section.'); ?></p>
 
 <tr>
 <th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'web-push'); ?></label></th>
@@ -274,7 +274,7 @@ class WebPush_Admin {
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Sender ID', 'web-push'); ?></label></th>
+<th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Project Number', 'web-push'); ?></label></th>
 <td><input name="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
 </tr>
 </table>
