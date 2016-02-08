@@ -191,7 +191,7 @@ msgid "GCM API Key"
 msgstr ""
 
 #: wp-web-push-admin.php:279
-msgid "GCM Sender ID"
+msgid "GCM Project Number"
 msgstr ""
 
 #: wp-web-push-admin.php:284

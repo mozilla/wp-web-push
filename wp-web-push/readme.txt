@@ -24,7 +24,7 @@ Configure the plugin in the Settings > Web Push section of your WordPress instal
 1. Download and install the plugin from the WordPress.org plugin directory
 2. Activate the plugin through the "Plugins" menu in WordPress
 
-Follow these additional [steps for setting up GCM (Google Chrome) support](https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support). In the Settings > Web Push section of your WordPress installation are configuration settings for this plugin; there you will find additional information for setting up GCM.
+Follow these additional [steps for setting up GCM (Google Chrome) support](https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04). In the Settings > Web Push section of your WordPress installation are configuration settings for this plugin; there you will find additional information for setting up GCM.
 
 == Frequently Asked Questions ==
 = What browsers support the W3C Push API? =
