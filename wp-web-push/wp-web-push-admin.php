@@ -20,6 +20,12 @@ class WebPush_Admin {
       return;
     }
 
+    if (isset($_POST['webpush_gcm_key']) && !empty(trim($_POST['webpush_gcm_key'])) &&
+        isset($_POST['webpush_gcm_sender_id']) && !empty(trim($_POST['webpush_gcm_sender_id']))) {
+      // No need to show the notice if the admin has just inserted the values.
+      return;
+    }
+
     $options_url = add_query_arg(array('page' => 'web-push-options#gcm'), admin_url('options-general.php'));
     echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'web-push'), $options_url) . '</p></div>';
   }
