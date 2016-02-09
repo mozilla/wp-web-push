@@ -69,8 +69,6 @@ class WebPush_DB {
     update_option('webpush_prompt_interval', 3);
     update_option('webpush_gcm_key', '');
     update_option('webpush_gcm_sender_id', '');
-    update_option('webpush_notification_count', 0);
-    update_option('webpush_opened_notification_count', 0);
     update_option('webpush_prompt_count', 0);
     update_option('webpush_accepted_prompt_count', 0);
 
@@ -102,8 +100,6 @@ class WebPush_DB {
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');
     delete_option('webpush_gcm_sender_id');
-    delete_option('webpush_notification_count');
-    delete_option('webpush_opened_notification_count');
     delete_option('webpush_prompt_count');
     delete_option('webpush_accepted_prompt_count');
     delete_post_meta_by_key('_notifications_sent');
