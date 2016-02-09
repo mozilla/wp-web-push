@@ -35,18 +35,27 @@ class WebPush_Admin {
   }
 
   function dashboard_widget() {
-    $notification_count = get_option('webpush_notification_count');
-    $opened_notification_count = get_option('webpush_opened_notification_count');
-    printf(_n('%s notification sent.', '%s notifications sent.', $notification_count, 'web-push'), number_format_i18n($notification_count));
-    echo '<br>';
-    printf(_n('%s notification clicked.', '%s notifications clicked.', $opened_notification_count, 'web-push'), number_format_i18n($opened_notification_count));
-    echo '<br>';
-
     $prompt_count = get_option('webpush_prompt_count');
     $accepted_prompt_count = get_option('webpush_accepted_prompt_count');
     printf(_n('%s user prompted.', '%s users prompted.', $prompt_count, 'web-push'), number_format_i18n($prompt_count));
     echo '<br>';
     printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'web-push'), number_format_i18n($accepted_prompt_count));
+    echo '<br><br>';
+
+    // Show notification effectiveness for the five most recent posts.
+    $posts = get_posts(array(
+      'numberposts' => 5,
+      'orderby' => 'date',
+      'order' => 'DESC',
+      'post_status' => 'publish',
+    ));
+
+    foreach($posts as $post) {
+      if ($post->_notifications_sent > 0) {
+        printf(__('Post %s: %d opened/%d sent (Effectiveness %d%%)'), $post->post_title, $post->_notifications_clicked, $post->_notifications_sent, round(($post->_notifications_clicked / $post->_notifications_sent) * 100, 1));
+        echo '<br>';
+      }
+    }
   }
 
   public static function init() {
