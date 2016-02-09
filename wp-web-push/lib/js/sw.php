@@ -33,7 +33,7 @@ self.addEventListener('notificationclick', function(event) {
       } else {
         newURL.search += '?';
       }
-      newURL.search += 'webpush_from_notification';
+      newURL.search += 'webpush_from_notification=1';
 
       return self.clients.openWindow(newURL);
     })
