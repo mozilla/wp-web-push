@@ -28,12 +28,12 @@ self.addEventListener('notificationclick', function(event) {
       }
 
       var newURL = new URL(url);
-      if (url.search) {
-        url.search += '&';
+      if (newURL.search) {
+        newURL.search += '&';
       } else {
-        url.search += '?';
+        newURL.search += '?';
       }
-      url.search += 'webpush_from_notification=1';
+      newURL.search += 'webpush_post_id=' + data.postID;
 
       return self.clients.openWindow(newURL);
     })
