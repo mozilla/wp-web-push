@@ -102,13 +102,15 @@ class WebPush_Main {
 
   public static function on_query_vars($qvars) {
     $qvars[] = 'webpush_file';
-    $qvars[] = 'webpush_from_notification';
+    $qvars[] = 'webpush_post_id';
     return $qvars;
   }
 
   public static function on_parse_request($query) {
-    if (array_key_exists('webpush_from_notification', $query->query_vars)) {
-      update_option('webpush_opened_notification_count', get_option('webpush_opened_notification_count') + 1);
+    if (array_key_exists('webpush_post_id', $query->query_vars)) {
+      $post_id = intval($query->query_vars['webpush_post_id']);
+      $notifications_clicked = get_post_meta($post_id, '_notifications_clicked', true);
+      update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
     }
 
     if (!array_key_exists('webpush_file', $query->query_vars)) {
@@ -145,11 +147,12 @@ class WebPush_Main {
       'body' => get_the_title($post->ID),
       'icon' => $icon,
       'url' => get_permalink($post->ID),
+      'postID' => $post->ID,
     ));
 
-    $notification_count = get_option('webpush_notification_count');
-
     $gcmKey = get_option('webpush_gcm_key');
+
+    $notification_count = 0;
 
     $subscriptions = WebPush_DB::get_subscriptions();
     foreach ($subscriptions as $subscription) {
@@ -162,7 +165,8 @@ class WebPush_Main {
       }
     }
 
-    update_option('webpush_notification_count', $notification_count);
+    update_post_meta($post->ID, '_notifications_clicked', 0);
+    update_post_meta($post->ID, '_notifications_sent', $notification_count);
   }
 
   public static function get_trigger_by_key_value($key, $value) {
