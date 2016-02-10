@@ -60,7 +60,7 @@ class WebPush_Main {
 
     wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__));
     wp_localize_script('sw-manager-script', 'ServiceWorker', array(
-      'url' => home_url('/', 'https') . '?webpush_file=worker',
+      'url' => home_url('/', 'relative') . '?webpush_file=worker',
       'register_url' => admin_url('admin-ajax.php'),
       'min_visits' => get_option('webpush_min_visits'),
       'welcome_enabled' => in_array('on-subscription', get_option('webpush_triggers')),
