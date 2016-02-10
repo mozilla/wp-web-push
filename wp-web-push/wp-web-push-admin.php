@@ -5,6 +5,7 @@ class WebPush_Admin {
 
   public function __construct() {
     add_action('admin_menu', array($this, 'on_admin_menu'));
+    add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
     add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'));
     add_action('admin_notices', array($this, 'on_admin_notices'));
   }
@@ -30,6 +31,44 @@ class WebPush_Admin {
     echo '<div class="error"><p>' . sprintf(__('You need to set up the GCM-specific information in order to make push notifications work on Google Chrome. <a href="%s">Do it now</a>.', 'web-push'), $options_url) . '</p></div>';
   }
 
+  function enqueue_scripts($hook) {
+    // Load Chart.js only in the Dashboard.
+    if ($hook != 'index.php') {
+      return;
+    }
+
+    $labels = array();
+    $sent = array();
+    $opened = array();
+
+    $posts = get_posts(array(
+      'numberposts' => 5,
+      'orderby' => 'date',
+      'order' => 'DESC',
+      'post_status' => 'publish',
+    ));
+
+    // Older posts on the left, newer on the right.
+    $posts = array_reverse($posts);
+
+    foreach ($posts as $post) {
+      $labels[] = $post->post_title;
+      $sent[] = intval($post->_notifications_sent);
+      $opened[] = intval($post->_notifications_clicked);
+    }
+
+    wp_enqueue_script('Chart.js-script', plugins_url('lib/js/Chart.min.js' , __FILE__));
+    wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
+    wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
+      'legendSent' => __('Sent notifications', 'web-push'),
+      'legendOpened' => __('Opened notifications', 'web-push'),
+      'labels' => $labels,
+      'sent' => $sent,
+      'opened' => $opened,
+    ));
+    wp_enqueue_script('dashboard-chart-script');
+  }
+
   function add_dashboard_widgets() {
     wp_add_dashboard_widget('wp-web-push_dashboard_widget', __('Web Push', 'web-push'), array($this, 'dashboard_widget'));
   }
@@ -41,21 +80,7 @@ class WebPush_Admin {
     echo '<br>';
     printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'web-push'), number_format_i18n($accepted_prompt_count));
     echo '<br><br>';
-
-    // Show notification effectiveness for the five most recent posts.
-    $posts = get_posts(array(
-      'numberposts' => 5,
-      'orderby' => 'date',
-      'order' => 'DESC',
-      'post_status' => 'publish',
-    ));
-
-    foreach($posts as $post) {
-      if ($post->_notifications_sent > 0) {
-        printf(__('Post %s: %d opened/%d sent (Effectiveness %d%%)'), $post->post_title, $post->_notifications_clicked, $post->_notifications_sent, round(($post->_notifications_clicked / $post->_notifications_sent) * 100, 1));
-        echo '<br>';
-      }
-    }
+    echo '<canvas id="notifications-chart"></canvas>';
   }
 
   public static function init() {
