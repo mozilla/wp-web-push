@@ -12,6 +12,10 @@ reinstall: $(WP_CLI)
 test: $(PHPUNIT)
 	$(PHPUNIT)
 
+generate-pot:
+	php $(WORDPRESS_REPO_PATH)/tools/i18n/makepot.php wp-plugin wp-web-push
+	mv wp-web-push.pot wp-web-push/lang/web-push.pot
+
 tools/wp-cli.phar:
 	mkdir -p tools
 	wget -P tools -N https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
