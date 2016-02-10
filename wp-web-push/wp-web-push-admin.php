@@ -48,7 +48,10 @@ class WebPush_Admin {
       'post_status' => 'publish',
     ));
 
-    foreach($posts as $post) {
+    // Older posts on the left, newer on the right.
+    $posts = array_reverse($posts);
+
+    foreach ($posts as $post) {
       $labels[] = $post->post_title;
       $sent[] = intval($post->_notifications_sent);
       $opened[] = intval($post->_notifications_clicked);
