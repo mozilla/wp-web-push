@@ -60,6 +60,8 @@ class WebPush_Admin {
     wp_enqueue_script('Chart.js-script', plugins_url('lib/js/Chart.min.js' , __FILE__));
     wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
     wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
+      'legendSent' => __('Sent notifications', 'web-push'),
+      'legentOpened' => __('Opened notifications', 'web-push'),
       'labels' => $labels,
       'sent' => $sent,
       'opened' => $opened,

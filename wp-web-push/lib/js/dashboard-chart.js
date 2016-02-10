@@ -2,7 +2,7 @@ var data = {
   labels: webPushChartData.labels,
   datasets: [
   {
-    label: 'Sent notifications',
+    label: webPushChartData.legendSent,
     fillColor: 'rgba(220,220,220,0.5)',
     strokeColor: 'rgba(220,220,220,0.8)',
     highlightFill: 'rgba(220,220,220,0.75)',
@@ -10,7 +10,7 @@ var data = {
     data: webPushChartData.sent,
   },
   {
-    label: 'Opened notifications',
+    label: webPushChartData.legendOpened,
     fillColor: 'rgba(151,187,205,0.5)',
     strokeColor: 'rgba(151,187,205,0.8)',
     highlightFill: 'rgba(151,187,205,0.75)',
