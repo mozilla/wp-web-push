@@ -61,7 +61,7 @@ class WebPush_Admin {
     wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
     wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
       'legendSent' => __('Sent notifications', 'web-push'),
-      'legentOpened' => __('Opened notifications', 'web-push'),
+      'legendOpened' => __('Opened notifications', 'web-push'),
       'labels' => $labels,
       'sent' => $sent,
       'opened' => $opened,
