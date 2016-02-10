@@ -3,7 +3,7 @@
 Plugin Name: Web Push
 Plugin URI: https://github.com/marco-c/wp-web-push
 Description: Web Push notifications for your website.
-Version: 0.0.2
+Version: 0.0.3
 Author: Mozilla
 Author URI: https://www.mozilla.org/
 License: GPLv2 or later
