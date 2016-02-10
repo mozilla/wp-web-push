@@ -20,8 +20,8 @@ class WebPush_Admin {
       return;
     }
 
-    if (isset($_POST['webpush_gcm_key']) && !empty(trim($_POST['webpush_gcm_key'])) &&
-        isset($_POST['webpush_gcm_sender_id']) && !empty(trim($_POST['webpush_gcm_sender_id']))) {
+    if (isset($_POST['webpush_gcm_key']) && trim($_POST['webpush_gcm_key']) &&
+        isset($_POST['webpush_gcm_sender_id']) && trim($_POST['webpush_gcm_sender_id'])) {
       // No need to show the notice if the admin has just inserted the values.
       return;
     }
