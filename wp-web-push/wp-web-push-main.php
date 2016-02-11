@@ -2,7 +2,7 @@
 
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
-require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php');
+require_once(plugin_dir_path(__FILE__) . 'WebAppManifestGenerator.php');
 
 class WebPush_Main {
   private static $instance;
@@ -46,7 +46,7 @@ class WebPush_Main {
   }
 
   public function enqueue_frontend_scripts() {
-    wp_enqueue_script('localforage-script', plugins_url('node_modules/localforage/dist/localforage.min.js', __FILE__));
+    wp_enqueue_script('localforage-script', plugins_url('lib/js/localforage.min.js', __FILE__));
 
     $title_option = get_option('webpush_title');
 

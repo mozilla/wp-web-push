@@ -57,7 +57,7 @@ class WebPush_Admin {
       $opened[] = intval($post->_notifications_clicked);
     }
 
-    wp_enqueue_script('Chart.js-script', plugins_url('node_modules/chart.js/Chart.min.js' , __FILE__));
+    wp_enqueue_script('Chart.js-script', plugins_url('lib/js/Chart.min.js' , __FILE__));
     wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
     wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
       'legendSent' => __('Sent notifications', 'web-push'),
