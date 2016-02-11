@@ -1,4 +1,6 @@
 tools/
 wp-web-push.zip
-wp-web-push/composer.lock
-wp-web-push/vendor/
+composer.lock
+vendor/
+node_modules/
+build/
