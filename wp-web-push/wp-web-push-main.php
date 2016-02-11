@@ -46,7 +46,7 @@ class WebPush_Main {
   }
 
   public function enqueue_frontend_scripts() {
-    wp_enqueue_script('localforage-script', plugins_url('lib/js/localforage.min.js', __FILE__));
+    wp_enqueue_script('localforage-script', plugins_url('node_modules/localforage/dist/localforage.min.js', __FILE__));
 
     $title_option = get_option('webpush_title');
 
