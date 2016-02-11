@@ -1,4 +1,25 @@
 if (navigator.serviceWorker) {
+  // Remove the webpush_post_id query parameter from the URL.
+  (function() {
+    var url = new URL(location.href);
+
+    if (!url.search || url.search.indexOf('webpush_post_id') === -1) {
+      return;
+    }
+
+    var queryVars = url.search.substring(1).split('&').filter(function(queryVar) {
+      return !queryVar.startsWith('webpush_post_id');
+    });
+
+    if (queryVars.length) {
+      url.search = '?' + queryVars.join('&');
+    } else {
+      url.search = '';
+    }
+
+    history.replaceState({}, document.title, url.href);
+  })();
+
   function setSubscriptionTip(tip) {
     if (tip) {
       document.getElementById('webpush-explanatory-bubble').textContent = tip;
