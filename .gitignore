@@ -3,3 +3,4 @@ wp-web-push.zip
 composer.lock
 vendor/
 node_modules/
+build/
