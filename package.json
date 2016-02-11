@@ -1,0 +1,24 @@
+{
+  "name": "wp-web-push",
+  "version": "0.0.3",
+  "description": "Web Push plugin for Wordpress.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marco-c/wp-web-push.git"
+  },
+  "keywords": [
+    "wordpress",
+    "web push"
+  ],
+  "author": "Marco Castelluccio <mcastelluccio@mozilla.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/marco-c/wp-web-push/issues"
+  },
+  "homepage": "https://github.com/marco-c/wp-web-push#readme",
+  "dependencies": {
+    "chart.js": "^1.0.2",
+    "localforage": "^1.4.0"
+  }
+}
