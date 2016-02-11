@@ -3,6 +3,7 @@
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 require_once(plugin_dir_path(__FILE__) . 'WebAppManifestGenerator.php');
+require_once(plugin_dir_path(__FILE__) . 'vendor/mozilla/wp-sw-manager/class-wp-sw-manager.php');
 
 class WebPush_Main {
   private static $instance;
@@ -18,6 +19,8 @@ class WebPush_Main {
     if (get_option('webpush_subscription_button')) {
       add_action('wp_footer', array($this, 'add_subscription_button'), 9999);
     }
+
+    WP_SW_Manager::get_manager()->sw()->add_content(array($this, 'service_worker'));
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
@@ -58,9 +61,9 @@ class WebPush_Main {
       $icon = '';
     }
 
-    wp_register_script('sw-manager-script', plugins_url('lib/js/sw-manager.js', __FILE__));
-    wp_localize_script('sw-manager-script', 'ServiceWorker', array(
-      'url' => home_url('/', 'relative') . '?webpush_file=worker',
+    wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(WP_SW_Manager::SW_REGISTRAR_SCRIPT));
+    wp_localize_script('wp-web-push-script', 'ServiceWorker', array(
+      'sw_id' => WP_SW_Manager::get_manager()->sw_js_id(),
       'register_url' => admin_url('admin-ajax.php'),
       'min_visits' => get_option('webpush_min_visits'),
       'welcome_enabled' => in_array('on-subscription', get_option('webpush_triggers')),
@@ -74,7 +77,7 @@ class WebPush_Main {
       'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.'),
       'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.'),
     ));
-    wp_enqueue_script('sw-manager-script');
+    wp_enqueue_script('wp-web-push-script');
 
     if (get_option('webpush_subscription_button')) {
       wp_enqueue_style('subscription-button-style', plugins_url('lib/style/subscription_button.css', __FILE__));
@@ -101,7 +104,6 @@ class WebPush_Main {
   }
 
   public static function on_query_vars($qvars) {
-    $qvars[] = 'webpush_file';
     $qvars[] = 'webpush_post_id';
     return $qvars;
   }
@@ -112,18 +114,10 @@ class WebPush_Main {
       $notifications_clicked = get_post_meta($post_id, '_notifications_clicked', true);
       update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
     }
+  }
 
-    if (!array_key_exists('webpush_file', $query->query_vars)) {
-      return;
-    }
-
-    $file = $query->query_vars['webpush_file'];
-
-    if ($file === 'worker') {
-      header('Content-Type: application/javascript');
-      require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
-      exit;
-    }
+  public function service_worker() {
+    require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
