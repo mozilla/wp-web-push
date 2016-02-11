@@ -1,5 +1,5 @@
 === Web Push ===
-Contributors: marco-c-1
+Contributors: marco-c-1, mozillawebapps
 Tags: web push, push, notifications, web push notifications, push notifications, desktop notifications, mobile notifications
 Requires at least: 3.5
 Tested up to: 4.4.1
