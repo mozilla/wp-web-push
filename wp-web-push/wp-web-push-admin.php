@@ -2,6 +2,7 @@
 
 class WebPush_Admin {
   private static $instance;
+  private $options_page;
 
   public function __construct() {
     add_action('admin_menu', array($this, 'on_admin_menu'));
@@ -32,41 +33,42 @@ class WebPush_Admin {
   }
 
   function enqueue_scripts($hook) {
-    // Load Chart.js only in the Dashboard.
-    if ($hook != 'index.php') {
-      return;
+    if ($hook === 'index.php') {
+      // Load Chart.js only in the Dashboard.
+
+      $posts = get_posts(array(
+        'numberposts' => 5,
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'post_status' => 'publish',
+      ));
+
+      // Older posts on the left, newer on the right.
+      $posts = array_reverse($posts);
+
+      $labels = array();
+      $sent = array();
+      $opened = array();
+      foreach ($posts as $post) {
+        $labels[] = $post->post_title;
+        $sent[] = intval($post->_notifications_sent);
+        $opened[] = intval($post->_notifications_clicked);
+      }
+
+      wp_enqueue_script('Chart.js-script', plugins_url('lib/js/Chart.min.js' , __FILE__));
+      wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
+      wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
+        'legendSent' => __('Sent notifications', 'web-push'),
+        'legendOpened' => __('Opened notifications', 'web-push'),
+        'labels' => $labels,
+        'sent' => $sent,
+        'opened' => $opened,
+      ));
+      wp_enqueue_script('dashboard-chart-script');
+    } else if ($hook === $this->options_page) {
+      wp_enqueue_media();
+      wp_enqueue_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
     }
-
-    $labels = array();
-    $sent = array();
-    $opened = array();
-
-    $posts = get_posts(array(
-      'numberposts' => 5,
-      'orderby' => 'date',
-      'order' => 'DESC',
-      'post_status' => 'publish',
-    ));
-
-    // Older posts on the left, newer on the right.
-    $posts = array_reverse($posts);
-
-    foreach ($posts as $post) {
-      $labels[] = $post->post_title;
-      $sent[] = intval($post->_notifications_sent);
-      $opened[] = intval($post->_notifications_clicked);
-    }
-
-    wp_enqueue_script('Chart.js-script', plugins_url('lib/js/Chart.min.js' , __FILE__));
-    wp_register_script('dashboard-chart-script', plugins_url('lib/js/dashboard-chart.js', __FILE__), array('Chart.js-script'));
-    wp_localize_script('dashboard-chart-script', 'webPushChartData', array(
-      'legendSent' => __('Sent notifications', 'web-push'),
-      'legendOpened' => __('Opened notifications', 'web-push'),
-      'labels' => $labels,
-      'sent' => $sent,
-      'opened' => $opened,
-    ));
-    wp_enqueue_script('dashboard-chart-script');
   }
 
   function add_dashboard_widgets() {
@@ -90,7 +92,7 @@ class WebPush_Admin {
   }
 
   public function on_admin_menu() {
-    add_options_page(__('Web Push Options', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
+    $this->options_page = add_options_page(__('Web Push Options', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
   }
 
   public function options() {
@@ -120,36 +122,7 @@ class WebPush_Admin {
       } else if ($_POST['webpush_icon'] === 'post_icon') {
         $icon_option = 'post_icon';
       } else if ($_POST['webpush_icon'] === 'custom') {
-        if (isset($_FILES['webpush_icon_custom']) && ($_FILES['webpush_icon_custom']['size'] > 0)) {
-          $file_type = wp_check_filetype(basename($_FILES['webpush_icon_custom']['name']));
-
-          if (!in_array($file_type['type'], array('image/jpg', 'image/jpeg', 'image/gif', 'image/png'))) {
-            wp_die(__('The notification icon should be an image', 'web-push'));
-          }
-
-          $file = wp_handle_upload($_FILES['webpush_icon_custom'], array('test_form' => false));
-
-          if (isset($file['error'])) {
-            wp_die(sprintf(__('Error in handling upload for the notification icon: %s', 'web-push'), $file['error']));
-          }
-
-          $attachment = array(
-            'post_mime_type' => $file_type['type'],
-            'post_title' => preg_replace('/\.[^.]+$/', '', basename($file['file'])),
-            'post_content' => '',
-            'post_status' => 'inherit',
-          );
-
-          $attach_id = wp_insert_attachment($attachment, $file['file']);
-          require_once(ABSPATH . 'wp-admin/includes/image.php');
-          $attach_data = wp_generate_attachment_metadata($attach_id, $file['file']);
-          wp_update_attachment_metadata($attach_id, $attach_data);
-
-          $icon_option = wp_get_attachment_url($attach_id);
-        } else if ($icon_option === 'blog_icon' || $icon_option === '' || $icon_option === 'post_icon') {
-          // If it wasn't set to custom and there's no file selected, die.
-          wp_die(__('Invalid value for the Notification Icon', 'web-push'));
-        }
+        $icon_option = $_POST['webpush_icon_custom'];
       } else {
         wp_die(__('Invalid value for the Notification Icon', 'web-push'));
       }
@@ -201,6 +174,11 @@ class WebPush_Admin {
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
 <?php
     }
+
+    $icon_url = '';
+    if ($icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon') {
+      $icon_url = $icon_option;
+    }
 ?>
 
 <div class="wrap">
@@ -247,12 +225,9 @@ class WebPush_Admin {
   }
 ?>
 <label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
-<?php
-  if ($icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon') {
-    echo '<img src="' . $icon_option . '">';
-  }
-?>
-<input type="file" name="webpush_icon_custom" id="webpush_icon_custom" />
+<img id="webpush_icon_custom_image" style="max-width:128px;max-height:128px;<?php if (!$icon_url) { echo 'display:none;'; } ?>" src="<?php echo $icon_url; ?>">
+<input type="hidden" id="webpush_icon_custom" name="webpush_icon_custom" value="<?php echo $icon_url; ?>" />
+<input type="button" class="button" id="webpush_icon_custom_button" value="Select..."></input>
 </fieldset>
 </td>
 </tr>
