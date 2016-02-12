@@ -17,7 +17,7 @@ window.onload = function() {
       attachment = frame.state().get('selection').first().toJSON();
 
       document.getElementById('webpush_icon_custom').value = attachment.url;
-      var imageEl = document.getElementById("webpush_icon_custom_image");
+      var imageEl = document.getElementById('webpush_icon_custom_image');
       imageEl.src = attachment.url;
       imageEl.style.display = 'inline-block';
     });
