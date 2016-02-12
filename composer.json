@@ -11,9 +11,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/marco-c/wp-web-app-manifest-generator"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/mozilla/wp-sw-manager"
         }
     ],
     "require": {
-        "marco-c/wp-web-app-manifest-generator": "dev-master"
+        "marco-c/wp-web-app-manifest-generator": "dev-master",
+        "mozilla/wp-sw-manager": "dev-master"
     }
 }

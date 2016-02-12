@@ -13,6 +13,9 @@ build:
 	cp node_modules/localforage/dist/localforage.min.js build/lib/js/localforage.min.js
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
 	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/WebAppManifestGenerator.php
+	mkdir -p build/vendor/mozilla/wp-sw-manager
+	cp vendor/mozilla/wp-sw-manager/*.php build/vendor/mozilla/wp-sw-manager
+	cp -r vendor/mozilla/wp-sw-manager/lib build/vendor/mozilla/wp-sw-manager/
 	cd build/ && zip wp-web-push.zip -r *
 	mv build/wp-web-push.zip wp-web-push.zip
 

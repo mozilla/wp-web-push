@@ -183,7 +183,7 @@ if (navigator.serviceWorker) {
 
   onLoad
   .then(function() {
-    return navigator.serviceWorker.register(ServiceWorker.url);
+    return $swRegistrations[ServiceWorker.sw_id];
   })
   .then(function() {
     if (!ServiceWorker.subscription_button) {
