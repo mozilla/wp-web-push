@@ -264,9 +264,15 @@ class WebPush_Admin {
 <p class="description"><?php _e('If the user declines or dismisses the prompt, this is the time interval (in days) to wait before prompting again.')?></p>
 </td>
 </tr>
+</table>
+
+
+<table class="form-table">
+<h2 class="title"><?php _e('Push Triggers', 'web-push'); ?></h2>
+<p><?php _e('Select which events should trigger sending a push notification to users.'); ?></p>
 
 <tr>
-<th scope="row"><?php _e('Push Triggers', 'web-push'); ?></th>
+<th scope="row"></th>
 <td>
 <fieldset>
   <?php foreach($allowed_triggers as $trigger): ?>
