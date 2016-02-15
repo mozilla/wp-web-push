@@ -27,7 +27,7 @@ generate-pot: tools/wordpress-repo
 	mv wp-web-push.pot wp-web-push/lang/web-push.pot
 
 version-changelog:
-	node version-changelog.js
+	./version-changelog.js
 
 release: build version-changelog generate-pot
 
