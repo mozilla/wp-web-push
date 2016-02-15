@@ -22,9 +22,12 @@ build:
 test: $(PHPUNIT) build
 	$(PHPUNIT)
 
-generate-pot:
-	php $(WORDPRESS_REPO_PATH)/tools/i18n/makepot.php wp-plugin wp-web-push
+generate-pot: tools/wordpress-repo
+	php tools/wordpress-repo/tools/i18n/makepot.php wp-plugin wp-web-push
 	mv wp-web-push.pot wp-web-push/lang/web-push.pot
+
+tools/wordpress-repo:
+	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
 
 tools/wp-cli.phar:
 	mkdir -p tools
