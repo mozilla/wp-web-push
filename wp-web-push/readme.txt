@@ -20,6 +20,8 @@ Configure the plugin in the Settings > Web Push section of your WordPress instal
 - When to attempt to register your visitor for push notifications (e.g. after how many visits)
 - Which types of events should trigger push notifications (e.g. new posts, comments, updates to posts)
 
+N.B.: This plugin requires your website to be served via HTTPS. Indeed, for security reasons, browsers enforce the HTTPS policy for the Push API and for Service Workers.
+
 == Installation ==
 1. Download and install the plugin from the WordPress.org plugin directory
 2. Activate the plugin through the "Plugins" menu in WordPress
