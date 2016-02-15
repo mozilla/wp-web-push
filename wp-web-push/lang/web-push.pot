@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Web Push 0.0.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/web-push\n"
-"POT-Creation-Date: 2016-02-10 17:46:25+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-web-push\n"
+"POT-Creation-Date: 2016-02-15 12:41:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,117 +12,109 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: wp-web-push-admin.php:31
+#: wp-web-push-admin.php:32
 msgid ""
 "You need to set up the GCM-specific information in order to make push "
 "notifications work on Google Chrome. <a href=\"%s\">Do it now</a>."
 msgstr ""
 
-#: wp-web-push-admin.php:63
+#: wp-web-push-admin.php:61
 msgid "Sent notifications"
 msgstr ""
 
-#: wp-web-push-admin.php:64
+#: wp-web-push-admin.php:62
 msgid "Opened notifications"
 msgstr ""
 
-#. #-#-#-#-#  wp-web-push.pot (Web Push 0.0.2)  #-#-#-#-#
+#. #-#-#-#-#  wp-web-push.pot (Web Push 0.0.3)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: wp-web-push-admin.php:73 wp-web-push-admin.php:93 wp-web-push-admin.php:207
+#: wp-web-push-admin.php:75 wp-web-push-admin.php:95 wp-web-push-admin.php:185
 msgid "Web Push"
 msgstr ""
 
-#: wp-web-push-admin.php:79
+#: wp-web-push-admin.php:81
 msgid "%s user prompted."
 msgid_plural "%s users prompted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-web-push-admin.php:81
+#: wp-web-push-admin.php:83
 msgid "%s user accepted to receive notifications."
 msgid_plural "%s users accepted to receive notifications."
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-web-push-admin.php:93
+#: wp-web-push-admin.php:95
 msgid "Web Push Options"
 msgstr ""
 
-#: wp-web-push-admin.php:113
+#: wp-web-push-admin.php:115
 msgid "Invalid value for the Notification Title"
 msgstr ""
 
 #: wp-web-push-admin.php:127
-msgid "The notification icon should be an image"
-msgstr ""
-
-#: wp-web-push-admin.php:133
-msgid "Error in handling upload for the notification icon: %s"
-msgstr ""
-
-#: wp-web-push-admin.php:151 wp-web-push-admin.php:154
 msgid "Invalid value for the Notification Icon"
 msgstr ""
 
-#: wp-web-push-admin.php:164
+#: wp-web-push-admin.php:137
 msgid "Invalid value for `Registration Behavior`"
 msgstr ""
 
-#: wp-web-push-admin.php:201
+#: wp-web-push-admin.php:174
 msgid "Settings saved."
 msgstr ""
 
-#: wp-web-push-admin.php:211
+#: wp-web-push-admin.php:189
 msgid "Notification UI Options"
 msgstr ""
 
-#: wp-web-push-admin.php:212
+#: wp-web-push-admin.php:190
 msgid ""
 "In this section, you can customize the information that appears in the "
 "notifications that will be shown to users."
 msgstr ""
 
-#: wp-web-push-admin.php:217
+#: wp-web-push-admin.php:195
 msgid "Title"
 msgstr ""
 
-#: wp-web-push-admin.php:220
+#: wp-web-push-admin.php:198
 msgid "Use the Site Title"
 msgstr ""
 
-#: wp-web-push-admin.php:221
+#: wp-web-push-admin.php:199
 msgid "Custom:"
 msgstr ""
 
-#: wp-web-push-admin.php:222
+#: wp-web-push-admin.php:200
 msgid "Your custom title"
 msgstr ""
 
-#: wp-web-push-admin.php:228
+#: wp-web-push-admin.php:206
 msgid "Icon"
 msgstr ""
 
-#: wp-web-push-admin.php:231
+#: wp-web-push-admin.php:209
 msgid "Don't use any icon"
 msgstr ""
 
-#: wp-web-push-admin.php:233
+#: wp-web-push-admin.php:211
 msgid "Use the Post Thumbnail"
 msgstr ""
 
-#: wp-web-push-admin.php:238
+#: wp-web-push-admin.php:216
 msgid "Use the Site Icon"
 msgstr ""
 
-#: wp-web-push-admin.php:249
+#: wp-web-push-admin.php:227
 msgid "Custom"
 msgstr ""
 
-#: wp-web-push-admin.php:263
+#: wp-web-push-admin.php:238
 msgid "Subscription Behavior"
 msgstr ""
 
-#: wp-web-push-admin.php:264
+#: wp-web-push-admin.php:239
 msgid ""
 "In this section, you can customize the subscription behavior and tailor it "
 "to your site. We suggest limiting automatic prompting to avoid nagging users "
@@ -130,51 +122,56 @@ msgid ""
 "the option to subscribe/unsubscribe through the subscription button."
 msgstr ""
 
-#: wp-web-push-admin.php:269
+#: wp-web-push-admin.php:244
 msgid "Show subscription button"
 msgstr ""
 
-#: wp-web-push-admin.php:270
+#: wp-web-push-admin.php:245
 msgid ""
 "A button in the bottom-right corner of the page that the user can use to "
 "subscribe/unsubscribe."
 msgstr ""
 
-#: wp-web-push-admin.php:275
+#: wp-web-push-admin.php:250
 msgid "Automatic prompting"
 msgstr ""
 
-#: wp-web-push-admin.php:278
+#: wp-web-push-admin.php:253
 msgid "Ask the user to register as soon as he visits the site"
 msgstr ""
 
-#: wp-web-push-admin.php:279
+#: wp-web-push-admin.php:254
 msgid "Ask the user to register after N visits:"
 msgstr ""
 
-#: wp-web-push-admin.php:281
+#: wp-web-push-admin.php:256
 msgid "Never automatically ask the user to register"
 msgstr ""
 
-#: wp-web-push-admin.php:287
+#: wp-web-push-admin.php:262
 msgid "Interval between prompts"
 msgstr ""
 
-#: wp-web-push-admin.php:289
+#: wp-web-push-admin.php:264
 msgid ""
 "If the user declines or dismisses the prompt, this is the time interval (in "
 "days) to wait before prompting again."
 msgstr ""
 
-#: wp-web-push-admin.php:294
+#: wp-web-push-admin.php:271
 msgid "Push Triggers"
 msgstr ""
 
-#: wp-web-push-admin.php:307
+#: wp-web-push-admin.php:272
+msgid ""
+"Select which events should trigger sending a push notification to users."
+msgstr ""
+
+#: wp-web-push-admin.php:288
 msgid "GCM (Google Chrome) Configuration"
 msgstr ""
 
-#: wp-web-push-admin.php:308
+#: wp-web-push-admin.php:289
 msgid ""
 "To set up GCM (Google Chrome) support, you need to follow the steps outlined "
 "<a href=\"https://developers.google.com/web/fundamentals/getting-started/"
@@ -182,35 +179,37 @@ msgid ""
 "required values, insert them in this section."
 msgstr ""
 
-#: wp-web-push-admin.php:311
+#: wp-web-push-admin.php:292
 msgid "GCM API Key"
 msgstr ""
 
-#: wp-web-push-admin.php:316
+#: wp-web-push-admin.php:297
 msgid "GCM Project Number"
 msgstr ""
 
-#: wp-web-push-admin.php:321
+#: wp-web-push-admin.php:302
 msgid "Save Changes"
 msgstr ""
 
-#: wp-web-push-main.php:13
-msgid "New Post"
+#: wp-web-push-main.php:15
+msgid "On the publication of a new post."
 msgstr ""
 
-#: wp-web-push-main.php:14
-msgid "On Subscription"
+#: wp-web-push-main.php:22
+msgid ""
+"Right after subscription (useful to show to users what notifications look "
+"like)."
 msgstr ""
 
-#: wp-web-push-main.php:68
+#: wp-web-push-main.php:81
 msgid "Successfully subscribed to notifications"
 msgstr ""
 
-#: wp-web-push-main.php:74
+#: wp-web-push-main.php:87
 msgid "Welcome! Use this button to subscribe to notifications."
 msgstr ""
 
-#: wp-web-push-main.php:75
+#: wp-web-push-main.php:88
 msgid "You can unsubscribe whenever you want using this button."
 msgstr ""
 
