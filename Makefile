@@ -1,4 +1,4 @@
-.PHONY: reinstall build test
+.PHONY: reinstall build test generate-pot
 
 WP_CLI = tools/wp-cli.phar
 PHPUNIT = tools/phpunit.phar
