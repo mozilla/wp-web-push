@@ -1,4 +1,4 @@
-.PHONY: reinstall build test generate-pot
+.PHONY: reinstall build test generate-pot release version-changelog
 
 WP_CLI = tools/wp-cli.phar
 PHPUNIT = tools/phpunit.phar
@@ -25,6 +25,11 @@ test: $(PHPUNIT) build
 generate-pot: tools/wordpress-repo
 	php tools/wordpress-repo/tools/i18n/makepot.php wp-plugin wp-web-push
 	mv wp-web-push.pot wp-web-push/lang/web-push.pot
+
+version-changelog:
+	node version-changelog.js
+
+release: build version-changelog generate-pot
 
 tools/wordpress-repo:
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
