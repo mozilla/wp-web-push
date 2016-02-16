@@ -145,17 +145,11 @@ class WebPush_Admin {
 
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
 
-      if(isset($_POST['webpush_triggers'])) {
-        $triggers_option = $_POST['webpush_triggers'];
-        foreach($triggers_option as $trigger_option) {
-          if(!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
-            wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'web-push'));
-          }
+      $triggers_option = isset($_POST['webpush_triggers']) ? $_POST['webpush_triggers'] : array();
+      foreach($triggers_option as $trigger_option) {
+        if (!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
+          wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'web-push'));
         }
-      }
-      else {
-        // If it's not set it means they've removed all options
-        $triggers_option = array();
       }
 
       $gcm_key_option = $_POST['webpush_gcm_key'];
