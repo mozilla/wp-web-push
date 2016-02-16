@@ -25,14 +25,10 @@ build: $(COMPOSER)
 test: $(PHPUNIT) build
 	$(PHPUNIT)
 
-generate-pot: tools/wordpress-repo
-	php tools/wordpress-repo/tools/i18n/makepot.php wp-plugin wp-web-push
-	mv wp-web-push.pot wp-web-push/lang/web-push.pot
-
 version-changelog:
 	./version-changelog.js
 
-release: build version-changelog generate-pot
+release: build tools/wordpress-repo version-changelog
 
 tools/wordpress-repo:
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
