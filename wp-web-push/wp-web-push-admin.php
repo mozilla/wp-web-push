@@ -11,10 +11,20 @@ class WebPush_Admin {
     add_action('admin_notices', array($this, 'on_admin_notices'));
   }
 
+  function isSSL() {
+    return is_ssl() ||
+           (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ||
+           (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on');
+  }
+
   function on_admin_notices() {
     if (!current_user_can('manage_options')) {
-      // There's no point in showing the notice to users that can't modify the options.
+      // There's no point in showing notices to users that can't modify the options.
       return;
+    }
+
+    if (!is_ssl()) {
+      echo '<div class="error"><p>' . __('You need to serve your website via HTTPS to make the Web Push plugin work.', 'web-push') . '</p></div>';
     }
 
     if (get_option('webpush_gcm_key') && get_option('webpush_gcm_sender_id')) {
