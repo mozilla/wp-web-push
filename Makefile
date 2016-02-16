@@ -2,6 +2,7 @@
 
 WP_CLI = tools/wp-cli.phar
 PHPUNIT = tools/phpunit.phar
+COMPOSER = tools/composer.phar
 
 reinstall: $(WP_CLI) build
 	$(WP_CLI) plugin uninstall --deactivate wp-web-push --path=$(WORDPRESS_PATH)
@@ -33,6 +34,11 @@ release: build version-changelog generate-pot
 
 tools/wordpress-repo:
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
+
+tools/composer.phar:
+	mkdir -p tools
+	wget -P tools -N https://getcomposer.org/composer.phar
+	chmod +x $(COMPOSER)
 
 tools/wp-cli.phar:
 	mkdir -p tools
