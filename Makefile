@@ -8,7 +8,9 @@ reinstall: $(WP_CLI) build
 	$(WP_CLI) plugin uninstall --deactivate wp-web-push --path=$(WORDPRESS_PATH)
 	$(WP_CLI) plugin install --activate wp-web-push.zip --path=$(WORDPRESS_PATH)
 
-build:
+build: $(COMPOSER)
+	npm install
+	$(COMPOSER) install
 	rm -rf build wp-web-push.zip
 	cp -r wp-web-push/ build/
 	cp node_modules/localforage/dist/localforage.min.js build/lib/js/localforage.min.js
@@ -35,19 +37,19 @@ release: build version-changelog generate-pot
 tools/wordpress-repo:
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
 
-tools/composer.phar:
+$(COMPOSER):
 	mkdir -p tools
 	wget -P tools -N https://getcomposer.org/composer.phar
 	chmod +x $(COMPOSER)
 
-tools/wp-cli.phar:
+$(WP_CLI):
 	mkdir -p tools
 	wget -P tools -N https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 	chmod +x $(WP_CLI)
 
-tools/phpunit.phar:
+$(PHPUNIT):
 	mkdir -p tools
 	wget -P tools -N https://phar.phpunit.de/phpunit-old.phar
-	mv tools/phpunit-old.phar tools/phpunit.phar
+	mv tools/phpunit-old.phar $(PHPUNIT)
 	chmod +x $(PHPUNIT)
 
