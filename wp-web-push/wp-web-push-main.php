@@ -12,23 +12,24 @@ class WebPush_Main {
   public function __construct() {
     self::$ALLOWED_TRIGGERS = array(
       array(
-        'text' => __('When a new post is published.', 'web-push'),
+        'text' => __('When a post is published.', 'web-push'),
         'key' => 'new-post',
         'enable_by_default' => true,
         'hook' => 'transition_post_status',
-        'action' => 'on_transition_post_status'
+        'action' => 'on_transition_post_status',
       ),
       array(
         'text' => __('When a post is updated.', 'web-push'),
         'key' => 'update-post',
+        'parentKey' => 'new-post',
         'enable_by_default' => true,
         'hook' => 'transition_post_status',
-        'action' => 'on_transition_post_status'
+        'action' => 'on_transition_post_status',
       ),
       array(
         'text' => __('Right after subscription (useful to show to users what notifications look like).', 'web-push'),
         'key' => 'on-subscription',
-        'enable_by_default' => true
+        'enable_by_default' => true,
       ),
     );
     self::add_trigger_handlers();

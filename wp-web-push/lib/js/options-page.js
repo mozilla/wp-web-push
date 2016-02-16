@@ -24,4 +24,26 @@ window.onload = function() {
 
     frame.open();
   });
+
+  function linkToParent(triggerElem, parentElem) {
+    parentElem.addEventListener('change', function(event) {
+      if (!parentElem.checked) {
+        triggerElem.checked = false;
+      }
+    });
+
+    triggerElem.addEventListener('change', function(event) {
+      if (triggerElem.checked) {
+        parentElem.checked = true;
+      }
+    });
+  }
+
+  var triggerElems = document.getElementsByName('webpush_triggers[]');
+  for (var i = 0; i < triggerElems.length; i++) {
+    var parent = triggerElems[i].getAttribute('parent');
+    if (parent) {
+      linkToParent(triggerElems[i], document.getElementById('webpush_trigger_' + parent));
+    }
+  }
 };
