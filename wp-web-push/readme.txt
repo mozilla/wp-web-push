@@ -39,6 +39,10 @@ That depends on the browser! Each browser will display your notifications somewh
 The plugin is configurable; it is possible to modify when a visitor is prompted to accept push notifications (e.g. on the third visit to the site). Additionally, browsers may decide to suppress this notification, for example, if a user at one point selected a "never ask me again" response.
 
 == Changelog ==
+= 0.0.4 =
+* Improved admin interface
+* Support coexistance with other plugins using Service Workers
+
 = 0.0.3 =
 * Show graph for notification statistics in the WordPress Dashboard.
 
