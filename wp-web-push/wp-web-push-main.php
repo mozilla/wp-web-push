@@ -12,8 +12,15 @@ class WebPush_Main {
   public function __construct() {
     self::$ALLOWED_TRIGGERS = array(
       array(
-        'text' => __('On the publication of a new post.', 'web-push'),
+        'text' => __('When a new post is published.', 'web-push'),
         'key' => 'new-post',
+        'enable_by_default' => true,
+        'hook' => 'transition_post_status',
+        'action' => 'on_transition_post_status'
+      ),
+      array(
+        'text' => __('When a post is updated.', 'web-push'),
+        'key' => 'update-post',
         'enable_by_default' => true,
         'hook' => 'transition_post_status',
         'action' => 'on_transition_post_status'
@@ -131,8 +138,12 @@ class WebPush_Main {
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
-    if (empty($post) || $new_status !== 'publish' ||
-        !in_array('new-post', get_option('webpush_triggers'))) {
+    if (empty($post) or get_post_type($post) !== 'post' or $new_status !== 'publish') {
+      return;
+    }
+
+    if (!in_array('update-post', get_option('webpush_triggers')) and
+        ($old_status === 'publish' or !in_array('new-post', get_option('webpush_triggers')))) {
       return;
     }
 
@@ -195,13 +206,18 @@ class WebPush_Main {
 
   public function add_trigger_handlers() {
     $enabled_triggers = get_option('webpush_triggers');
-    if(!$enabled_triggers) {
-      $enabled_triggers = array();
+    if (!$enabled_triggers) {
+      return;
     }
-    foreach($enabled_triggers as $trigger) {
+
+    $registered_hooks = array();
+
+    foreach ($enabled_triggers as $trigger) {
       $trigger_detail = self::get_trigger_by_key_value('key', $trigger);
 
-      if ($trigger_detail and array_key_exists('hook', $trigger_detail)) {
+      if ($trigger_detail and array_key_exists('hook', $trigger_detail) and
+          !in_array($trigger_detail['hook'], $registered_hooks)) {
+        $registered_hooks[] = $trigger_detail['hook'];
         add_action($trigger_detail['hook'], array($this, $trigger_detail['action']), 10, 3);
       }
     }
