@@ -38,6 +38,10 @@ That depends on the browser! Each browser will display your notifications somewh
 = When / how often will visitors be asked about accepting push notifications? =
 The plugin is configurable; it is possible to modify when a visitor is prompted to accept push notifications (e.g. on the third visit to the site). Additionally, browsers may decide to suppress this notification, for example, if a user at one point selected a "never ask me again" response.
 
+== Screenshots ==
+1. Firefox prompt dialog on Mac.
+2. Firefox notification on Mac.
+
 == Changelog ==
 = 0.0.4 =
 * Improved admin interface
