@@ -19,7 +19,8 @@
 }
 
 #webpush-explanatory-bubble {
-  display: none;
+  transition: opacity 1s;
+  opacity: 0;
   background-color: navy;
   color: white;
   border-radius: 5px;
