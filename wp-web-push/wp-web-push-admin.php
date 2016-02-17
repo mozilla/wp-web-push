@@ -75,6 +75,7 @@ class WebPush_Admin {
         'opened' => $opened,
       ));
       wp_enqueue_script('dashboard-chart-script');
+      wp_enqueue_style('webpush-dashboard-theme', plugins_url('lib/style/dashboard.css', __FILE__));
     } else if ($hook === $this->options_page) {
       wp_enqueue_media();
       wp_enqueue_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
