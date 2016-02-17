@@ -22,6 +22,8 @@ window.onload = function() {
   };
 
   var options = {
+    responsive: true,
+    maintainAspectRatio: false,
     multiTooltipTemplate: '<%= datasetLabel %> - <%= value %>',
     scaleBeginAtZero: true,
     scaleShowGridLines: true,

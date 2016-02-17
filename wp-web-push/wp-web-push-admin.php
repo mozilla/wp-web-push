@@ -92,7 +92,7 @@ class WebPush_Admin {
     echo '<br>';
     printf(_n('%s user accepted to receive notifications.', '%s users accepted to receive notifications.', $accepted_prompt_count, 'web-push'), number_format_i18n($accepted_prompt_count));
     echo '<br><br>';
-    echo '<canvas id="notifications-chart"></canvas>';
+    echo '<div style="min-height:200px;"><canvas id="notifications-chart"></canvas></div>';
   }
 
   public static function init() {
