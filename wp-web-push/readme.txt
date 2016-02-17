@@ -12,7 +12,7 @@ Send push notifications to your visitors! Uses the W3C Push API.
 == Description ==
 This plugin uses the [W3C Push API](https://www.w3.org/TR/push-api/) to allow you to send push notifications to anyone who visits your site and signs up for notifications.
 
-Once you've installed and configured this plugin, anyone visiting your site/app in [browsers that support the W3C Push API](http://caniuse.com/#feat=push-api) will be asked whether he/she wants to receive notifications from your site. You will immediately be able to send push notifications to anyone who consents.
+Once you've installed and configured this plugin, anyone visiting your site/app in [browsers that support the W3C Push API](http://caniuse.com/#feat=push-api) (Firefox and Chrome, at the time of writing) will be asked whether he/she wants to receive notifications from your site. You will immediately be able to send push notifications to anyone who consents.
 
 Configure the plugin in the Settings > Web Push section of your WordPress installation. Here you can set various pieces of configuration, including:
 
