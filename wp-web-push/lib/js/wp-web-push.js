@@ -21,11 +21,15 @@ if (navigator.serviceWorker) {
   })();
 
   function setSubscriptionTip(tip) {
+    var tooltipElement = document.getElementById('webpush-explanatory-bubble');
     if (tip) {
-      document.getElementById('webpush-explanatory-bubble').textContent = tip;
-      document.getElementById('webpush-explanatory-bubble').style.display = 'block';
+      tooltipElement.textContent = tip;
+      tooltipElement.style.opacity = 1;
+      setTimeout(function() {
+        tooltipElement.style.opacity = 0;
+      }, 2000);
     } else {
-      document.getElementById('webpush-explanatory-bubble').style.display = 'none';
+      tooltipElement.style.opacity = 0;
     }
   }
 
