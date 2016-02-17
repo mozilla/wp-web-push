@@ -290,8 +290,8 @@ class WebPush_Admin {
 
 
 <table class="form-table">
-<a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('GCM (Google Chrome) Configuration', 'web-push'); ?></h2></a>
-<p><?php _e('To set up GCM (Google Chrome) support, you need to follow the steps outlined <a href="https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04" target="_blank">here</a>. Once you have the required values, insert them in this section.'); ?></p>
+<a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('Google Chrome Support', 'web-push'); ?></h2></a>
+<p><?php _e('To configure Google Chrome support, follow the steps in <a href="https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04" target="_blank">Make a project on the Google Developer Console</a> to configure Google Cloud Messaging (GCM), then copy the <i>GCM API Key</i> and <i>Project Number</i> into the fields below.'); ?></p>
 
 <tr>
 <th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'web-push'); ?></label></th>
