@@ -45,8 +45,8 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 
 == Changelog ==
 = 0.0.4 =
-* Improved admin interface
-* Support coexistance with other plugins using Service Workers
+* Improved admin interface.
+* Support coexistance with other plugins using Service Workers.
 
 = 0.0.3 =
 * Show graph for notification statistics in the WordPress Dashboard.
