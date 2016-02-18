@@ -5,6 +5,7 @@ class WebPush_DB {
   private $version = '0.0.1';
 
   public function __construct() {
+    add_action('plugins_loaded', array($this, 'update_check'));
   }
 
   public static function getInstance() {
@@ -39,7 +40,7 @@ class WebPush_DB {
     return $wpdb->get_results('SELECT `endpoint`,`userKey` FROM ' . $table_name);
   }
 
-  public static function on_activate() {
+  public function update_check() {
     global $wpdb;
 
     if (WebPush_DB::getInstance()->version === get_option('webpush_db_version')) {
@@ -79,6 +80,9 @@ class WebPush_DB {
     }
 
     update_option('webpush_triggers', $default_triggers_keys);
+  }
+
+  public static function on_activate() {
   }
 
   public static function on_deactivate() {
