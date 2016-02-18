@@ -17,6 +17,8 @@ class WebPush_Admin {
   }
 
   function meta_box($post) {
+    wp_nonce_field('webpush_send_notification', 'webpush_meta_box_nonce');
+
     echo '<label><input name="webpush_send_notification" type="checkbox" ';
     if (in_array('update-post', get_option('webpush_triggers')) or
         ($post->post_status !== 'publish' and in_array('new-post', get_option('webpush_triggers')))) {
