@@ -46,6 +46,9 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 5. Statistics in the dashboard.
 
 == Changelog ==
+= 0.0.7 =
+* Improved update process.
+
 = 0.0.5 =
 * Add meta box to choose whether to send notifications or not for each post.
 * Improve statistics interface.

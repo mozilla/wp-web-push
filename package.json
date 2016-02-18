@@ -1,6 +1,6 @@
 {
   "name": "wp-web-push",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Web Push plugin for Wordpress.",
   "private": true,
   "repository": {
