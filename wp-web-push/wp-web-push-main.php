@@ -143,7 +143,7 @@ class WebPush_Main {
       return;
     }
 
-    if (!wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
+    if (!isset($_REQUEST['webpush_meta_box_nonce']) or !wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
       return;
     }
 
