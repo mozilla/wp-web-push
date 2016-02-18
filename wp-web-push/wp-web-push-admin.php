@@ -258,7 +258,8 @@ class WebPush_Admin {
 <tr>
 <th scope="row"></th>
 <td>
-<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription button', 'web-push'); ?></label>
+<img src="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" style="max-width:64px;max-height:64px;"><br>
+<label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe.')?></p>
 </td>
 </tr>
