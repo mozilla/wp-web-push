@@ -41,6 +41,7 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 == Screenshots ==
 1. Firefox prompt dialog on Mac.
 2. Firefox notification on Mac.
+3. Chrome prompt dialog on Android.
 
 == Changelog ==
 = 0.0.4 =
