@@ -45,6 +45,12 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 4. Chrome notification on the Android lockscreen.
 
 == Changelog ==
+= 0.0.5 =
+* Add meta box to choose whether to send notifications or not for each post.
+* Improve statistics interface.
+* Warn if the plugin is used without SSL.
+* Make the plugin work when WordPress is behind a SSL proxy.
+
 = 0.0.4 =
 * Improved admin interface.
 * Support coexistance with other plugins using Service Workers.
