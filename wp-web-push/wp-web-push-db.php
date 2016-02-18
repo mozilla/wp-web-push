@@ -5,6 +5,7 @@ class WebPush_DB {
   private $version = '0.0.1';
 
   public function __construct() {
+    add_action('plugins_loaded', array($this, 'update_check'));
   }
 
   public static function getInstance() {
@@ -39,7 +40,7 @@ class WebPush_DB {
     return $wpdb->get_results('SELECT `endpoint`,`userKey` FROM ' . $table_name);
   }
 
-  public static function on_activate() {
+  public function update_check() {
     global $wpdb;
 
     if (WebPush_DB::getInstance()->version === get_option('webpush_db_version')) {
@@ -62,23 +63,26 @@ class WebPush_DB {
     update_option('webpush_db_version', WebPush_DB::getInstance()->version);
 
     // Set default options.
-    update_option('webpush_title', 'blog_title');
-    update_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
-    update_option('webpush_min_visits', 3);
-    update_option('webpush_subscription_button', true);
-    update_option('webpush_prompt_interval', 3);
-    update_option('webpush_gcm_key', '');
-    update_option('webpush_gcm_sender_id', '');
-    update_option('webpush_prompt_count', 0);
-    update_option('webpush_accepted_prompt_count', 0);
+    add_option('webpush_title', 'blog_title');
+    add_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
+    add_option('webpush_min_visits', 3);
+    add_option('webpush_subscription_button', true);
+    add_option('webpush_prompt_interval', 3);
+    add_option('webpush_gcm_key', '');
+    add_option('webpush_gcm_sender_id', '');
+    add_option('webpush_prompt_count', 0);
+    add_option('webpush_accepted_prompt_count', 0);
 
     $default_triggers = WebPush_Main::get_triggers_by_key_value('enable_by_default', true);
     $default_triggers_keys = array();
-    foreach($default_triggers as $trigger) {
+    foreach ($default_triggers as $trigger) {
       $default_triggers_keys[] = $trigger['key'];
     }
 
-    update_option('webpush_triggers', $default_triggers_keys);
+    add_option('webpush_triggers', $default_triggers_keys);
+  }
+
+  public static function on_activate() {
   }
 
   public static function on_deactivate() {
