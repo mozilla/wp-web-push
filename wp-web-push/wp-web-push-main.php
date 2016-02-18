@@ -143,8 +143,7 @@ class WebPush_Main {
       return;
     }
 
-    if (!in_array('update-post', get_option('webpush_triggers')) and
-        ($old_status === 'publish' or !in_array('new-post', get_option('webpush_triggers')))) {
+    if (!isset($_REQUEST['webpush_send_notification'])) {
       return;
     }
 
