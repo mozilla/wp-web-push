@@ -164,11 +164,7 @@ class WebPush_Admin {
         wp_die(__('Invalid value for `Registration Behavior`', 'web-push'));
       }
 
-      if (isset($_POST['webpush_subscription_button'])) {
-        $subscription_button_option = true;
-      } else {
-        $subscription_button_option = false;
-      }
+      $subscription_button_option = isset($_POST['webpush_subscription_button']) ? true : false;
 
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
 
