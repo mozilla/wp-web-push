@@ -43,6 +43,7 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 2. Firefox notification on Mac.
 3. Chrome prompt dialog on Android.
 4. Chrome notification on the Android lockscreen.
+5. Statistics in the dashboard.
 
 == Changelog ==
 = 0.0.5 =
