@@ -9,6 +9,22 @@ class WebPush_Admin {
     add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
     add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'));
     add_action('admin_notices', array($this, 'on_admin_notices'));
+    add_action('add_meta_boxes', array($this, 'on_add_meta_boxes'));
+  }
+
+  function on_add_meta_boxes() {
+    add_meta_box('webpush_send_notification', __('Web Push', 'web-push'), array($this, 'meta_box'), 'post', 'side');
+  }
+
+  function meta_box($post) {
+    wp_nonce_field('webpush_send_notification', 'webpush_meta_box_nonce');
+
+    echo '<label><input name="webpush_send_notification" type="checkbox" ';
+    if (in_array('update-post', get_option('webpush_triggers')) or
+        ($post->post_status !== 'publish' and in_array('new-post', get_option('webpush_triggers')))) {
+      echo 'checked ';
+    }
+    echo '/>' . __('Send push notification', 'web-push') . '</label>';
   }
 
   function isSSL() {
