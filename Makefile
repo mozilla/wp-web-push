@@ -28,7 +28,7 @@ test: $(PHPUNIT) build
 version-changelog:
 	./version-changelog.js
 
-release: build tools/wordpress-repo version-changelog
+release: build tools/wordpress-repo version-changelog build
 
 tools/wordpress-repo:
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
