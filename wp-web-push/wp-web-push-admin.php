@@ -258,7 +258,6 @@ class WebPush_Admin {
   }
 ?>
 <label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
-<img id="webpush_icon_custom_image" style="max-width:128px;max-height:128px;<?php if (!$icon_url) { echo 'display:none;'; } ?>" src="<?php echo $icon_url; ?>">
 <input type="hidden" id="webpush_icon_custom" name="webpush_icon_custom" value="<?php echo $icon_url; ?>" />
 <input type="button" class="button" id="webpush_icon_custom_button" value="Select..."></input>
 </fieldset>

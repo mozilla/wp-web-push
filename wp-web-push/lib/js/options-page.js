@@ -20,9 +20,6 @@ window.onload = function() {
       webPushOptions.custom_icon = attachment.url;
 
       document.getElementById('webpush_icon_custom').value = attachment.url;
-      var imageEl = document.getElementById('webpush_icon_custom_image');
-      imageEl.src = attachment.url;
-      imageEl.style.display = 'inline-block';
 
       updateIcon();
     });
