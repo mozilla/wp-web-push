@@ -95,7 +95,7 @@ window.onload = function() {
     } else {
       notificationIcon.src = url || '';
       notificationIcon.style.display = 'block';
-      notificationText.style.setProperty('margin-left', '100px');
+      notificationText.style.setProperty('margin-left', '80px');
     }
   }
 
