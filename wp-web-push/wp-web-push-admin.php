@@ -94,11 +94,20 @@ class WebPush_Admin {
       wp_enqueue_style('webpush-dashboard-theme', plugins_url('lib/style/dashboard.css', __FILE__));
     } else if ($hook === $this->options_page) {
       wp_enqueue_media();
+
+      $icon_option = get_option('webpush_icon');
+      $custom_icon_url = '';
+      if (isset($_POST['webpush_icon']) && $_POST['webpush_icon'] === 'custom') {
+        $custom_icon_url = $_POST['webpush_icon_custom'];
+      } else if ($icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon') {
+        $custom_icon_url = $icon_option;
+      }
+
       wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
       wp_localize_script('options-page-script', 'webPushOptions', array(
         'blog_title' => get_bloginfo('name'),
         'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
-        'custom_icon' => (isset($_POST['webpush_icon']) && $_POST['webpush_icon'] === 'custom') ? $_POST['webpush_icon_custom'] : get_option('webpush_icon'),
+        'custom_icon' => $custom_icon_url,
         'post_icon_placeholder' => plugins_url('lib/placeholder.png', __FILE__),
       ));
       wp_enqueue_script('options-page-script');
