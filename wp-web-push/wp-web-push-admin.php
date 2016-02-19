@@ -216,7 +216,7 @@ class WebPush_Admin {
 <div style="border: 1px solid darkgrey; overflow: auto; display: inline-block; background-color: lightgrey;">
 <h3 id="notification-title" style="margin-left: 10px;">Post title</h3>
 <div style="float: left; margin-left: 10px; margin-bottom:10px;"><img id="notification-icon" src="https://dummyimage.com/64x64/f0f/fff" style="display: block; max-width: 64px; max-height: 64px;"></div>
-<div id="notification-text" style="margin-left: 80px; padding-right: 50px;"><p>Content of the notification.</p></div>
+<div id="notification-text" style="margin-left: 90px; padding-right: 50px;"><p>The title of your post.</p></div>
 </div>
 
 <input type="hidden" name="webpush_form" value="submitted" />
