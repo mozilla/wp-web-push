@@ -169,7 +169,7 @@ class WebPush_Admin {
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
 
       $triggers_option = isset($_POST['webpush_triggers']) ? $_POST['webpush_triggers'] : array();
-      foreach($triggers_option as $trigger_option) {
+      foreach ($triggers_option as $trigger_option) {
         if (!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
           wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'web-push'));
         }
@@ -293,7 +293,7 @@ class WebPush_Admin {
 <th scope="row"></th>
 <td>
 <fieldset>
-  <?php foreach($allowed_triggers as $trigger): ?>
+  <?php foreach ($allowed_triggers as $trigger): ?>
   <label><input type="checkbox" name="webpush_triggers[]" id="webpush_trigger_<?php echo $trigger['key']; ?>" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> <?php if (array_key_exists('parentKey', $trigger)) { echo 'parent="' . esc_attr($trigger['parentKey']) . '"'; } ?> /> <?php _e($trigger['text'], 'web-push'); ?></label><br />
   <?php endforeach; ?>
 </fieldset>
