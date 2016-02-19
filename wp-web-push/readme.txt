@@ -46,6 +46,9 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 5. Statistics in the dashboard.
 
 == Changelog ==
+= 0.0.8 =
+* Fixed an update bug.
+
 = 0.0.7 =
 * Improved update process.
 
