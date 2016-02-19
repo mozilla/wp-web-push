@@ -99,6 +99,7 @@ class WebPush_Admin {
         'blog_title' => get_bloginfo('name'),
         'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
         'custom_icon' => (isset($_POST['webpush_icon']) && $_POST['webpush_icon'] === 'custom') ? $_POST['webpush_icon_custom'] : get_option('webpush_icon'),
+        'post_icon_placeholder' => plugins_url('lib/placeholder.png', __FILE__),
       ));
       wp_enqueue_script('options-page-script');
     }

@@ -109,8 +109,7 @@ window.onload = function() {
             break;
 
           case 'post_icon':
-            // TODO: Use a placeholder.
-            setIcon('');
+            setIcon(webPushOptions.post_icon_placeholder);
             break;
 
           case 'blog_icon':
