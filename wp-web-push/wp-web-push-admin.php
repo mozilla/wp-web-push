@@ -220,7 +220,7 @@ class WebPush_Admin {
 <form method="post" action="" enctype="multipart/form-data">
 <table class="form-table">
 <h2 class="title"><?php _e('Notification UI Options', 'web-push'); ?></h2>
-<p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.'); ?></p>
+<p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.<br> Here\'s a preview of the notification:'); ?></p>
 
 <div style="border: 1px solid darkgrey; overflow: auto; display: inline-block; background-color: lightgrey;">
 <h3 id="notification-title" style="margin-left: 10px;"></h3>
