@@ -94,7 +94,23 @@ class WebPush_Admin {
       wp_enqueue_style('webpush-dashboard-theme', plugins_url('lib/style/dashboard.css', __FILE__));
     } else if ($hook === $this->options_page) {
       wp_enqueue_media();
-      wp_enqueue_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
+
+      $icon_option = get_option('webpush_icon');
+      $custom_icon_url = '';
+      if (isset($_POST['webpush_icon']) && $_POST['webpush_icon'] === 'custom') {
+        $custom_icon_url = $_POST['webpush_icon_custom'];
+      } else if ($icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon') {
+        $custom_icon_url = $icon_option;
+      }
+
+      wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
+      wp_localize_script('options-page-script', 'webPushOptions', array(
+        'blog_title' => get_bloginfo('name'),
+        'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
+        'custom_icon' => $custom_icon_url,
+        'post_icon_placeholder' => plugins_url('lib/placeholder.png', __FILE__),
+      ));
+      wp_enqueue_script('options-page-script');
     }
   }
 
@@ -206,15 +222,21 @@ class WebPush_Admin {
 <h2 class="title"><?php _e('Notification UI Options', 'web-push'); ?></h2>
 <p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.'); ?></p>
 
+<div style="border: 1px solid darkgrey; overflow: auto; display: inline-block; background-color: lightgrey;">
+<h3 id="notification-title" style="margin-left: 10px;"></h3>
+<div style="float: left; margin-left: 10px; margin-bottom:10px;"><img id="notification-icon" src="https://dummyimage.com/64x64/f0f/fff" style="display: block; max-width: 64px; max-height: 64px;"></div>
+<div id="notification-text" style="margin-left: 90px; padding-right: 50px;"><p><?php _e('The title of your post.', 'web-push'); ?></p></div>
+</div>
+
 <input type="hidden" name="webpush_form" value="submitted" />
 
 <tr>
 <th scope="row"><?php _e('Title', 'web-push'); ?></th>
 <td>
 <fieldset>
-<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?>: <b><?php echo get_bloginfo('name'); ?></b></label><br />
+<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?></label><br />
 <label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
-<input type="text" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="long-text" />
+<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="long-text" />
 </fieldset>
 </td>
 </tr>
@@ -231,18 +253,11 @@ class WebPush_Admin {
   if (function_exists('get_site_icon_url')) {
 ?>
 <label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'web-push'); ?></label>
-<?php
-    $site_icon_url = get_site_icon_url();
-    if ($site_icon_url) {
-      echo '<img src="' . $site_icon_url . '">';
-    }
-?>
 <br />
 <?php
   }
 ?>
 <label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
-<img id="webpush_icon_custom_image" style="max-width:128px;max-height:128px;<?php if (!$icon_url) { echo 'display:none;'; } ?>" src="<?php echo $icon_url; ?>">
 <input type="hidden" id="webpush_icon_custom" name="webpush_icon_custom" value="<?php echo $icon_url; ?>" />
 <input type="button" class="button" id="webpush_icon_custom_button" value="Select..."></input>
 </fieldset>
