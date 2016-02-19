@@ -253,12 +253,6 @@ class WebPush_Admin {
   if (function_exists('get_site_icon_url')) {
 ?>
 <label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'web-push'); ?></label>
-<?php
-    $site_icon_url = get_site_icon_url();
-    if ($site_icon_url) {
-      echo '<img src="' . $site_icon_url . '">';
-    }
-?>
 <br />
 <?php
   }
