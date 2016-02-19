@@ -8,12 +8,10 @@ class WebPush_DB {
     add_action('plugins_loaded', array($this, 'update_check'));
   }
 
-  public static function getInstance() {
+  public static function init() {
     if (!self::$instance) {
       self::$instance = new self();
     }
-
-    return self::$instance;
   }
 
   public static function add_subscription($endpoint, $userKey) {
@@ -43,7 +41,7 @@ class WebPush_DB {
   public function update_check() {
     global $wpdb;
 
-    if (WebPush_DB::getInstance()->version === get_option('webpush_db_version')) {
+    if ($this->version === get_option('webpush_db_version')) {
       return;
     }
 
@@ -60,7 +58,7 @@ class WebPush_DB {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 
-    update_option('webpush_db_version', WebPush_DB::getInstance()->version);
+    update_option('webpush_db_version', $this->version);
 
     // Set default options.
     add_option('webpush_title', 'blog_title');

@@ -15,6 +15,7 @@ load_plugin_textdomain('web-push', false, dirname(plugin_basename(__FILE__)) . '
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
+WebPush_DB::init();
 WebPush_Main::init();
 
 if (is_admin()) {
