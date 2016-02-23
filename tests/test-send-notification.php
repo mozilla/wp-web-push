@@ -2,7 +2,8 @@
 
 class SendNotificationTest extends WP_UnitTestCase {
   function test_send_webpush_notification_success() {
-    add_filter('pre_http_request', function($url, $r) {
+    $self = $this;
+    add_filter('pre_http_request', function($url, $r) use ($self) {
       $this->assertTrue($r['headers']['TTL'] > 0);
 
       return array(
@@ -58,7 +59,8 @@ class SendNotificationTest extends WP_UnitTestCase {
   }
 
   function test_send_gcm_notification_success() {
-    add_filter('pre_http_request', function($url, $r) {
+    $self = $this;
+    add_filter('pre_http_request', function($url, $r) use ($self) {
       $this->assertEquals($r['headers']['Authorization'], 'key=aKey');
       $this->assertEquals($r['headers']['Content-Type'], 'application/json');
       $this->assertEquals($r['headers']['Content-Length'], 33);
@@ -102,7 +104,8 @@ class SendNotificationTest extends WP_UnitTestCase {
   }
 
   function test_send_gcm_notification_no_key() {
-    add_filter('pre_http_request', function() {
+    $self = $this;
+    add_filter('pre_http_request', function() use ($self) {
       $this->assertTrue(false);
 
       return array(
