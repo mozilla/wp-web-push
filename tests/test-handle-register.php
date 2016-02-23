@@ -9,8 +9,7 @@ class HandleRegisterTest extends WP_UnitTestCase {
     $_POST['endpoint'] = 'http://localhost';
     $_POST['key'] = 'aKey';
 
-    $main = new WebPush_Main();
-    $main->handle_register();
+    WebPush_Main::handle_register();
 
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(count($subscriptions), 1);
@@ -25,8 +24,7 @@ class HandleRegisterTest extends WP_UnitTestCase {
     $_POST['key'] = 'aKey';
     $_POST['newRegistration'] = 'true';
 
-    $main = new WebPush_Main();
-    $main->handle_register();
+    WebPush_Main::handle_register();
 
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(count($subscriptions), 1);
