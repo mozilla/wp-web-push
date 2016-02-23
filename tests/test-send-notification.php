@@ -4,7 +4,7 @@ class SendNotificationTest extends WP_UnitTestCase {
   function test_send_webpush_notification_success() {
     $self = $this;
     add_filter('pre_http_request', function($url, $r) use ($self) {
-      $this->assertTrue($r['headers']['TTL'] > 0);
+      $self->assertTrue($r['headers']['TTL'] > 0);
 
       return array(
         'headers' => array(),
@@ -61,13 +61,13 @@ class SendNotificationTest extends WP_UnitTestCase {
   function test_send_gcm_notification_success() {
     $self = $this;
     add_filter('pre_http_request', function($url, $r) use ($self) {
-      $this->assertEquals($r['headers']['Authorization'], 'key=aKey');
-      $this->assertEquals($r['headers']['Content-Type'], 'application/json');
-      $this->assertEquals($r['headers']['Content-Length'], 33);
+      $self->assertEquals($r['headers']['Authorization'], 'key=aKey');
+      $self->assertEquals($r['headers']['Content-Type'], 'application/json');
+      $self->assertEquals($r['headers']['Content-Length'], 33);
 
       $data = json_decode($r['body']);
-      $this->assertEquals(count($data->registration_ids), 1);
-      $this->assertEquals($data->registration_ids[0], 'endpoint');
+      $self->assertEquals(count($data->registration_ids), 1);
+      $self->assertEquals($data->registration_ids[0], 'endpoint');
 
       return array(
         'headers' => array(),
@@ -106,7 +106,7 @@ class SendNotificationTest extends WP_UnitTestCase {
   function test_send_gcm_notification_no_key() {
     $self = $this;
     add_filter('pre_http_request', function() use ($self) {
-      $this->assertTrue(false);
+      $self->assertTrue(false);
 
       return array(
         'headers' => array(),
