@@ -1,0 +1,135 @@
+<?php
+
+class SendNotificationTest extends WP_UnitTestCase {
+  function test_send_webpush_notification_success() {
+    add_filter('pre_http_request', function($url, $r) {
+      $this->assertTrue($r['headers']['TTL'] > 0);
+
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 201,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    }, 10, 2);
+
+    $this->assertTrue(sendNotification('endpoint', 'aKey'));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_webpush_notification_success_no_key() {
+    add_filter('pre_http_request', function() {
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 201,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    });
+
+    $this->assertTrue(sendNotification('endpoint', ''));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_webpush_notification_failure() {
+    add_filter('pre_http_request', function() {
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 400,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    });
+
+    $this->assertFalse(sendNotification('endpoint', 'aKey'));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_gcm_notification_success() {
+    add_filter('pre_http_request', function($url, $r) {
+      $this->assertEquals($r['headers']['Authorization'], 'key=aKey');
+      $this->assertEquals($r['headers']['Content-Type'], 'application/json');
+      $this->assertEquals($r['headers']['Content-Length'], 33);
+
+      $data = json_decode($r['body']);
+      $this->assertEquals(count($data->registration_ids), 1);
+      $this->assertEquals($data->registration_ids[0], 'endpoint');
+
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 200,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    }, 10, 2);
+
+    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey'));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_gcm_notification_failure() {
+    add_filter('pre_http_request', function() {
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 400,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    });
+
+    $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey'));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_gcm_notification_no_key() {
+    add_filter('pre_http_request', function() {
+      $this->assertTrue(false);
+
+      return array(
+        'headers' => array(),
+        'body' => '',
+        'response' => array(
+          'code' => 201,
+        ),
+        'cookies' => array(),
+        'filename' => '',
+      );
+    });
+
+    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', ''));
+
+    remove_all_filters('pre_http_request');
+  }
+
+  function test_send_notification_error() {
+    add_filter('pre_http_request', function() {
+      return new WP_Error('Error');
+    });
+
+    $this->assertTrue(sendNotification('endpoint', 'aKey'));
+
+    remove_all_filters('pre_http_request');
+  }
+}
+
+?>
