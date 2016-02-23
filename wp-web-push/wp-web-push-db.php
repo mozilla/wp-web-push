@@ -49,8 +49,8 @@ class WebPush_DB {
 
     $sql = 'CREATE TABLE ' . $table_name . ' (
       `id` INT NOT NULL AUTO_INCREMENT,
-      `endpoint` VARCHAR(300) NOT NULL,
-      `userKey` VARCHAR(300) NOT NULL,
+      `endpoint` VARCHAR(300) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+      `userKey` VARCHAR(300) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
       PRIMARY KEY (`id`),
       UNIQUE (`endpoint`)
     );';
