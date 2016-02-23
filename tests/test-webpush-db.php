@@ -1,6 +1,6 @@
 <?php
 
-class HandleRegisterTest extends WP_UnitTestCase {
+class WebPushDBTest extends WP_UnitTestCase {
   function test_add_get_remove() {
     WebPush_DB::add_subscription('http://localhost/1', 'aKey1');
     WebPush_DB::add_subscription('http://localhost/2', 'aKey2');
