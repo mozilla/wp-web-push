@@ -1,7 +1,7 @@
 <?php
 
 class HandleRegisterTest extends WP_UnitTestCase {
-  function wp_die_handler() {
+  function wp_die_handler($message) {
     // Ignore wp_die.
   }
 
