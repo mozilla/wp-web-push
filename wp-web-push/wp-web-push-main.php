@@ -180,7 +180,11 @@ class WebPush_Main {
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
       } else {
-        $notification_count++;
+        // Don't count GCM endpoints if we don't have a GCM key (obviously, we don't
+        // actually send notifications to them).
+        if (strpos($subscription->endpoint, GCM_REQUEST_URL) !== 0 || $gcmKey) {
+          $notification_count++;
+        }
       }
     }
 
