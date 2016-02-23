@@ -1,6 +1,11 @@
 <?php
 
 class SendNotificationTest extends WP_UnitTestCase {
+  function tearDown() {
+    parent::tearDown();
+    remove_all_filters('pre_http_request');
+  }
+
   function test_send_webpush_notification_success() {
     $self = $this;
     add_filter('pre_http_request', function($url, $r) use ($self) {
@@ -18,8 +23,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     }, 10, 2);
 
     $this->assertTrue(sendNotification('endpoint', 'aKey'));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_webpush_notification_success_no_key() {
@@ -36,8 +39,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $this->assertTrue(sendNotification('endpoint', ''));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_webpush_notification_failure() {
@@ -54,8 +55,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $this->assertFalse(sendNotification('endpoint', 'aKey'));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_gcm_notification_success() {
@@ -81,8 +80,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     }, 10, 2);
 
     $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey'));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_gcm_notification_failure() {
@@ -99,8 +96,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey'));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_gcm_notification_no_key() {
@@ -120,8 +115,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', ''));
-
-    remove_all_filters('pre_http_request');
   }
 
   function test_send_notification_error() {
@@ -130,8 +123,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $this->assertTrue(sendNotification('endpoint', 'aKey'));
-
-    remove_all_filters('pre_http_request');
   }
 }
 
