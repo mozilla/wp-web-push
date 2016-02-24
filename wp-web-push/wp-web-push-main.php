@@ -127,10 +127,12 @@ class WebPush_Main {
   }
 
   public static function on_parse_request($query) {
-    if (array_key_exists('webpush_post_id', $query->query_vars)) {
+    if (array_key_exists('webpush_post_id', $query->query_vars) && is_numeric($query->query_vars['webpush_post_id'])) {
       $post_id = intval($query->query_vars['webpush_post_id']);
       $notifications_clicked = get_post_meta($post_id, '_notifications_clicked', true);
-      update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
+      if ($notifications_clicked !== '') {
+        update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
+      }
     }
   }
 
