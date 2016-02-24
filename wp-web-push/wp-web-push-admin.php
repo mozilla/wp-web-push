@@ -39,7 +39,7 @@ class WebPush_Admin {
       return;
     }
 
-    if (!is_ssl()) {
+    if (!$this->isSSL()) {
       echo '<div class="error"><p>' . __('You need to serve your website via HTTPS to make the Web Push plugin work.', 'web-push') . '</p></div>';
     }
 
