@@ -1,6 +1,6 @@
 <?php
 
-require dirname( dirname( __FILE__ ) ) . '/build/wp-web-push-admin.php';
+require_once dirname( dirname( __FILE__ ) ) . '/build/wp-web-push-admin.php';
 
 class AdminMetaBoxTest extends WP_UnitTestCase {
   function test_checked_draft_with_update_and_new() {
