@@ -1,6 +1,16 @@
 <?php
 
 class NotificationStatisticsTest extends WP_UnitTestCase {
+  function test_query_vars() {
+    $this->assertContains('webpush_post_id', WebPush_Main::on_query_vars(array()));
+  }
+
+  function test_dont_overwrite_query_vars() {
+    $query_vars = WebPush_Main::on_query_vars(array('an_already_existing_query_var'));
+    $this->assertContains('webpush_post_id', $query_vars);
+    $this->assertContains('an_already_existing_query_var', $query_vars);
+  }
+
   function test_update_notifications_clicked() {
     $postID = $this->factory->post->create();
     update_post_meta($postID, '_notifications_clicked', 0);
