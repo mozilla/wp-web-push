@@ -1,5 +1,7 @@
 <?php
 
+const FIRST_POST_ID = 12;
+
 class TransitionPostStatusTest extends WP_UnitTestCase {
   function setUp() {
     parent::setUp();
@@ -29,7 +31,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
       $self->assertTrue(false);
     });
 
-    $post = get_post($this->factory->post->create(array('post_type' => 'page'))); 
+    $post = get_post($this->factory->post->create(array('post_type' => 'page')));
     $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'draft', $post);
   }
@@ -104,7 +106,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=8');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . FIRST_POST_ID);
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
@@ -136,7 +138,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'A Custom Title');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=9');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 1));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
@@ -168,7 +170,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], 'https://www.mozilla.org/icon.svg');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=10');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 2));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
@@ -200,7 +202,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=11');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 3));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 2);
@@ -232,7 +234,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=12');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 4));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
@@ -268,7 +270,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=13');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 5));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 2);
@@ -310,7 +312,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($payload['title'], 'Test Blog');
     $this->assertEquals($payload['body'], 'Test Post Title');
     $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=14');
+    $this->assertEquals($payload['url'], 'http://example.org/?p=' . (FIRST_POST_ID + 6));
     $this->assertEquals($payload['postID'], $post->ID);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
     $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
