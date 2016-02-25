@@ -1,15 +1,16 @@
 <?php
 
-class HandleRegisterTest extends WP_UnitTestCase {
-  function wp_die_handler($message) {
-    // Ignore wp_die.
-  }
-
+class HandleRegisterTest extends WP_Ajax_UnitTestCase {
   function test_new_registration() {
     $_POST['endpoint'] = 'http://localhost';
     $_POST['key'] = 'aKey';
 
-    WebPush_Main::handle_register();
+    try {
+      $this->_handleAjax('nopriv_webpush_register');
+      $this->assertTrue(false);
+    } catch (WPAjaxDieStopException $e) {
+      $this->assertTrue(true);
+    }
 
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(count($subscriptions), 1);
@@ -24,7 +25,12 @@ class HandleRegisterTest extends WP_UnitTestCase {
     $_POST['key'] = 'aKey';
     $_POST['newRegistration'] = 'true';
 
-    WebPush_Main::handle_register();
+    try {
+      $this->_handleAjax('nopriv_webpush_register');
+      $this->assertTrue(false);
+    } catch (WPAjaxDieStopException $e) {
+      $this->assertTrue(true);
+    }
 
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(count($subscriptions), 1);
