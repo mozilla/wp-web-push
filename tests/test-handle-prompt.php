@@ -9,7 +9,7 @@ class HandlePromptTest extends WP_Ajax_UnitTestCase {
       $this->assertTrue(true);
     }
 
-    $this->assertEquals(get_option('webpush_prompt_count'), 1);
+    $this->assertEquals(1, get_option('webpush_prompt_count'));
   }
 }
 

@@ -108,13 +108,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_custom_title() {
@@ -140,13 +140,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'A Custom Title');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('A Custom Title', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_custom_icon() {
@@ -172,13 +172,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], 'https://www.mozilla.org/icon.svg');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('https://www.mozilla.org/icon.svg', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_no_icon() {
@@ -204,13 +204,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_post_thumbnail_icon() {
@@ -231,7 +231,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
 
     update_option('webpush_icon', 'post_icon');
 
-    $attachment_post = $this->factory->post->create(array( 'post_status' => 'publish' ) );
+    $attachment_post = $this->factory->post->create(array('post_status' => 'publish'));
     $attachment_id = $this->factory->attachment->create_object('42.png', $attachment_post, array(
       'post_mime_type' => 'image/png',
     ));
@@ -243,13 +243,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', get_post($postID));
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], 'http://example.org/wp-content/uploads/42.png');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $postID);
-    $this->assertEquals(get_post_meta($postID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($postID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('http://example.org/wp-content/uploads/42.png', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($postID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($postID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($postID, '_notifications_sent', true));
   }
 
   function test_success_site_icon() {
@@ -270,7 +270,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
 
     update_option('webpush_icon', 'blog_icon');
 
-    $attachment_post = $this->factory->post->create(array( 'post_status' => 'publish' ) );
+    $attachment_post = $this->factory->post->create(array('post_status' => 'publish'));
     $attachment_id = $this->factory->attachment->create_object('marco.png', $attachment_post, array(
       'post_mime_type' => 'image/png',
     ));
@@ -283,13 +283,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], 'http://example.org/wp-content/uploads/marco.png');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('http://example.org/wp-content/uploads/marco.png', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_multiple_subscribers() {
@@ -315,13 +315,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 2);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(2, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_no_gcm_key() {
@@ -347,13 +347,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_with_gcm_key() {
@@ -383,13 +383,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 2);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(2, get_post_meta($post->ID, '_notifications_sent', true));
   }
 
   function test_success_remove_invalid_subscription() {
@@ -425,13 +425,13 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main->on_transition_post_status('publish', 'draft', $post);
 
     $payload = get_option('webpush_payload');
-    $this->assertEquals($payload['title'], 'Test Blog');
-    $this->assertEquals($payload['body'], 'Test Post Title');
-    $this->assertEquals($payload['icon'], '');
-    $this->assertEquals($payload['url'], 'http://example.org/?p=' . $this->nextPostID());
-    $this->assertEquals($payload['postID'], $post->ID);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post->ID, '_notifications_sent', true), 1);
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $this->nextPostID(), $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
   }
 }
 
