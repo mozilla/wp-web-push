@@ -6,23 +6,23 @@ class WebPushDBTest extends WP_UnitTestCase {
     WebPush_DB::add_subscription('http://localhost/2', 'aKey2');
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(count($subscriptions), 2);
-    $this->assertEquals($subscriptions[0]->endpoint, 'http://localhost/1');
-    $this->assertEquals($subscriptions[0]->userKey, 'aKey1');
-    $this->assertEquals($subscriptions[1]->endpoint, 'http://localhost/2');
-    $this->assertEquals($subscriptions[1]->userKey, 'aKey2');
+    $this->assertEquals(2, count($subscriptions));
+    $this->assertEquals('http://localhost/1', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey1', $subscriptions[0]->userKey);
+    $this->assertEquals('http://localhost/2', $subscriptions[1]->endpoint);
+    $this->assertEquals('aKey2', $subscriptions[1]->userKey);
 
     WebPush_DB::remove_subscription('http://localhost/1');
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(count($subscriptions), 1);
-    $this->assertEquals($subscriptions[0]->endpoint, 'http://localhost/2');
-    $this->assertEquals($subscriptions[0]->userKey, 'aKey2');
+    $this->assertEquals(1, count($subscriptions));
+    $this->assertEquals('http://localhost/2', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey2', $subscriptions[0]->userKey);
 
     WebPush_DB::remove_subscription('http://localhost/2');
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(count($subscriptions), 0);
+    $this->assertEquals(0, count($subscriptions));
   }
 }
 

@@ -6,7 +6,7 @@ class AdminNoticesTest extends WP_UnitTestCase {
   function test_no_notice_for_normal_users() {
     $admin = new WebPush_Admin();
     $output = get_echo(array($admin, 'on_admin_notices'));
-    $this->assertEquals($output, '');
+    $this->assertEquals('', $output);
   }
 
   function test_ssl_warning() {

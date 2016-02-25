@@ -60,13 +60,13 @@ class SendNotificationTest extends WP_UnitTestCase {
   function test_send_gcm_notification_success() {
     $self = $this;
     add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertEquals($r['headers']['Authorization'], 'key=aKey');
-      $self->assertEquals($r['headers']['Content-Type'], 'application/json');
-      $self->assertEquals($r['headers']['Content-Length'], 33);
+      $self->assertEquals('key=aKey', $r['headers']['Authorization']);
+      $self->assertEquals('application/json', $r['headers']['Content-Type']);
+      $self->assertEquals(33, $r['headers']['Content-Length']);
 
       $data = json_decode($r['body']);
-      $self->assertEquals(count($data->registration_ids), 1);
-      $self->assertEquals($data->registration_ids[0], 'endpoint');
+      $self->assertEquals(1, count($data->registration_ids));
+      $self->assertEquals('endpoint', $data->registration_ids[0]);
 
       return array(
         'headers' => array(),

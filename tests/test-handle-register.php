@@ -13,11 +13,11 @@ class HandleRegisterTest extends WP_Ajax_UnitTestCase {
     }
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(count($subscriptions), 1);
-    $this->assertEquals($subscriptions[0]->endpoint, 'http://localhost');
-    $this->assertEquals($subscriptions[0]->userKey, 'aKey');
+    $this->assertEquals(1, count($subscriptions));
+    $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey', $subscriptions[0]->userKey);
 
-    $this->assertEquals(get_option('webpush_accepted_prompt_count'), 0);
+    $this->assertEquals(0, get_option('webpush_accepted_prompt_count'));
   }
 
   function test_reregistration() {
@@ -33,11 +33,11 @@ class HandleRegisterTest extends WP_Ajax_UnitTestCase {
     }
 
     $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(count($subscriptions), 1);
-    $this->assertEquals($subscriptions[0]->endpoint, 'http://localhost');
-    $this->assertEquals($subscriptions[0]->userKey, 'aKey');
+    $this->assertEquals(1, count($subscriptions));
+    $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey', $subscriptions[0]->userKey);
 
-    $this->assertEquals(get_option('webpush_accepted_prompt_count'), 1);
+    $this->assertEquals(1, get_option('webpush_accepted_prompt_count'));
   }
 }
 

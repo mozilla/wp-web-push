@@ -24,13 +24,13 @@ class NotificationStatisticsTest extends WP_UnitTestCase {
 
     WebPush_Main::on_parse_request($query);
 
-    $this->assertEquals(get_post_meta($postID, '_notifications_clicked', true), 1);
-    $this->assertEquals(get_post_meta($postID, '_notifications_sent', true), 0);
+    $this->assertEquals(1, get_post_meta($postID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($postID, '_notifications_sent', true));
 
     WebPush_Main::on_parse_request($query);
 
-    $this->assertEquals(get_post_meta($postID, '_notifications_clicked', true), 2);
-    $this->assertEquals(get_post_meta($postID, '_notifications_sent', true), 0);
+    $this->assertEquals(2, get_post_meta($postID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($postID, '_notifications_sent', true));
   }
 
   function test_dont_update_notifications_clicked_if_not_number() {
@@ -52,7 +52,7 @@ class NotificationStatisticsTest extends WP_UnitTestCase {
 
     WebPush_Main::on_parse_request($query);
 
-    $this->assertEquals(get_post_meta(99999, '_notifications_clicked', true), '');
+    $this->assertEquals('', get_post_meta(99999, '_notifications_clicked', true));
   }
 
   function test_dont_update_notifications_clicked_if_query_doesnt_contain_required_param() {
@@ -84,21 +84,21 @@ class NotificationStatisticsTest extends WP_UnitTestCase {
 
     WebPush_Main::on_parse_request($query);
 
-    $this->assertEquals(get_post_meta($post1ID, '_notifications_clicked', true), 1);
-    $this->assertEquals(get_post_meta($post1ID, '_notifications_sent', true), 0);
-    $this->assertEquals(get_post_meta($post2ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post2ID, '_notifications_sent', true), 0);
-    $this->assertEquals(get_post_meta($post3ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post3ID, '_notifications_sent', true), 0);
+    $this->assertEquals(1, get_post_meta($post1ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post1ID, '_notifications_sent', true));
+    $this->assertEquals(0, get_post_meta($post2ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post2ID, '_notifications_sent', true));
+    $this->assertEquals(0, get_post_meta($post3ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post3ID, '_notifications_sent', true));
 
     WebPush_Main::on_parse_request($query);
 
-    $this->assertEquals(get_post_meta($post1ID, '_notifications_clicked', true), 2);
-    $this->assertEquals(get_post_meta($post1ID, '_notifications_sent', true), 0);
-    $this->assertEquals(get_post_meta($post2ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post2ID, '_notifications_sent', true), 0);
-    $this->assertEquals(get_post_meta($post3ID, '_notifications_clicked', true), 0);
-    $this->assertEquals(get_post_meta($post3ID, '_notifications_sent', true), 0);
+    $this->assertEquals(2, get_post_meta($post1ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post1ID, '_notifications_sent', true));
+    $this->assertEquals(0, get_post_meta($post2ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post2ID, '_notifications_sent', true));
+    $this->assertEquals(0, get_post_meta($post3ID, '_notifications_clicked', true));
+    $this->assertEquals(0, get_post_meta($post3ID, '_notifications_sent', true));
   }
 }
 
