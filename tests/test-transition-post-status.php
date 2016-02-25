@@ -1,6 +1,6 @@
 <?php
 
-$postID = 27;
+$postID = 32;
 
 class TransitionPostStatusTest extends WP_UnitTestCase {
   function nextPostID() {
