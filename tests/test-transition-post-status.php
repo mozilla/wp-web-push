@@ -354,6 +354,14 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($post->ID, $payload['postID']);
     $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
     $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    // Test that the GCM endpoint isn't removed.
+    $subscriptions = WebPush_DB::get_subscriptions();
+    $this->assertEquals(2, count($subscriptions));
+    $this->assertEquals('endpoint', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey', $subscriptions[0]->userKey);
+    $this->assertEquals('https://android.googleapis.com/gcm/send/endpoint', $subscriptions[1]->endpoint);
+    $this->assertEquals('', $subscriptions[1]->userKey);
   }
 
   function test_success_with_gcm_key() {
@@ -432,6 +440,12 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($post->ID, $payload['postID']);
     $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
     $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    // Test that the invalid subscription gets removed.
+    $subscriptions = WebPush_DB::get_subscriptions();
+    $this->assertEquals(1, count($subscriptions));
+    $this->assertEquals('endpoint', $subscriptions[0]->endpoint);
+    $this->assertEquals('aKey', $subscriptions[0]->userKey);
   }
 }
 
