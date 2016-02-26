@@ -13,7 +13,7 @@ build: $(COMPOSER)
 	$(COMPOSER) install
 	rm -rf build wp-web-push.zip
 	cp -r wp-web-push/ build/
-	cp node_modules/localforage/dist/localforage.min.js build/lib/js/localforage.min.js
+	cp node_modules/localforage/dist/localforage.nopromises.min.js build/lib/js/localforage.nopromises.min.js
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
 	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/WebAppManifestGenerator.php
 	mkdir -p build/vendor/mozilla/wp-sw-manager
