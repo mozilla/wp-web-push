@@ -48,9 +48,12 @@ class WebPush_Main {
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_get_payload'));
     add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
 
-    $manifestGenerator = WebAppManifestGenerator::getInstance();
-    $manifestGenerator->set_field('gcm_sender_id', get_option('webpush_gcm_sender_id'));
-    $manifestGenerator->set_field('gcm_user_visible_only', true);
+    $senderID = get_option('webpush_gcm_sender_id');
+    if ($senderID) {
+      $manifestGenerator = WebAppManifestGenerator::getInstance();
+      $manifestGenerator->set_field('gcm_sender_id', $senderID);
+      $manifestGenerator->set_field('gcm_user_visible_only', true);
+    }
   }
 
   public static function init() {

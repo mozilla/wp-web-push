@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( dirname( __FILE__ ) ) . '/build/wp-web-push-admin.php';
+require_once dirname(dirname(__FILE__)) . '/build/wp-web-push-admin.php';
 
 class AdminNoticesTest extends WP_UnitTestCase {
   function test_no_notice_for_normal_users() {
