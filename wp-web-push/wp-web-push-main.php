@@ -82,7 +82,7 @@ class WebPush_Main {
       $icon = '';
     }
 
-    wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(WP_SW_Manager::SW_REGISTRAR_SCRIPT));
+    wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(WP_SW_Manager::SW_REGISTRAR_SCRIPT, 'localforage-script'));
     wp_localize_script('wp-web-push-script', 'ServiceWorker', array(
       'sw_id' => WP_SW_Manager::get_manager()->sw_js_id(),
       'register_url' => admin_url('admin-ajax.php'),
