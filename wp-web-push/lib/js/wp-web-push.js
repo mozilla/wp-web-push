@@ -40,9 +40,9 @@ if (navigator.serviceWorker) {
 
     var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
-      subscriptionButtonImage.src = ServiceWorker.notification_enabled_icon;
+      subscriptionButtonImage.style.opacity = 1;
     } else {
-      subscriptionButtonImage.src = ServiceWorker.notification_disabled_icon;
+      subscriptionButtonImage.style.opacity = 0.3;
     }
   }
 

@@ -92,8 +92,6 @@ class WebPush_Main {
       'welcome_body' => __('Successfully subscribed to notifications'),
       'welcome_icon' => $icon,
       'subscription_button' => get_option('webpush_subscription_button'),
-      'notification_enabled_icon' => plugins_url('lib/bell.svg', __FILE__),
-      'notification_disabled_icon' => plugins_url('lib/bell_disabled.svg', __FILE__),
       'prompt_interval' => get_option('webpush_prompt_interval'),
       'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.'),
       'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.'),
