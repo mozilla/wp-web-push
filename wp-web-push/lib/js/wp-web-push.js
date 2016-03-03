@@ -20,10 +20,28 @@ if (navigator.serviceWorker) {
     history.replaceState({}, document.title, url.href);
   })();
 
-  var timeoutId;
+  var mouseOnTooltip = false;
+  var mouseOnButton = false;
+
+  var hideTooltipTimeout;
+  function hideTooltip() {
+    clearTimeout(hideTooltipTimeout);
+
+    if (mouseOnTooltip || mouseOnButton) {
+      return;
+    }
+
+    hideTooltipTimeout = setTimeout(function() {
+      if (!mouseOnTooltip && !mouseOnButton) {
+        setSubscriptionTip(null);
+      }
+    }, 200);
+  }
+
+  var transientTooltipIntervalId;
   function setSubscriptionTip(tip, dontFade) {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+    if (transientTooltipIntervalId) {
+      clearInterval(transientTooltipIntervalId);
     }
 
     var tooltipElement = document.getElementById('webpush-explanatory-bubble');
@@ -33,10 +51,7 @@ if (navigator.serviceWorker) {
       bubbleTip.classList.add('showing-bubble');
       tooltipElement.innerHTML = tip;
       if (!dontFade) {
-        timeoutId = setTimeout(function() {
-          tooltipElement.classList.remove('showing-bubble');
-          bubbleTip.classList.remove('showing-bubble');
-        }, 2000);
+        transientTooltipIntervalId = setInterval(hideTooltip, 2000);
       }
     } else {
       tooltipElement.classList.remove('showing-bubble');
@@ -205,24 +220,6 @@ if (navigator.serviceWorker) {
   .then(function() {
     if (!ServiceWorker.subscription_button) {
       return;
-    }
-
-    var mouseOnTooltip = false;
-    var mouseOnButton = false;
-
-    var hideTooltipTimeout;
-    function hideTooltip() {
-      clearTimeout(hideTooltipTimeout);
-
-      if (mouseOnTooltip || mouseOnButton) {
-        return;
-      }
-
-      hideTooltipTimeout = setTimeout(function() {
-        if (!mouseOnTooltip && !mouseOnButton) {
-          setSubscriptionTip(null);
-        }
-      }, 200);
     }
 
     document.getElementById('webpush-explanatory-bubble').onmouseover = function() {
