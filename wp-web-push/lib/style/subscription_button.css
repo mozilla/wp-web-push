@@ -3,14 +3,15 @@
   bottom: 0;
   right: 0;
   z-index: 2147483647;
+  display: flex;
 }
 
 #webpush-subscription-button {
-  float: right;
+  margin: 0;
+  align-self: flex-end;
 }
 
 #webpush-subscription-button-image {
-  position: relative;
   width: 64px;
   height: 64px;
   cursor: pointer;
@@ -24,9 +25,9 @@
   border-radius: 7px;
   padding: 3px 7px;
   position: relative;
-  float: left;
-  margin: 14px 9px;
   font-size: 0.9em;
+  margin: auto;
+  margin-right: 9px;
 }
 
 #webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {

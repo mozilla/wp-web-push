@@ -41,8 +41,10 @@ if (navigator.serviceWorker) {
     var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
       subscriptionButtonImage.style.opacity = 1;
+      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '64px';
     } else {
-      subscriptionButtonImage.style.opacity = 0.3;
+      subscriptionButtonImage.style.opacity = 0.5;
+      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '48px';
     }
   }
 
