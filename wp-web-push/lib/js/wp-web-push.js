@@ -244,7 +244,14 @@ if (navigator.serviceWorker) {
       notificationsEnabled()
       .then(function(enabled) {
         if (enabled && Notification.permission === 'granted') {
-          setSubscriptionTip(ServiceWorker.unsubscription_prompt + '<br><button class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button>', true);
+          setSubscriptionTip(ServiceWorker.unsubscription_prompt + '<br><button id="webpush-prompt-button" class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button>', true);
+
+          document.getElementById('webpush-prompt-button').onclick = function() {
+            disableNotifications()
+            .then(function() {
+              setSubscriptionTip(ServiceWorker.unsubscribed_hint);
+            });
+          };
         } else {
           setSubscriptionTip(ServiceWorker.subscription_prompt + '<br><img src="' + ServiceWorker.notification_preview + '" alt="" />', true);
         }
@@ -262,13 +269,8 @@ if (navigator.serviceWorker) {
 
       notificationsEnabled()
       .then(function(enabled) {
-        setSubscriptionTip(null);
-
         if (enabled && Notification.permission === 'granted') {
-          disableNotifications()
-          .then(function() {
-            setSubscriptionTip(ServiceWorker.unsubscribed_hint);
-          });
+          // Do nothing.
         } else {
           enableNotifications(true)
           .then(function() {
