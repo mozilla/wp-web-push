@@ -64,8 +64,8 @@ class WebPush_Main {
 
   public static function add_subscription_button() {
     echo '<div id="webpush-subscription-container">';
-    echo '<div id="webpush-explanatory-bubble"></div>';
-    echo '<div id="webpush-subscription-button"><div id="webpush-subscription-bubble-tip"></div><div id="webpush-subscription-button-image"></div></div>';
+    echo '<div id="webpush-explanatory-bubble"><div></div></div>';
+    echo '<div id="webpush-subscription-button"><img id="webpush-subscription-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
     echo '</div>';
   }
 

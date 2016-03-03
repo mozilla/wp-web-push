@@ -9,60 +9,23 @@
 #webpush-subscription-button {
   margin: 0;
   align-self: flex-end;
-  position: relative;
 }
 
-#webpush-subscription-bubble-tip,
+#webpush-subscription-container.clicked #webpush-subscription-button-image {
+  height: 48px;
+  width: 48px;
+  opacity: 0.5;
+}
+
 #webpush-subscription-button-image {
   width: 64px;
   height: 64px;
-  position: absolute;
-}
-
-#webpush-subscription-button-image {
-  border: none;
   cursor: pointer;
-  background-image: url(../bell.svg);
-  background-size: cover;
-  position: relative;
-}
-
-#webpush-subscription-bubble-tip {
-  transition: opacity 1s;
-  opacity: 0.0;
-}
-
-#webpush-subscription-bubble-tip.showing-bubble {
-  opacity: 1.0;
-}
-
-#webpush-subscription-bubble-tip:after,
-#webpush-subscription-bubble-tip:before {
-  left: -10px;
-  top: 50%;
-  position: absolute;
-  display: block;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  pointer-events: none;
-}
-
-#webpush-subscription-bubble-tip:after {
-  border-left-color: #fff;
-  border-width: 8px;
-  margin-top: -8px;
-}
-
-#webpush-subscription-bubble-tip:before {
-  border-left-color: gray;
-  border-width: 9px;
-  margin-top: -9px;
+  vertical-align: bottom;
 }
 
 #webpush-explanatory-bubble {
-  width: 300px;
+  max-width: 300px;
   transition: opacity 1s;
   opacity: 0;
   background-color: white;
@@ -70,13 +33,44 @@
   border-radius: 7px;
   padding: 3px 7px;
   position: relative;
+  top: -10px;
   font-size: 0.9em;
-  margin: auto;
   margin-right: 9px;
+  min-height: 54px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
+  padding: 0 15px 0 15px;
 }
 
-#webpush-explanatory-bubble.showing-bubble {
+#webpush-explanatory-bubble.shown {
   opacity: 1.0;
+}
+
+#webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {
+  left: 100%;
+  bottom: 13px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-width: 9px;
+}
+
+#webpush-subscription-container.clicked #webpush-explanatory-bubble:after, #webpush-subscription-container.clicked #webpush-explanatory-bubble:before {
+  bottom: 6px;
+}
+
+#webpush-explanatory-bubble:after {
+  border-left-color: white;
+  left: calc(100% - 1px);
+}
+
+#webpush-explanatory-bubble:before {
+  border-left-color: gray;
 }
 
 .webpush-prompt-button {

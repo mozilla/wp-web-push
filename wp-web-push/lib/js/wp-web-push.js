@@ -45,17 +45,14 @@ if (navigator.serviceWorker) {
     }
 
     var tooltipElement = document.getElementById('webpush-explanatory-bubble');
-    var bubbleTip = document.getElementById('webpush-subscription-bubble-tip')
     if (tip) {
-      tooltipElement.classList.add('showing-bubble');
-      bubbleTip.classList.add('showing-bubble');
-      tooltipElement.innerHTML = tip;
+      tooltipElement.querySelector('div').innerHTML = tip;
+      tooltipElement.classList.add('shown');
       if (!dontFade) {
         transientTooltipIntervalId = setInterval(hideTooltip, 2000);
       }
     } else {
-      tooltipElement.classList.remove('showing-bubble');
-      bubbleTip.classList.remove('showing-bubble');
+      tooltipElement.classList.remove('shown');
     }
   }
 
@@ -64,14 +61,10 @@ if (navigator.serviceWorker) {
       return;
     }
 
-    var bubbleTip = document.getElementById('webpush-subscription-bubble-tip');
-    var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
-      subscriptionButtonImage.style.opacity = 1;
-      bubbleTip.style.width = bubbleTip.style.height = subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '64px';
+      document.getElementById('webpush-subscription-container').classList.remove('clicked');
     } else {
-      subscriptionButtonImage.style.opacity = 0.5;
-      bubbleTip.style.width = bubbleTip.style.height = subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '48px';
+      document.getElementById('webpush-subscription-container').classList.add('clicked');
     }
   }
 
@@ -241,7 +234,7 @@ if (navigator.serviceWorker) {
       notificationsEnabled()
       .then(function(enabled) {
         if (enabled && Notification.permission === 'granted') {
-          setSubscriptionTip(ServiceWorker.unsubscription_prompt + '<br><button id="webpush-prompt-button" class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button>', true);
+          setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button id="webpush-prompt-button" class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
 
           document.getElementById('webpush-prompt-button').onclick = function() {
             disableNotifications()
@@ -250,7 +243,7 @@ if (navigator.serviceWorker) {
             });
           };
         } else {
-          setSubscriptionTip(ServiceWorker.subscription_prompt + '<br><img src="' + ServiceWorker.notification_preview + '" alt="" />', true);
+          setSubscriptionTip('<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>', true);
         }
       });
     };
