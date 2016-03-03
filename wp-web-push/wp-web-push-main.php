@@ -95,6 +95,7 @@ class WebPush_Main {
       'prompt_interval' => get_option('webpush_prompt_interval'),
       'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.'),
       'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.'),
+      'unsubscribed_hint' => __('You are unsubscribed!'),
     ));
     wp_enqueue_script('wp-web-push-script');
 
