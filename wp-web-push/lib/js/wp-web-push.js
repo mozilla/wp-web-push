@@ -51,8 +51,7 @@ if (navigator.serviceWorker) {
   }
 
   function setNotificationsEnabled(enabled) {
-    return localforage.setItem('notificationsEnabled', enabled)
-    .then(setNotificationsIndicator);
+    return localforage.setItem('notificationsEnabled', enabled);
   }
 
   function disableNotifications() {
@@ -195,6 +194,9 @@ if (navigator.serviceWorker) {
     }
 
     document.getElementById('webpush-subscription-button-image').onclick = function() {
+      localforage.setItem('button_interacted', true);
+      setNotificationsIndicator(false);
+
       notificationsEnabled()
       .then(function(enabled) {
         setSubscriptionTip(null);
@@ -214,7 +216,10 @@ if (navigator.serviceWorker) {
     return notificationsEnabled();
   })
   .then(function(notificationsEnabled) {
-    setNotificationsIndicator(notificationsEnabled && Notification.permission === 'granted');
+    localforage.getItem('button_interacted')
+    .then(function(interacted) {
+      setNotificationsIndicator(!interacted);
+    });
 
     localforage.getItem('visits')
     .then(function(visits) {
