@@ -11,8 +11,6 @@
 
 #webpush-subscription-button-image {
   position: relative;
-  margin-bottom: 20px;
-  margin-right: 16px;
   width: 64px;
   height: 64px;
   cursor: pointer;
@@ -21,23 +19,35 @@
 #webpush-explanatory-bubble {
   transition: opacity 1s;
   opacity: 0;
-  background-color: navy;
-  color: white;
-  border-radius: 5px;
-  padding: 10px 15px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 3px 7px;
   position: relative;
   float: left;
-  margin: 7px 15px;
+  margin: 14px 9px;
+  font-size: 0.9em;
 }
 
-#webpush-explanatory-bubble::before {
-  background-color: navy;
-  content: "\00a0";
-  height: 16px;
-  width: 20px;
+#webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {
+  left: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
   position: absolute;
-  top: 15px;
-  right: -9px;
-  transform: rotate(29deg) skew(-35deg);
-  -webkit-transform: rotate(29deg) skew(-35deg);
+  pointer-events: none;
+}
+
+#webpush-explanatory-bubble:after {
+  border-left-color: #ffffff;
+  border-width: 8px;
+  margin-top: -8px;
+}
+
+#webpush-explanatory-bubble:before {
+  border-left-color: gray;
+  border-width: 9px;
+  margin-top: -9px;
 }
