@@ -202,7 +202,38 @@ if (navigator.serviceWorker) {
       return;
     }
 
+    var mouseOnTooltip = false;
+    var mouseOnButton = false;
+
+    var hideTooltipTimeout;
+    function hideTooltip() {
+      clearTimeout(hideTooltipTimeout);
+
+      if (mouseOnTooltip || mouseOnButton) {
+        return;
+      }
+
+      hideTooltipTimeout = setTimeout(function() {
+        if (!mouseOnTooltip && !mouseOnButton) {
+          setSubscriptionTip(null);
+        }
+      }, 200);
+    }
+
+    document.getElementById('webpush-explanatory-bubble').onmouseover = function() {
+      mouseOnTooltip = true;
+      clearTimeout(hideTooltipTimeout);
+    };
+
+    document.getElementById('webpush-explanatory-bubble').onmouseout = function() {
+      mouseOnTooltip = false;
+      hideTooltip();
+    };
+
     document.getElementById('webpush-subscription-button-image').onmouseover = function() {
+      mouseOnButton = true;
+      clearTimeout(hideTooltipTimeout);
+
       localforage.setItem('button_interacted', true);
 
       notificationsEnabled()
@@ -216,7 +247,8 @@ if (navigator.serviceWorker) {
     };
 
     document.getElementById('webpush-subscription-button-image').onmouseout = function() {
-      setSubscriptionTip(null);
+      mouseOnButton = false;
+      hideTooltip();
     };
 
     document.getElementById('webpush-subscription-button-image').onclick = function() {
