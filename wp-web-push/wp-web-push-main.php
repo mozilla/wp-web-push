@@ -96,6 +96,8 @@ class WebPush_Main {
       'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.', 'web-push'),
       'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.', 'web-push'),
       'unsubscribed_hint' => __('You are unsubscribed!', 'web-push'),
+      'notification_preview' => plugins_url('lib/notification.svg', __FILE__),
+      'subscription_prompt' => sprintf(__('<b>%s</b> can send you notifications for new posts.', 'web-push'), get_bloginfo('name')),
     ));
     wp_enqueue_script('wp-web-push-script');
 

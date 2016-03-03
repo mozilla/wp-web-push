@@ -18,6 +18,7 @@
 }
 
 #webpush-explanatory-bubble {
+  width: 300px;
   transition: opacity 1s;
   opacity: 0;
   background-color: white;

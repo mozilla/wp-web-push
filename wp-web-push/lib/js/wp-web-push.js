@@ -20,14 +20,21 @@ if (navigator.serviceWorker) {
     history.replaceState({}, document.title, url.href);
   })();
 
-  function setSubscriptionTip(tip) {
+  var timeoutId;
+  function setSubscriptionTip(tip, dontFade) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
     var tooltipElement = document.getElementById('webpush-explanatory-bubble');
     if (tip) {
-      tooltipElement.textContent = tip;
+      tooltipElement.innerHTML = tip;
       tooltipElement.style.opacity = 1;
-      setTimeout(function() {
-        tooltipElement.style.opacity = 0;
-      }, 2000);
+      if (!dontFade) {
+        timeoutId = setTimeout(function() {
+          tooltipElement.style.opacity = 0;
+        }, 2000);
+      }
     } else {
       tooltipElement.style.opacity = 0;
     }
@@ -194,6 +201,24 @@ if (navigator.serviceWorker) {
     if (!ServiceWorker.subscription_button) {
       return;
     }
+
+    document.getElementById('webpush-subscription-button-image').onmouseover = function() {
+      localforage.setItem('button_interacted', true);
+
+      notificationsEnabled()
+      .then(function(enabled) {
+        if (enabled && Notification.permission === 'granted') {
+          // TODO: Unsubscription prompt.
+        } else {
+          var tooltipContent = ServiceWorker.subscription_prompt + '<br><img src="' + ServiceWorker.notification_preview + '" alt="" />';
+          setSubscriptionTip(tooltipContent, true);
+        }
+      });
+    };
+
+    document.getElementById('webpush-subscription-button-image').onmouseout = function() {
+      setSubscriptionTip(null);
+    };
 
     document.getElementById('webpush-subscription-button-image').onclick = function() {
       localforage.setItem('button_interacted', true);
