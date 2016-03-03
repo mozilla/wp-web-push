@@ -27,16 +27,20 @@ if (navigator.serviceWorker) {
     }
 
     var tooltipElement = document.getElementById('webpush-explanatory-bubble');
+    var bubbleTip = document.getElementById('webpush-subscription-bubble-tip')
     if (tip) {
+      tooltipElement.classList.add('showing-bubble');
+      bubbleTip.classList.add('showing-bubble');
       tooltipElement.innerHTML = tip;
-      tooltipElement.style.opacity = 1;
       if (!dontFade) {
         timeoutId = setTimeout(function() {
-          tooltipElement.style.opacity = 0;
+          tooltipElement.classList.remove('showing-bubble');
+          bubbleTip.classList.remove('showing-bubble');
         }, 2000);
       }
     } else {
-      tooltipElement.style.opacity = 0;
+      tooltipElement.classList.remove('showing-bubble');
+      bubbleTip.classList.remove('showing-bubble');
     }
   }
 
@@ -45,13 +49,14 @@ if (navigator.serviceWorker) {
       return;
     }
 
+    var bubbleTip = document.getElementById('webpush-subscription-bubble-tip');
     var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
       subscriptionButtonImage.style.opacity = 1;
-      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '64px';
+      bubbleTip.style.width = bubbleTip.style.height = subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '64px';
     } else {
       subscriptionButtonImage.style.opacity = 0.5;
-      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '48px';
+      bubbleTip.style.width = bubbleTip.style.height = subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '48px';
     }
   }
 
