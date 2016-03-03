@@ -232,7 +232,9 @@ if (navigator.serviceWorker) {
         visits = 1;
 
         if (ServiceWorker.subscription_button) {
-          setSubscriptionTip(ServiceWorker.subscription_hint);
+          setTimeout(function() {
+            setSubscriptionTip(ServiceWorker.subscription_hint);
+          }, 5000);
         }
       } else {
         visits++;
