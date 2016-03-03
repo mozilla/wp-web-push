@@ -69,7 +69,7 @@ if (navigator.serviceWorker) {
   }
 
   function disableNotifications() {
-    navigator.serviceWorker.getRegistration()
+    return navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription();
     })
