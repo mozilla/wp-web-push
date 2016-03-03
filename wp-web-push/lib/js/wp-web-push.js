@@ -208,10 +208,9 @@ if (navigator.serviceWorker) {
       notificationsEnabled()
       .then(function(enabled) {
         if (enabled && Notification.permission === 'granted') {
-          // TODO: Unsubscription prompt.
+          setSubscriptionTip(ServiceWorker.unsubscription_prompt + '<br><button class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button>', true);
         } else {
-          var tooltipContent = ServiceWorker.subscription_prompt + '<br><img src="' + ServiceWorker.notification_preview + '" alt="" />';
-          setSubscriptionTip(tooltipContent, true);
+          setSubscriptionTip(ServiceWorker.subscription_prompt + '<br><img src="' + ServiceWorker.notification_preview + '" alt="" />', true);
         }
       });
     };

@@ -53,3 +53,12 @@
   border-width: 9px;
   margin-top: -9px;
 }
+
+.webpush-prompt-button {
+  width: 100%;
+  background-color: #005189;
+  color: white;
+  border-radius: 7px;
+  text-transform: none;
+  line-height: 0;
+}
