@@ -233,7 +233,12 @@ if (navigator.serviceWorker) {
 
         if (ServiceWorker.subscription_button) {
           setTimeout(function() {
-            setSubscriptionTip(ServiceWorker.subscription_hint);
+            localforage.getItem('button_interacted')
+            .then(function(interacted) {
+              if (!interacted) {
+                setSubscriptionTip(ServiceWorker.subscription_hint);
+              }
+            });
           }, 5000);
         }
       } else {
