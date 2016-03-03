@@ -89,12 +89,13 @@ class WebPush_Main {
       'min_visits' => get_option('webpush_min_visits'),
       'welcome_enabled' => in_array('on-subscription', get_option('webpush_triggers')),
       'welcome_title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
-      'welcome_body' => __('Successfully subscribed to notifications'),
+      'welcome_body' => __('Successfully subscribed to notifications', 'web-push'),
       'welcome_icon' => $icon,
       'subscription_button' => get_option('webpush_subscription_button'),
       'prompt_interval' => get_option('webpush_prompt_interval'),
-      'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.'),
-      'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.'),
+      'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.', 'web-push'),
+      'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.', 'web-push'),
+      'unsubscribed_hint' => __('You are unsubscribed!', 'web-push'),
     ));
     wp_enqueue_script('wp-web-push-script');
 

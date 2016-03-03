@@ -204,7 +204,10 @@ if (navigator.serviceWorker) {
         setSubscriptionTip(null);
 
         if (enabled && Notification.permission === 'granted') {
-          disableNotifications();
+          disableNotifications()
+          .then(function() {
+            setSubscriptionTip(ServiceWorker.unsubscribed_hint);
+          });
         } else {
           enableNotifications(true)
           .then(function() {
