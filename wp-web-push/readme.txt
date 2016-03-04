@@ -45,6 +45,7 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 4. Chrome prompt dialog on Android.
 5. Chrome notification on the Android lockscreen.
 6. Statistics in the dashboard.
+7. Firefox notification on Linux.
 
 == Changelog ==
 = 0.0.9 =
