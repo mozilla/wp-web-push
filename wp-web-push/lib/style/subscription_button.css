@@ -11,13 +11,21 @@
   align-self: flex-end;
 }
 
+#webpush-subscription-container.clicked #webpush-subscription-button-image {
+  height: 48px;
+  width: 48px;
+  opacity: 0.5;
+}
+
 #webpush-subscription-button-image {
   width: 64px;
   height: 64px;
   cursor: pointer;
+  vertical-align: bottom;
 }
 
 #webpush-explanatory-bubble {
+  max-width: 300px;
   transition: opacity 1s;
   opacity: 0;
   background-color: white;
@@ -25,30 +33,51 @@
   border-radius: 7px;
   padding: 3px 7px;
   position: relative;
+  top: -10px;
   font-size: 0.9em;
-  margin: auto;
   margin-right: 9px;
+  min-height: 54px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
+  padding: 0 15px 0 15px;
+}
+
+#webpush-explanatory-bubble.shown {
+  opacity: 1.0;
 }
 
 #webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {
   left: 100%;
-  top: 50%;
+  bottom: 13px;
   border: solid transparent;
   content: " ";
   height: 0;
   width: 0;
   position: absolute;
   pointer-events: none;
+  border-width: 9px;
+}
+
+#webpush-subscription-container.clicked #webpush-explanatory-bubble:after, #webpush-subscription-container.clicked #webpush-explanatory-bubble:before {
+  bottom: 6px;
 }
 
 #webpush-explanatory-bubble:after {
-  border-left-color: #ffffff;
-  border-width: 8px;
-  margin-top: -8px;
+  border-left-color: white;
+  left: calc(100% - 1px);
 }
 
 #webpush-explanatory-bubble:before {
   border-left-color: gray;
-  border-width: 9px;
-  margin-top: -9px;
+}
+
+.webpush-prompt-button {
+  width: 100%;
+  background-color: #005189;
+  color: white;
+  border-radius: 7px;
+  text-transform: none;
+  line-height: 0;
 }

@@ -20,16 +20,39 @@ if (navigator.serviceWorker) {
     history.replaceState({}, document.title, url.href);
   })();
 
-  function setSubscriptionTip(tip) {
+  var mouseOnTooltip = false;
+  var mouseOnButton = false;
+
+  var hideTooltipTimeout;
+  function hideTooltip() {
+    clearTimeout(hideTooltipTimeout);
+
+    if (mouseOnTooltip || mouseOnButton) {
+      return;
+    }
+
+    hideTooltipTimeout = setTimeout(function() {
+      if (!mouseOnTooltip && !mouseOnButton) {
+        setSubscriptionTip(null);
+      }
+    }, 200);
+  }
+
+  var transientTooltipIntervalId;
+  function setSubscriptionTip(tip, dontFade) {
+    if (transientTooltipIntervalId) {
+      clearInterval(transientTooltipIntervalId);
+    }
+
     var tooltipElement = document.getElementById('webpush-explanatory-bubble');
     if (tip) {
-      tooltipElement.textContent = tip;
-      tooltipElement.style.opacity = 1;
-      setTimeout(function() {
-        tooltipElement.style.opacity = 0;
-      }, 2000);
+      tooltipElement.querySelector('div').innerHTML = tip;
+      tooltipElement.classList.add('shown');
+      if (!dontFade) {
+        transientTooltipIntervalId = setInterval(hideTooltip, 2000);
+      }
     } else {
-      tooltipElement.style.opacity = 0;
+      tooltipElement.classList.remove('shown');
     }
   }
 
@@ -38,13 +61,10 @@ if (navigator.serviceWorker) {
       return;
     }
 
-    var subscriptionButtonImage = document.getElementById('webpush-subscription-button-image');
     if (enabled) {
-      subscriptionButtonImage.style.opacity = 1;
-      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '64px';
+      document.getElementById('webpush-subscription-container').classList.remove('clicked');
     } else {
-      subscriptionButtonImage.style.opacity = 0.5;
-      subscriptionButtonImage.style.width = subscriptionButtonImage.style.height = '48px';
+      document.getElementById('webpush-subscription-container').classList.add('clicked');
     }
   }
 
@@ -57,7 +77,7 @@ if (navigator.serviceWorker) {
   }
 
   function disableNotifications() {
-    navigator.serviceWorker.getRegistration()
+    return navigator.serviceWorker.getRegistration()
     .then(function(registration) {
       return registration.pushManager.getSubscription();
     })
@@ -195,19 +215,52 @@ if (navigator.serviceWorker) {
       return;
     }
 
+    document.getElementById('webpush-explanatory-bubble').onmouseover = function() {
+      mouseOnTooltip = true;
+      clearTimeout(hideTooltipTimeout);
+    };
+
+    document.getElementById('webpush-explanatory-bubble').onmouseout = function() {
+      mouseOnTooltip = false;
+      hideTooltip();
+    };
+
+    document.getElementById('webpush-subscription-button-image').onmouseover = function() {
+      mouseOnButton = true;
+      clearTimeout(hideTooltipTimeout);
+
+      localforage.setItem('button_interacted', true);
+
+      notificationsEnabled()
+      .then(function(enabled) {
+        if (enabled && Notification.permission === 'granted') {
+          setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button id="webpush-prompt-button" class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
+
+          document.getElementById('webpush-prompt-button').onclick = function() {
+            disableNotifications()
+            .then(function() {
+              setSubscriptionTip(ServiceWorker.unsubscribed_hint);
+            });
+          };
+        } else {
+          setSubscriptionTip('<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>', true);
+        }
+      });
+    };
+
+    document.getElementById('webpush-subscription-button-image').onmouseout = function() {
+      mouseOnButton = false;
+      hideTooltip();
+    };
+
     document.getElementById('webpush-subscription-button-image').onclick = function() {
       localforage.setItem('button_interacted', true);
       setNotificationsIndicator(false);
 
       notificationsEnabled()
       .then(function(enabled) {
-        setSubscriptionTip(null);
-
         if (enabled && Notification.permission === 'granted') {
-          disableNotifications()
-          .then(function() {
-            setSubscriptionTip(ServiceWorker.unsubscribed_hint);
-          });
+          // Do nothing.
         } else {
           enableNotifications(true)
           .then(function() {
