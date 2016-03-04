@@ -20,4 +20,4 @@ make test
 
 ## Credits
 
-"Bell" icons designed by [Daouna Jeong](https://thenounproject.com/daouna/) and [Juliette WAGNER](https://thenounproject.com/juliettewa) from the [Noun Project](https://thenounproject.com/).
+"Bell" icon designed by [Juliette WAGNER](https://thenounproject.com/juliettewa) from the [Noun Project](https://thenounproject.com/).
