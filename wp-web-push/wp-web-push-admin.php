@@ -310,7 +310,7 @@ class WebPush_Admin {
 <td>
 <fieldset>
   <?php foreach ($allowed_triggers as $trigger): ?>
-  <label><input type="checkbox" name="webpush_triggers[]" id="webpush_trigger_<?php echo $trigger['key']; ?>" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> <?php if (array_key_exists('parentKey', $trigger)) { echo 'parent="' . esc_attr($trigger['parentKey']) . '"'; } ?> /> <?php _e($trigger['text'], 'web-push'); ?></label><br />
+  <label><input type="checkbox" name="webpush_triggers[]" id="webpush_trigger_<?php echo $trigger['key']; ?>" value="<?php echo esc_attr($trigger['key']); ?>" <?php echo in_array($trigger['key'], $triggers_option) ? 'checked' : ''; ?> <?php if (array_key_exists('parentKey', $trigger)) { echo 'parent="' . esc_attr($trigger['parentKey']) . '"'; } ?> /> <?php echo $trigger['text']; ?></label><br />
   <?php endforeach; ?>
 </fieldset>
 <p class="description"><?php _e('N.B.: You can override these options for individual posts when you create/edit them.', 'web-push'); ?></p>
