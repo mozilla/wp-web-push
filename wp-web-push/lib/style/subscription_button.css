@@ -10,10 +10,11 @@
 }
 
 #webpush-subscription .card {
+  position: relative;
   padding: 15px 10px;
   background-color: #fff;
   height: 10em;
-  box-shadow: rgba(0,0,0,0.5) 0 -1px 3px;
+  border-top: 1px solid #BBB;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,16 +29,30 @@
    * the bottom of the page.
    */
   transform: translateY(calc(100% - 64px - 15px - 5px));
-  box-shadow: none;
+  border: none;
 }
 
+#webpush-subscription .card.hidden .close,
 #webpush-subscription .card.hidden .message,
 #webpush-subscription .card.hidden .actions {
-  box-shadow: none;
   visibility: hidden;
 }
 
-#webpush-subscription button {
+#webpush-subscription .card .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #333;
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  padding: 0;
+  background-color: transparent;
+  background-image: url('../close.svg');
+  background-size: cover;
+}
+
+#webpush-subscription .subscribe {
   float: right;
   width: 64px;
   height: 64px;
@@ -72,4 +87,54 @@
 #webpush-subscription .actions a.default {
   color: #fff;
   background-color: #005189;
+  border-radius: 3px;
+  box-shadow: #BBB 0 2px 0;
+}
+
+#webpush-subscription .bubble {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+  right: calc(64px + 10px + 10px);
+  max-width: 300px;
+  min-height: 54px;
+  padding: 12px 15px 10px 15px;
+  background-color: #fff;
+  border: 1px solid #444;
+  border-radius: 7px;
+  box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
+  opacity: 0.0;
+  transition: opacity 800ms;
+}
+
+#webpush-subscription .bubble.shown {
+  opacity: 1.0;
+}
+
+#webpush-subscription .bubble:after,
+#webpush-subscription .bubble:before {
+  position: absolute;
+  left: 100%;
+  bottom: 17px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  pointer-events: none;
+  border-width: 9px;
+}
+
+#webpush-subscription .bubble:after {
+  border-left-color: #ffffff;
+  left: calc(100% - 1px);
+}
+
+#webpush-subscription .bubble:before {
+  border-left-color: #222;
+}
+
+#webpush-subscription .bubble p {
+  margin: 0;
 }
