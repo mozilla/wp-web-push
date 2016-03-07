@@ -65,7 +65,7 @@ class WebPush_Main {
   public static function add_subscription_button() {
     echo '<section id="webpush-subscription">';
     echo '  <button class="subscribe"></button>';
-    echo '  <section class="card">';
+    echo '  <section class="dialog">';
     echo '    <div>';
     echo '      <button class="close"></button>';
     echo '      <div class="message"><p>Your are subscribed to <strong>David Walsh Blog\'s</strong> notifications.</p></div>';
