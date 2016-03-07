@@ -1,3 +1,4 @@
+/*
 if (navigator.serviceWorker) {
   // Remove the webpush_post_id query parameter from the URL.
   (function() {
@@ -315,3 +316,4 @@ if (navigator.serviceWorker) {
     });
   });
 }
+ */

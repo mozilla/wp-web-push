@@ -63,10 +63,16 @@ class WebPush_Main {
   }
 
   public static function add_subscription_button() {
-    echo '<div id="webpush-subscription-container">';
-    echo '<div id="webpush-explanatory-bubble"><div></div></div>';
-    echo '<div id="webpush-subscription-button"><img id="webpush-subscription-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
-    echo '</div>';
+    echo '<section id="webpush-subscription">';
+    echo '  <section class="card">';
+    echo '    <div>';
+    echo '      <button></button>';
+    echo '      <div class="message"><p>Your are subscribed to <strong>David Walsh Blog\'s</strong> notifications.</p></div>';
+    echo '    </div>';
+    echo '    <section class="actions"><a class="dismiss">CLOSE</a><a class="default">UNSUBSCRIBE</a></section>';
+    echo '  </section>';
+    echo '  <section class="bubble"><div></div></section>';
+    echo '</section>';
   }
 
   public function enqueue_frontend_scripts() {

@@ -1,83 +1,57 @@
-#webpush-subscription-container {
+
+#webpush-subscription {
+  font-family: sans-serif;
+  font-size: large;
   position: fixed;
   bottom: 0;
+  left: 0;
   right: 0;
-  z-index: 2147483647;
+  z-index: 100;
+}
+
+#webpush-subscription .card {
+  padding: 15px 10px;
+  background-color: #fff;
+  height: 10em;
+  box-shadow: rgba(0,0,0,0.5) 0 -1px 3px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-#webpush-subscription-button {
-  margin: 0;
-  align-self: flex-end;
-}
-
-#webpush-subscription-container.clicked #webpush-subscription-button-image {
-  height: 48px;
-  width: 48px;
-  opacity: 0.5;
-}
-
-#webpush-subscription-button-image {
+#webpush-subscription button {
+  float: right;
   width: 64px;
   height: 64px;
-  cursor: pointer;
-  vertical-align: bottom;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  background-image: url('../bell.svg');
+  background-size: cover;
 }
 
-#webpush-explanatory-bubble {
-  max-width: 300px;
-  transition: opacity 1s;
-  opacity: 0;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 7px;
-  padding: 3px 7px;
-  position: relative;
-  top: -10px;
-  font-size: 0.9em;
-  margin-right: 9px;
-  min-height: 54px;
+#webpush-subscription .message {
+  padding-top: 6px;
+  padding-left: 6px;
+}
+
+#webpush-subscription .message p {
+  line-height: 140%;
+}
+
+#webpush-subscription .actions {
   align-self: flex-end;
-  display: flex;
-  align-items: center;
-  box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
-  padding: 0 15px 0 15px;
 }
 
-#webpush-explanatory-bubble.shown {
-  opacity: 1.0;
+#webpush-subscription .actions a {
+  margin: 0;
+  padding: 8px 25px;
+  padding-top: 12px;
+  color: #005189;
+  line-height: normal;
 }
 
-#webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {
-  left: 100%;
-  bottom: 13px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-width: 9px;
-}
-
-#webpush-subscription-container.clicked #webpush-explanatory-bubble:after, #webpush-subscription-container.clicked #webpush-explanatory-bubble:before {
-  bottom: 6px;
-}
-
-#webpush-explanatory-bubble:after {
-  border-left-color: white;
-  left: calc(100% - 1px);
-}
-
-#webpush-explanatory-bubble:before {
-  border-left-color: gray;
-}
-
-.webpush-prompt-button {
-  width: 100%;
+#webpush-subscription .actions a.default {
+  color: #fff;
   background-color: #005189;
-  color: white;
-  border-radius: 7px;
-  text-transform: none;
-  line-height: 0;
 }
