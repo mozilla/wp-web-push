@@ -268,14 +268,14 @@ class WebPush_Admin {
 
 <table class="form-table">
 <h2 class="title"><?php _e('Subscription Behavior', 'web-push'); ?></h2>
-<p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users (unless you know that your visitors are really interested) and always giving the option to subscribe/unsubscribe through the subscription button.'); ?></p>
+<p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users and always giving the option to subscribe/unsubscribe through the subscription button.'); ?></p>
 
 <tr>
 <th scope="row"></th>
 <td>
 <img src="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" style="max-width:64px;max-height:64px;"><br>
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
-<p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe.')?></p>
+<p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe. We suggest enabling it to offer an easy way for users to manage their subscription.')?></p>
 </td>
 </tr>
 
@@ -288,6 +288,7 @@ class WebPush_Admin {
 <input type="number" name="webpush_min_visits_custom" value="<?php echo $min_visits_option !== 0 && $min_visits_option !== -1 ? $min_visits_option : 3; ?>" class="small-text" /><br />
 <label><input type="radio" name="webpush_min_visits" value="-1" <?php echo $min_visits_option === -1 ? 'checked' : ''; ?> /> <?php _e('Never automatically ask the user to register', 'web-push'); ?></label>
 </fieldset>
+<p class="description"><?php _e('Limiting automatic prompting is suggested to avoid nagging users (unless you know that your visitors are really interested).')?></p>
 </td>
 </tr>
 
