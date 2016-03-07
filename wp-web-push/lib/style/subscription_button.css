@@ -9,9 +9,29 @@
   z-index: 100;
 }
 
+#webpush-subscription .subscribe {
+  float: right;
+  width: 64px;
+  height: 64px;
+  margin: 5px;
+  padding: 0;
+  background-color: transparent;
+  background-image: url('../bell.svg');
+  background-size: cover;
+}
+
+#webpush-subscription.interacted .subscribe {
+  width: 48px;
+  height: 48px;
+  opacity: 0.5;
+}
+
 #webpush-subscription .card {
-  position: relative;
-  padding: 15px 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 15px 20px;
   background-color: #fff;
   height: 10em;
   border-top: 1px solid #BBB;
@@ -19,53 +39,30 @@
   flex-direction: column;
   justify-content: space-between;
   transition: transform 600ms;
+  transform: translateY(100%);
 }
 
-#webpush-subscription .card.hidden {
-  /*
-   * calc() explanation:
-   * All the card - img height - margin top - margin bottom
-   * Margin bottom is the arbitrary margin I want the button to have with
-   * the bottom of the page.
-   */
-  transform: translateY(calc(100% - 64px - 15px - 5px));
-  border: none;
-}
-
-#webpush-subscription .card.hidden .close,
-#webpush-subscription .card.hidden .message,
-#webpush-subscription .card.hidden .actions {
-  visibility: hidden;
+#webpush-subscription .card.shown {
+  transform: translateY(0);
 }
 
 #webpush-subscription .card .close {
-  position: absolute;
-  right: 0;
-  top: 0;
+  float: right;
   color: #333;
   width: 15px;
   height: 15px;
-  margin: 2px;
   padding: 0;
   background-color: transparent;
   background-image: url('../close.svg');
   background-size: cover;
 }
 
-#webpush-subscription .subscribe {
-  float: right;
-  width: 64px;
-  height: 64px;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  background-image: url('../bell.svg');
-  background-size: cover;
-}
-
 #webpush-subscription .message {
-  padding-top: 6px;
-  padding-left: 6px;
+  padding-left: 2.5em;
+  background-image: url('../bell.svg');
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: 36px 36px;
 }
 
 #webpush-subscription .message p {
@@ -113,17 +110,26 @@
   opacity: 1.0;
 }
 
+#webpush-subscription.interacted .bubble {
+  right: calc(48px + 10px + 10px);
+}
+
 #webpush-subscription .bubble:after,
 #webpush-subscription .bubble:before {
   position: absolute;
   left: 100%;
-  bottom: 17px;
+  bottom: 15px;
   border: solid transparent;
   content: " ";
   height: 0;
   width: 0;
   pointer-events: none;
   border-width: 9px;
+}
+
+#webpush-subscription.interacted .bubble:after,
+#webpush-subscription.interacted .bubble:before {
+  bottom: 10px;
 }
 
 #webpush-subscription .bubble:after {

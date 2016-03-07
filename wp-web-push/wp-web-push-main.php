@@ -64,15 +64,15 @@ class WebPush_Main {
 
   public static function add_subscription_button() {
     echo '<section id="webpush-subscription">';
+    echo '  <button class="subscribe"></button>';
     echo '  <section class="card">';
     echo '    <div>';
     echo '      <button class="close"></button>';
-    echo '      <button class="subscribe"></button>';
     echo '      <div class="message"><p>Your are subscribed to <strong>David Walsh Blog\'s</strong> notifications.</p></div>';
     echo '    </div>';
     echo '    <section class="actions"><a href="#" class="dismiss">CLOSE</a><a href="#" class="default">UNSUBSCRIBE</a></section>';
     echo '  </section>';
-    echo '  <section class="bubble"><div>Subscribe to notifications!</div></section>';
+    echo '  <section class="bubble"><p>Subscribe to notifications!</p></section>';
     echo '</section>';
   }
 
