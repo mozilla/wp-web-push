@@ -17,6 +17,24 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 600ms;
+}
+
+#webpush-subscription .card.hidden {
+  /*
+   * calc() explanation:
+   * All the card - img height - margin top - margin bottom
+   * Margin bottom is the arbitrary margin I want the button to have with
+   * the bottom of the page.
+   */
+  transform: translateY(calc(100% - 64px - 15px - 5px));
+  box-shadow: none;
+}
+
+#webpush-subscription .card.hidden .message,
+#webpush-subscription .card.hidden .actions {
+  box-shadow: none;
+  visibility: hidden;
 }
 
 #webpush-subscription button {
