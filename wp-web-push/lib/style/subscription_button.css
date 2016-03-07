@@ -33,7 +33,6 @@
   bottom: 0;
   padding: 15px 20px;
   background-color: #fff;
-  height: 10em;
   border-top: 1px solid #BBB;
   display: flex;
   flex-direction: column;
@@ -52,12 +51,14 @@
   width: 15px;
   height: 15px;
   padding: 0;
+  margin-left: 5px;
   background-color: transparent;
   background-image: url('../close.svg');
   background-size: cover;
 }
 
 #webpush-subscription .message {
+  min-height: 40px;
   padding-left: 2.5em;
   background-image: url('../bell.svg');
   background-position: top left;
@@ -73,16 +74,16 @@
   align-self: flex-end;
 }
 
-#webpush-subscription .actions a {
+#webpush-subscription button {
   margin: 0;
   padding: 8px 25px;
   padding-top: 12px;
   color: #005189;
   line-height: normal;
+  background-color: transparent;
 }
 
-#webpush-subscription .actions a.default,
-#webpush-subscription .unsubscribe {
+#webpush-subscription .default {
   color: #fff;
   background-color: #005189;
   border-radius: 3px;
@@ -109,10 +110,12 @@
   box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
   opacity: 0.0;
   transition: opacity 800ms;
+  pointer-events: none;
 }
 
 #webpush-subscription .bubble.shown {
   opacity: 1.0;
+  pointer-events: auto;
 }
 
 #webpush-subscription.interacted .bubble {

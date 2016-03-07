@@ -68,11 +68,11 @@ class WebPush_Main {
     echo '  <section class="dialog">';
     echo '    <div>';
     echo '      <button class="close"></button>';
-    echo '      <div class="message"><p>Your are subscribed to <strong>David Walsh Blog\'s</strong> notifications.</p></div>';
+    echo '      <div class="message"></div>';
     echo '    </div>';
-    echo '    <section class="actions"><a href="#" class="dismiss">CLOSE</a><a href="#" class="default">UNSUBSCRIBE</a></section>';
+    echo '    <section class="actions"><button class="dismiss"></button><button class="default"></button></section>';
     echo '  </section>';
-    echo '  <section class="bubble"><p>Subscribe to notifications!</p></section>';
+    echo '  <section class="bubble"></section>';
     echo '</section>';
   }
 
@@ -107,6 +107,8 @@ class WebPush_Main {
       'subscription_prompt' => sprintf(__('<b>%s</b> can send you notifications for new posts.', 'web-push'), get_bloginfo('name')),
       'unsubscription_prompt' => sprintf(__('You are subscribed to <b>%s</b>\'s notifications.', 'web-push'), get_bloginfo('name')),
       'unsubscription_button_text' => __('Unsubscribe', 'web-push'),
+      'subscription_button_text' => __('Subscribe', 'web-push'),
+      'close_button_text' => __('Close', 'web-push')
     ));
     wp_enqueue_script('wp-web-push-script');
 
