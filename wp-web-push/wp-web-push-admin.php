@@ -187,7 +187,7 @@ class WebPush_Admin {
       $triggers_option = isset($_POST['webpush_triggers']) ? $_POST['webpush_triggers'] : array();
       foreach ($triggers_option as $trigger_option) {
         if (!WebPush_Main::get_trigger_by_key_value('key', $trigger_option)) {
-          wp_die(__('Invalid value in Push Triggers: '.$trigger_option, 'web-push'));
+          wp_die(sprintf(__('Invalid value in Push Triggers: %s'), $trigger_option), 'web-push');
         }
       }
 
