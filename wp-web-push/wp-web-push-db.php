@@ -63,7 +63,7 @@ class WebPush_DB {
     // Set default options.
     add_option('webpush_title', 'blog_title');
     add_option('webpush_icon', function_exists('get_site_icon_url') ? 'blog_icon' : '');
-    add_option('webpush_min_visits', 3);
+    add_option('webpush_min_visits', -1);
     add_option('webpush_subscription_button', true);
     add_option('webpush_prompt_interval', 3);
     add_option('webpush_gcm_key', '');
