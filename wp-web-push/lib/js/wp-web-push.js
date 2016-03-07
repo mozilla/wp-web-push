@@ -1,4 +1,3 @@
-/*
 if (navigator.serviceWorker) {
   // Remove the webpush_post_id query parameter from the URL.
   (function() {
@@ -45,10 +44,10 @@ if (navigator.serviceWorker) {
       clearInterval(transientTooltipIntervalId);
     }
 
-    var tooltipElement = document.getElementById('webpush-explanatory-bubble');
+    var tooltipElement = document.querySelector('#webpush-subscription .bubble');
     if (tip) {
-      tooltipElement.querySelector('div').innerHTML = tip;
-      tooltipElement.classList.add('shown');
+      tooltipElement.innerHTML = tip;
+      requestAnimationFrame(() => tooltipElement.classList.add('shown'));
       if (!dontFade) {
         transientTooltipIntervalId = setInterval(hideTooltip, 2000);
       }
@@ -63,9 +62,9 @@ if (navigator.serviceWorker) {
     }
 
     if (enabled) {
-      document.getElementById('webpush-subscription-container').classList.remove('clicked');
+      document.getElementById('webpush-subscription').classList.remove('interacted');
     } else {
-      document.getElementById('webpush-subscription-container').classList.add('clicked');
+      document.getElementById('webpush-subscription').classList.add('interacted');
     }
   }
 
@@ -125,7 +124,7 @@ if (navigator.serviceWorker) {
     .then(function(lastPrompted) {
       if (!lastPrompted) {
         fetch(ServiceWorker.register_url + '?action=webpush_prompt');
-      } else if (!ignorePromptInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
+      } else if (!ignoreDialogInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
         // The permission was denied during the last three days, so we don't prompt
         // the user again to avoid bothering them (unless the user explicitly clicked
         // on the subscription button).
@@ -216,17 +215,17 @@ if (navigator.serviceWorker) {
       return;
     }
 
-    document.getElementById('webpush-explanatory-bubble').onmouseover = function() {
+    document.querySelector('#webpush-subscription .bubble').onmouseover = function() {
       mouseOnTooltip = true;
       clearTimeout(hideTooltipTimeout);
     };
 
-    document.getElementById('webpush-explanatory-bubble').onmouseout = function() {
+    document.querySelector('#webpush-subscription .bubble').onmouseout = function() {
       mouseOnTooltip = false;
       hideTooltip();
     };
 
-    document.getElementById('webpush-subscription-button-image').onmouseover = function() {
+    document.querySelector('#webpush-subscription .subscribe').onmouseover = function() {
       mouseOnButton = true;
       clearTimeout(hideTooltipTimeout);
 
@@ -235,9 +234,9 @@ if (navigator.serviceWorker) {
       notificationsEnabled()
       .then(function(enabled) {
         if (enabled && Notification.permission === 'granted') {
-          setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button id="webpush-prompt-button" class="webpush-prompt-button">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
+          setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button class="unsubscribe default">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
 
-          document.getElementById('webpush-prompt-button').onclick = function() {
+          document.querySelector('#webpush-subscription .unsubscribe').onclick = function() {
             disableNotifications()
             .then(function() {
               setSubscriptionTip(ServiceWorker.unsubscribed_hint);
@@ -249,12 +248,12 @@ if (navigator.serviceWorker) {
       });
     };
 
-    document.getElementById('webpush-subscription-button-image').onmouseout = function() {
+    document.querySelector('#webpush-subscription .subscribe').onmouseout = function() {
       mouseOnButton = false;
       hideTooltip();
     };
 
-    document.getElementById('webpush-subscription-button-image').onclick = function() {
+    document.querySelector('#webpush-subscription .subscribe').onclick = function() {
       localforage.setItem('button_interacted', true);
       setNotificationsIndicator(false);
 
@@ -316,4 +315,3 @@ if (navigator.serviceWorker) {
     });
   });
 }
- */

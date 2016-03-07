@@ -81,11 +81,16 @@
   line-height: normal;
 }
 
-#webpush-subscription .actions a.default {
+#webpush-subscription .actions a.default,
+#webpush-subscription .unsubscribe {
   color: #fff;
   background-color: #005189;
   border-radius: 3px;
   box-shadow: #BBB 0 2px 0;
+}
+
+#webpush-subscription .unsubscribe {
+  width: 100%;
 }
 
 #webpush-subscription .bubble {
