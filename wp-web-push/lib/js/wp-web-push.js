@@ -41,9 +41,9 @@ if (navigator.serviceWorker) {
   function showSubscribe() {
     document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>';
     var actionButton = document.querySelector('#webpush-subscription .actions .default');
-    actionButton.innerHTML = ServiceWorker.subscription_button_text;
+    actionButton.textContent = ServiceWorker.subscription_button_text;
     actionButton.onclick = function () {
-      enableNotifications()
+      enableNotifications(true)
       .then(dismissDialog);
     };
     document.querySelector('#webpush-subscription .dialog').classList.add('shown');
@@ -52,7 +52,7 @@ if (navigator.serviceWorker) {
   function showUnsubscribe() {
     document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + ServiceWorker.unsubscription_prompt + '</p>';
     var actionButton = document.querySelector('#webpush-subscription .actions .default');
-    actionButton.innerHTML = ServiceWorker.unsubscription_button_text;
+    actionButton.textContent = ServiceWorker.unsubscription_button_text;
     actionButton.onclick = function () {
       disableNotifications()
       .then(dismissDialog);
@@ -150,7 +150,7 @@ if (navigator.serviceWorker) {
     .then(function(lastPrompted) {
       if (!lastPrompted) {
         fetch(ServiceWorker.register_url + '?action=webpush_prompt');
-      } else if (!ignoreDialogInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
+      } else if (!ignorePromptInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
         // The permission was denied during the last three days, so we don't prompt
         // the user again to avoid bothering them (unless the user explicitly clicked
         // on the subscription button).
@@ -307,7 +307,7 @@ if (navigator.serviceWorker) {
     else {
       var closeButton = document.querySelector('#webpush-subscription .actions .dismiss');
 
-      closeButton.innerHTML = ServiceWorker.close_button_text;
+      closeButton.textContent = ServiceWorker.close_button_text;
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
