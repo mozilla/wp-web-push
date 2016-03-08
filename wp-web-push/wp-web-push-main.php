@@ -63,10 +63,17 @@ class WebPush_Main {
   }
 
   public static function add_subscription_button() {
-    echo '<div id="webpush-subscription-container">';
-    echo '<div id="webpush-explanatory-bubble"><div></div></div>';
-    echo '<div id="webpush-subscription-button"><img id="webpush-subscription-button-image" src="' . plugins_url('lib/bell.svg', __FILE__) . '" alt="" /></div>';
-    echo '</div>';
+    echo '<section id="webpush-subscription">';
+    echo '  <button class="subscribe"></button>';
+    echo '  <section class="dialog">';
+    echo '    <div>';
+    echo '      <button class="close"></button>';
+    echo '      <div class="message"></div>';
+    echo '    </div>';
+    echo '    <section class="actions"><button class="dismiss"></button><button class="default"></button></section>';
+    echo '  </section>';
+    echo '  <section class="bubble"></section>';
+    echo '</section>';
   }
 
   public function enqueue_frontend_scripts() {
@@ -100,6 +107,8 @@ class WebPush_Main {
       'subscription_prompt' => sprintf(__('<b>%s</b> can send you notifications for new posts.', 'web-push'), get_bloginfo('name')),
       'unsubscription_prompt' => sprintf(__('You are subscribed to <b>%s</b>\'s notifications.', 'web-push'), get_bloginfo('name')),
       'unsubscription_button_text' => __('Unsubscribe', 'web-push'),
+      'subscription_button_text' => __('Subscribe', 'web-push'),
+      'close_button_text' => __('Close', 'web-push')
     ));
     wp_enqueue_script('wp-web-push-script');
 

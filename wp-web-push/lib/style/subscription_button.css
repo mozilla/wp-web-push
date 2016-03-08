@@ -1,83 +1,154 @@
-#webpush-subscription-container {
+
+#webpush-subscription {
+  font-family: sans-serif;
+  font-size: large;
   position: fixed;
   bottom: 0;
+  left: 0;
   right: 0;
-  z-index: 2147483647;
-  display: flex;
+  z-index: 100;
 }
 
-#webpush-subscription-button {
-  margin: 0;
-  align-self: flex-end;
+#webpush-subscription .subscribe {
+  float: right;
+  width: 64px;
+  height: 64px;
+  margin: 5px;
+  padding: 0;
+  background-color: transparent;
+  background-image: url('../bell.svg');
+  background-size: cover;
 }
 
-#webpush-subscription-container.clicked #webpush-subscription-button-image {
-  height: 48px;
+#webpush-subscription.interacted .subscribe {
   width: 48px;
+  height: 48px;
   opacity: 0.5;
 }
 
-#webpush-subscription-button-image {
-  width: 64px;
-  height: 64px;
-  cursor: pointer;
-  vertical-align: bottom;
-}
-
-#webpush-explanatory-bubble {
-  max-width: 300px;
-  transition: opacity 1s;
-  opacity: 0;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 7px;
-  padding: 3px 7px;
-  position: relative;
-  top: -10px;
-  font-size: 0.9em;
-  margin-right: 9px;
-  min-height: 54px;
-  align-self: flex-end;
+#webpush-subscription .dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-top: 1px solid #BBB;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 600ms;
+  transform: translateY(100%);
+}
+
+#webpush-subscription .dialog.shown {
+  transform: translateY(0);
+}
+
+#webpush-subscription .dialog .close {
+  float: right;
+  color: #333;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin-left: 5px;
+  background-color: transparent;
+  background-image: url('../close.svg');
+  background-size: cover;
+}
+
+#webpush-subscription .message {
+  min-height: 40px;
+  padding-left: 2.5em;
+  background-image: url('../bell.svg');
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: 36px 36px;
+}
+
+#webpush-subscription .message p {
+  line-height: 140%;
+}
+
+#webpush-subscription .actions {
+  align-self: flex-end;
+}
+
+#webpush-subscription button {
+  margin: 0;
+  padding: 8px 25px;
+  padding-top: 12px;
+  color: #005189;
+  line-height: normal;
+  background-color: transparent;
+}
+
+#webpush-subscription .default {
+  color: #fff;
+  background-color: #005189;
+  border-radius: 3px;
+  box-shadow: #BBB 0 2px 0;
+}
+
+#webpush-subscription .unsubscribe {
+  width: 100%;
+}
+
+#webpush-subscription .bubble {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+  right: calc(64px + 10px + 10px);
+  max-width: 300px;
+  min-height: 54px;
+  padding: 12px 15px 10px 15px;
+  background-color: #fff;
+  border: 1px solid #444;
+  border-radius: 7px;
   box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
-  padding: 0 15px 0 15px;
+  opacity: 0.0;
+  transition: opacity 800ms;
+  pointer-events: none;
 }
 
-#webpush-explanatory-bubble.shown {
+#webpush-subscription .bubble.shown {
   opacity: 1.0;
+  pointer-events: auto;
 }
 
-#webpush-explanatory-bubble:after, #webpush-explanatory-bubble:before {
+#webpush-subscription.interacted .bubble {
+  right: calc(48px + 10px + 10px);
+}
+
+#webpush-subscription .bubble:after,
+#webpush-subscription .bubble:before {
+  position: absolute;
   left: 100%;
-  bottom: 13px;
+  bottom: 15px;
   border: solid transparent;
   content: " ";
   height: 0;
   width: 0;
-  position: absolute;
   pointer-events: none;
   border-width: 9px;
 }
 
-#webpush-subscription-container.clicked #webpush-explanatory-bubble:after, #webpush-subscription-container.clicked #webpush-explanatory-bubble:before {
-  bottom: 6px;
+#webpush-subscription.interacted .bubble:after,
+#webpush-subscription.interacted .bubble:before {
+  bottom: 10px;
 }
 
-#webpush-explanatory-bubble:after {
-  border-left-color: white;
+#webpush-subscription .bubble:after {
+  border-left-color: #ffffff;
   left: calc(100% - 1px);
 }
 
-#webpush-explanatory-bubble:before {
-  border-left-color: gray;
+#webpush-subscription .bubble:before {
+  border-left-color: #222;
 }
 
-.webpush-prompt-button {
-  width: 100%;
-  background-color: #005189;
-  color: white;
-  border-radius: 7px;
-  text-transform: none;
-  line-height: 0;
+#webpush-subscription .bubble p {
+  margin: 0;
 }
