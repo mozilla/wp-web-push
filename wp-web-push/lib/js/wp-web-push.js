@@ -264,6 +264,7 @@ if (navigator.serviceWorker) {
         clearTimeout(hideTooltipTimeout);
 
         localforage.setItem('button_interacted', true);
+        setNotificationsIndicator(true);
 
         notificationsEnabled()
         .then(function(enabled) {
@@ -285,6 +286,8 @@ if (navigator.serviceWorker) {
       document.querySelector('#webpush-subscription .subscribe').onmouseout = function() {
         mouseOnButton = false;
         hideTooltip();
+
+        setNotificationsIndicator(false);
       };
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
