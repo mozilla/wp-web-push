@@ -266,20 +266,20 @@ if (navigator.serviceWorker) {
         localforage.setItem('button_interacted', true);
 
         notificationsEnabled()
-          .then(function(enabled) {
-            if (enabled && Notification.permission === 'granted') {
-              setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button class="unsubscribe default">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
+        .then(function(enabled) {
+          if (enabled && Notification.permission === 'granted') {
+            setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button class="unsubscribe default">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
 
-              document.querySelector('#webpush-subscription .unsubscribe').onclick = function() {
-                disableNotifications()
-                  .then(function() {
-                    setSubscriptionTip(ServiceWorker.unsubscribed_hint);
-                  });
-              };
-            } else {
-              setSubscriptionTip('<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>', true);
-            }
-          });
+            document.querySelector('#webpush-subscription .unsubscribe').onclick = function() {
+              disableNotifications()
+              .then(function() {
+                setSubscriptionTip(ServiceWorker.unsubscribed_hint);
+              });
+            };
+          } else {
+            setSubscriptionTip('<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>', true);
+          }
+        });
       };
 
       document.querySelector('#webpush-subscription .subscribe').onmouseout = function() {
