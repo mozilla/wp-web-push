@@ -55,7 +55,10 @@ if (navigator.serviceWorker) {
     actionButton.textContent = ServiceWorker.subscription_button_text;
     actionButton.onclick = function () {
       enableNotifications(true)
-      .then(dismissDialog);
+      .then(dismissDialog)
+      .then(function() {
+        setSubscriptionTip(ServiceWorker.mobile_unsubscription_hint);
+      });
     };
     document.querySelector('#webpush-subscription .dialog').classList.add('shown');
   }

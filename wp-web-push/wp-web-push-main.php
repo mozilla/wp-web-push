@@ -103,6 +103,7 @@ class WebPush_Main {
       'subscription_hint' => __('Welcome! Use this button to subscribe to notifications.', 'web-push'),
       'mobile_subscription_hint' => __('Subscribe to notifications', 'web-push'),
       'unsubscription_hint' => __('You can unsubscribe whenever you want using this button.', 'web-push'),
+      'mobile_unsubscription_hint' => __('You are now subscribed!', 'web-push'),
       'unsubscribed_hint' => __('You are unsubscribed!', 'web-push'),
       'notification_preview' => plugins_url('lib/notification.svg', __FILE__),
       'subscription_prompt' => sprintf(__('<b>%s</b> can send you notifications for new posts.', 'web-push'), get_bloginfo('name')),
