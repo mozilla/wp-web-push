@@ -327,13 +327,13 @@ if (navigator.serviceWorker) {
         setNotificationsIndicator(false);
 
         notificationsEnabled()
-          .then(function(enabled) {
-            if (enabled && Notification.permission === 'granted') {
-              showUnsubscribe();
-            } else {
-              showSubscribe();
-            }
-          });
+        .then(function(enabled) {
+          if (enabled && Notification.permission === 'granted') {
+            showUnsubscribe();
+          } else {
+            showSubscribe();
+          }
+        });
       };
 
       document.querySelector('#webpush-subscription .dismiss').onclick = function () {
