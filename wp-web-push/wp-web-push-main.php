@@ -90,7 +90,7 @@ class WebPush_Main {
     }
 
     wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(WP_SW_Manager::SW_REGISTRAR_SCRIPT, 'localforage-script'));
-    wp_localize_script('wp-web-push-script', 'ServiceWorker', array(
+    wp_localize_script('wp-web-push-script', 'WP_Web_Push', array(
       'sw_id' => WP_SW_Manager::get_manager()->sw_js_id(),
       'register_url' => admin_url('admin-ajax.php'),
       'min_visits' => get_option('webpush_min_visits'),
