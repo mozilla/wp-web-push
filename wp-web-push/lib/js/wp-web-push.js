@@ -296,7 +296,6 @@ if (navigator.serviceWorker) {
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
         subscriptionButtonInteracted = true;
-        setNotificationsIndicator(false);
 
         notificationsEnabled()
           .then(function(enabled) {
