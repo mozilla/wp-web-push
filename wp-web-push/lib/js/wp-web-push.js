@@ -34,6 +34,10 @@ if (navigator.serviceWorker) {
     hideTooltipTimeout = setTimeout(function() {
       if (!mouseOnTooltip && !mouseOnButton) {
         setSubscriptionTip(null);
+
+        if (subscriptionButtonInteracted) {
+          setNotificationsIndicator(false);
+        }
       }
     }, 200);
   }
@@ -64,11 +68,14 @@ if (navigator.serviceWorker) {
     document.querySelector('#webpush-subscription .dialog').classList.remove('shown');
   }
 
+  var firstTooltipShown = false;
   var transientTooltipIntervalId;
   function setSubscriptionTip(tip, dontFade) {
     if (transientTooltipIntervalId) {
       clearInterval(transientTooltipIntervalId);
     }
+
+    firstTooltipShown = true;
 
     var tooltipElement = document.querySelector('#webpush-subscription .bubble');
     if (tip) {
@@ -228,6 +235,8 @@ if (navigator.serviceWorker) {
     });
   }
 
+  var subscriptionButtonInteracted = false;
+
   var onLoad = new Promise(function(resolve, reject) {
     window.onload = resolve;
   });
@@ -263,7 +272,6 @@ if (navigator.serviceWorker) {
         mouseOnButton = true;
         clearTimeout(hideTooltipTimeout);
 
-        localforage.setItem('button_interacted', true);
         setNotificationsIndicator(true);
 
         notificationsEnabled()
@@ -286,13 +294,11 @@ if (navigator.serviceWorker) {
       document.querySelector('#webpush-subscription .subscribe').onmouseout = function() {
         mouseOnButton = false;
         hideTooltip();
-
-        setNotificationsIndicator(false);
       };
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
-        setNotificationsIndicator(false);
+        subscriptionButtonInteracted = true;
 
         notificationsEnabled()
           .then(function(enabled) {
@@ -314,6 +320,7 @@ if (navigator.serviceWorker) {
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
+        subscriptionButtonInteracted = true;
         setNotificationsIndicator(false);
 
         notificationsEnabled()
@@ -341,6 +348,7 @@ if (navigator.serviceWorker) {
   .then(function(notificationsEnabled) {
     localforage.getItem('button_interacted')
     .then(function(interacted) {
+      subscriptionButtonInteracted = interacted;
       setNotificationsIndicator(!interacted);
     });
 
@@ -353,7 +361,8 @@ if (navigator.serviceWorker) {
           setTimeout(function() {
             localforage.getItem('button_interacted')
             .then(function(interacted) {
-              if (!interacted) {
+              subscriptionButtonInteracted = interacted;
+              if (!interacted && !firstTooltipShown) {
                 setSubscriptionTip(ServiceWorker.subscription_hint);
               }
             });
