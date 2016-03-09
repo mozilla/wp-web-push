@@ -50,23 +50,23 @@ if (navigator.serviceWorker) {
   }
 
   function showSubscribe() {
-    document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>';
+    document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + WP_Web_Push.subscription_prompt + '</p><p><img src="' + WP_Web_Push.notification_preview + '" alt="" /></p>';
     var actionButton = document.querySelector('#webpush-subscription .actions .default');
-    actionButton.textContent = ServiceWorker.subscription_button_text;
+    actionButton.textContent = WP_Web_Push.subscription_button_text;
     actionButton.onclick = function () {
       enableNotifications(true)
       .then(dismissDialog)
       .then(function() {
-        setSubscriptionTip(ServiceWorker.mobile_unsubscription_hint);
+        setSubscriptionTip(WP_Web_Push.mobile_unsubscription_hint);
       });
     };
     document.querySelector('#webpush-subscription .dialog').classList.add('shown');
   }
 
   function showUnsubscribe() {
-    document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + ServiceWorker.unsubscription_prompt + '</p>';
+    document.querySelector('#webpush-subscription .message').innerHTML = '<p>' + WP_Web_Push.unsubscription_prompt + '</p>';
     var actionButton = document.querySelector('#webpush-subscription .actions .default');
-    actionButton.textContent = ServiceWorker.unsubscription_button_text;
+    actionButton.textContent = WP_Web_Push.unsubscription_button_text;
     actionButton.onclick = function () {
       disableNotifications()
       .then(dismissDialog);
@@ -100,7 +100,7 @@ if (navigator.serviceWorker) {
   }
 
   function setNotificationsIndicator(enabled) {
-    if (!ServiceWorker.subscription_button) {
+    if (!WP_Web_Push.subscription_button) {
       return;
     }
 
@@ -143,10 +143,10 @@ if (navigator.serviceWorker) {
           return;
         }
 
-        if (ServiceWorker.welcome_enabled) {
-          registration.showNotification(ServiceWorker.welcome_title, {
-            body: ServiceWorker.welcome_body,
-            icon: ServiceWorker.welcome_icon,
+        if (WP_Web_Push.welcome_enabled) {
+          registration.showNotification(WP_Web_Push.welcome_title, {
+            body: WP_Web_Push.welcome_body,
+            icon: WP_Web_Push.welcome_icon,
           });
         }
 
@@ -166,8 +166,8 @@ if (navigator.serviceWorker) {
     return localforage.getItem('lastPrompted')
     .then(function(lastPrompted) {
       if (!lastPrompted) {
-        fetch(ServiceWorker.register_url + '?action=webpush_prompt');
-      } else if (!ignorePromptInterval && (lastPrompted + ServiceWorker.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
+        fetch(WP_Web_Push.register_url + '?action=webpush_prompt');
+      } else if (!ignorePromptInterval && (lastPrompted + WP_Web_Push.prompt_interval * 24 * 60 * 60 * 1000 > Date.now())) {
         // The permission was denied during the last three days, so we don't prompt
         // the user again to avoid bothering them (unless the user explicitly clicked
         // on the subscription button).
@@ -234,7 +234,7 @@ if (navigator.serviceWorker) {
           formData.append('newRegistration', true);
         }
 
-        return fetch(ServiceWorker.register_url, {
+        return fetch(WP_Web_Push.register_url, {
           method: 'post',
           body: formData,
         })
@@ -253,10 +253,10 @@ if (navigator.serviceWorker) {
 
   onLoad
   .then(function() {
-    return $swRegistrations[ServiceWorker.sw_id];
+    return $swRegistrations[WP_Web_Push.sw_id];
   })
   .then(function() {
-    if (!ServiceWorker.subscription_button) {
+    if (!WP_Web_Push.subscription_button) {
       return;
     }
 
@@ -280,16 +280,16 @@ if (navigator.serviceWorker) {
         notificationsEnabled()
         .then(function(enabled) {
           if (enabled && Notification.permission === 'granted') {
-            setSubscriptionTip('<p>' + ServiceWorker.unsubscription_prompt + '</p><p><button class="unsubscribe default">' + ServiceWorker.unsubscription_button_text + '</button></p>', true);
+            setSubscriptionTip('<p>' + WP_Web_Push.unsubscription_prompt + '</p><p><button class="unsubscribe default">' + WP_Web_Push.unsubscription_button_text + '</button></p>', true);
 
             document.querySelector('#webpush-subscription .unsubscribe').onclick = function() {
               disableNotifications()
               .then(function() {
-                setSubscriptionTip(ServiceWorker.unsubscribed_hint);
+                setSubscriptionTip(WP_Web_Push.unsubscribed_hint);
               });
             };
           } else {
-            setSubscriptionTip('<p>' + ServiceWorker.subscription_prompt + '</p><p><img src="' + ServiceWorker.notification_preview + '" alt="" /></p>', true);
+            setSubscriptionTip('<p>' + WP_Web_Push.subscription_prompt + '</p><p><img src="' + WP_Web_Push.notification_preview + '" alt="" /></p>', true);
           }
         });
       };
@@ -310,7 +310,7 @@ if (navigator.serviceWorker) {
             } else {
               enableNotifications(true)
               .then(function() {
-                setSubscriptionTip(ServiceWorker.unsubscription_hint);
+                setSubscriptionTip(WP_Web_Push.unsubscription_hint);
               });
             }
           });
@@ -319,7 +319,7 @@ if (navigator.serviceWorker) {
     else {
       var closeButton = document.querySelector('#webpush-subscription .actions .dismiss');
 
-      closeButton.textContent = ServiceWorker.close_button_text;
+      closeButton.textContent = WP_Web_Push.close_button_text;
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
@@ -360,13 +360,13 @@ if (navigator.serviceWorker) {
       if (!visits) {
         visits = 1;
 
-        if (ServiceWorker.subscription_button) {
+        if (WP_Web_Push.subscription_button) {
           setTimeout(function() {
             localforage.getItem('button_interacted')
             .then(function(interacted) {
               subscriptionButtonInteracted = interacted;
               if (!interacted && !firstTooltipShown) {
-                setSubscriptionTip(isMobile ? ServiceWorker.mobile_subscription_hint : ServiceWorker.subscription_hint);
+                setSubscriptionTip(isMobile ? WP_Web_Push.mobile_subscription_hint : WP_Web_Push.subscription_hint);
               }
             });
           }, 5000);
@@ -376,15 +376,15 @@ if (navigator.serviceWorker) {
       }
       localforage.setItem('visits', visits);
 
-      if (visits < ServiceWorker.min_visits) {
+      if (visits < WP_Web_Push.min_visits) {
         return;
       }
 
-      if (ServiceWorker.subscription_button && notificationsEnabled === false) {
+      if (WP_Web_Push.subscription_button && notificationsEnabled === false) {
         return;
       }
 
-      if (ServiceWorker.min_visits != -1) {
+      if (WP_Web_Push.min_visits != -1) {
         enableNotifications();
       } else {
         sendSubscription();
