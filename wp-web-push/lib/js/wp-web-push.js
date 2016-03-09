@@ -228,6 +228,8 @@ if (navigator.serviceWorker) {
     });
   }
 
+  var subscriptionButtonInteracted = false;
+
   var onLoad = new Promise(function(resolve, reject) {
     window.onload = resolve;
   });
@@ -263,7 +265,6 @@ if (navigator.serviceWorker) {
         mouseOnButton = true;
         clearTimeout(hideTooltipTimeout);
 
-        localforage.setItem('button_interacted', true);
         setNotificationsIndicator(true);
 
         notificationsEnabled()
@@ -287,11 +288,14 @@ if (navigator.serviceWorker) {
         mouseOnButton = false;
         hideTooltip();
 
-        setNotificationsIndicator(false);
+        if (subscriptionButtonInteracted) {
+          setNotificationsIndicator(false);
+        }
       };
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
+        subscriptionButtonInteracted = true;
         setNotificationsIndicator(false);
 
         notificationsEnabled()
@@ -314,6 +318,7 @@ if (navigator.serviceWorker) {
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
         localforage.setItem('button_interacted', true);
+        subscriptionButtonInteracted = true;
         setNotificationsIndicator(false);
 
         notificationsEnabled()
@@ -341,6 +346,7 @@ if (navigator.serviceWorker) {
   .then(function(notificationsEnabled) {
     localforage.getItem('button_interacted')
     .then(function(interacted) {
+      subscriptionButtonInteracted = interacted;
       setNotificationsIndicator(!interacted);
     });
 
@@ -353,6 +359,7 @@ if (navigator.serviceWorker) {
           setTimeout(function() {
             localforage.getItem('button_interacted')
             .then(function(interacted) {
+              subscriptionButtonInteracted = interacted;
               if (!interacted) {
                 setSubscriptionTip(ServiceWorker.subscription_hint);
               }
