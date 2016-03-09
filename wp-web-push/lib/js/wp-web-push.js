@@ -34,6 +34,10 @@ if (navigator.serviceWorker) {
     hideTooltipTimeout = setTimeout(function() {
       if (!mouseOnTooltip && !mouseOnButton) {
         setSubscriptionTip(null);
+
+        if (subscriptionButtonInteracted) {
+          setNotificationsIndicator(false);
+        }
       }
     }, 200);
   }
@@ -287,10 +291,6 @@ if (navigator.serviceWorker) {
       document.querySelector('#webpush-subscription .subscribe').onmouseout = function() {
         mouseOnButton = false;
         hideTooltip();
-
-        if (subscriptionButtonInteracted) {
-          setNotificationsIndicator(false);
-        }
       };
 
       document.querySelector('#webpush-subscription .subscribe').onclick = function() {
