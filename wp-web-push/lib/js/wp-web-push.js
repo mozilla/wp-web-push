@@ -68,11 +68,14 @@ if (navigator.serviceWorker) {
     document.querySelector('#webpush-subscription .dialog').classList.remove('shown');
   }
 
+  var firstTooltipShown = false;
   var transientTooltipIntervalId;
   function setSubscriptionTip(tip, dontFade) {
     if (transientTooltipIntervalId) {
       clearInterval(transientTooltipIntervalId);
     }
+
+    firstTooltipShown = true;
 
     var tooltipElement = document.querySelector('#webpush-subscription .bubble');
     if (tip) {
@@ -359,7 +362,7 @@ if (navigator.serviceWorker) {
             localforage.getItem('button_interacted')
             .then(function(interacted) {
               subscriptionButtonInteracted = interacted;
-              if (!interacted) {
+              if (!interacted && !firstTooltipShown) {
                 setSubscriptionTip(ServiceWorker.subscription_hint);
               }
             });
