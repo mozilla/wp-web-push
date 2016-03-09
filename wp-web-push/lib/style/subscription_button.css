@@ -17,14 +17,14 @@
   background-color: transparent;
   background-image: url('../bell.svg');
   background-size: cover;
-  transition: all 500ms;
+  transition-duration: 500ms;
+  transition-property: width, height, opacity;
 }
 
 #webpush-subscription.interacted .subscribe {
   width: 48px;
   height: 48px;
   opacity: 0.5;
-  transition: all 500ms;
 }
 
 #webpush-subscription .dialog {
@@ -110,7 +110,8 @@
   border-radius: 7px;
   box-shadow: rgba(0,0,0,0.3) 0 0 20px -3px;
   opacity: 0.0;
-  transition: all 500ms;
+  transition-duration: 500ms;
+  transition-property: opacity, right;
   pointer-events: none;
 }
 
@@ -121,7 +122,6 @@
 
 #webpush-subscription.interacted .bubble {
   right: calc(48px + 10px + 10px);
-  transition: all 500ms;
 }
 
 #webpush-subscription .bubble:after,
@@ -135,12 +135,12 @@
   width: 0;
   pointer-events: none;
   border-width: 9px;
+  transition: bottom 500ms;
 }
 
 #webpush-subscription.interacted .bubble:after,
 #webpush-subscription.interacted .bubble:before {
   bottom: 10px;
-  transition: all 500ms;
 }
 
 #webpush-subscription .bubble:after {
