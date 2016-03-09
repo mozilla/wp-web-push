@@ -297,9 +297,9 @@ if (navigator.serviceWorker) {
               // Do nothing.
             } else {
               enableNotifications(true)
-                .then(function() {
-                  setSubscriptionTip(ServiceWorker.unsubscription_hint);
-                });
+              .then(function() {
+                setSubscriptionTip(ServiceWorker.unsubscription_hint);
+              });
             }
           });
       };
