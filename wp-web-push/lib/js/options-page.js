@@ -124,4 +124,19 @@ window.onload = function() {
   for (var i = 0; i < iconElems.length; i++) {
     iconElems[i].addEventListener('change', updateIcon);
   }
+
+  // Subscription button color picker.
+  var colorFieldElem = jQuery('.webpush_subscription_button_color');
+
+  function updateButtonColor() {
+    setTimeout(function() {
+      document.getElementById('webpush_subscription_button_svg').getSVGDocument().getElementById('Base-Circle-Copy-5').style.fill = colorFieldElem.val();
+    }, 0);
+  }
+
+  colorFieldElem.wpColorPicker({
+    change: updateButtonColor,
+  });
+
+  updateButtonColor();
 };

@@ -17,7 +17,7 @@
     <g id="Wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="1.1-Initial" transform="translate(-514.000000, -1012.000000)">
             <g id="bell" transform="translate(522.000000, 1018.000000)">
-                <circle id="Base-Circle-Copy-5" stroke="#FFFFFF" stroke-width="2" fill="#005189" filter="url(#filter-1)" cx="48" cy="48" r="48"/>
+                <circle id="Base-Circle-Copy-5" stroke="#FFFFFF" stroke-width="2" fill="$COLOR$" filter="url(#filter-1)" cx="48" cy="48" r="48"/>
                 <g id="noun_10289" transform="translate(19.500000, 18.750000)" fill="#FFFFFF">
                     <g id="Group">
                         <g>

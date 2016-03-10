@@ -79,14 +79,14 @@
   margin: 0;
   padding: 8px 25px;
   padding-top: 12px;
-  color: #005189;
+  color: $COLOR$;
   line-height: normal;
   background-color: transparent;
 }
 
 #webpush-subscription .default {
   color: #fff;
-  background-color: #005189;
+  background-color: $COLOR$;
   border-radius: 3px;
   box-shadow: #BBB 0 2px 0;
 }

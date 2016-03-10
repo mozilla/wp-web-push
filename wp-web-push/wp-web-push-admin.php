@@ -103,7 +103,8 @@ class WebPush_Admin {
         $custom_icon_url = $icon_option;
       }
 
-      wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
+      wp_enqueue_style('wp-color-picker');
+      wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__), array('wp-color-picker'));
       wp_localize_script('options-page-script', 'webPushOptions', array(
         'blog_title' => get_bloginfo('name'),
         'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
@@ -138,12 +139,21 @@ class WebPush_Admin {
     $this->options_page = add_options_page(__('Web Push Options', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
   }
 
+  private function sanitize_hex_color($color) {
+    if (empty($color) || !preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color)) {
+      return '';
+    }
+
+    return $color;
+  }
+
   public function options() {
     $allowed_triggers = WebPush_Main::$ALLOWED_TRIGGERS;
     $title_option = get_option('webpush_title');
     $icon_option = get_option('webpush_icon');
     $min_visits_option = intval(get_option('webpush_min_visits'));
     $subscription_button_option = get_option('webpush_subscription_button');
+    $subscription_button_color_option = get_option('webpush_subscription_button_color');
     $prompt_interval_option = get_option('webpush_prompt_interval');
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
@@ -182,6 +192,11 @@ class WebPush_Admin {
 
       $subscription_button_option = isset($_POST['webpush_subscription_button']) ? true : false;
 
+      $subscription_button_color_option = $this->sanitize_hex_color($_POST['webpush_subscription_button_color']);
+      if (!$subscription_button_color_option) {
+        wp_die(__('Invalid color for the subscription button', 'web-push'));
+      }
+
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
 
       $triggers_option = isset($_POST['webpush_triggers']) ? $_POST['webpush_triggers'] : array();
@@ -198,10 +213,13 @@ class WebPush_Admin {
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
       update_option('webpush_subscription_button', $subscription_button_option);
+      update_option('webpush_subscription_button_color', $subscription_button_color_option);
       update_option('webpush_prompt_interval', $prompt_interval_option);
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
+
+      WebPush_Main::generate_subscription_button_files();
 
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
@@ -273,7 +291,8 @@ class WebPush_Admin {
 <tr>
 <th scope="row"></th>
 <td>
-<img src="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" style="max-width:64px;max-height:64px;"><br>
+<object id="webpush_subscription_button_svg" data="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
+<input type="text" value="<?php echo $subscription_button_color_option; ?>" name="webpush_subscription_button_color" class="webpush_subscription_button_color" data-default-color="<?php echo $subscription_button_color_option; ?>" /><br>
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe. We suggest enabling it to offer an easy way for users to manage their subscription.', 'web-push')?></p>
 </td>

@@ -249,6 +249,22 @@ class WebPush_Main {
       }
     }
   }
+
+  public static function generate_subscription_button_files() {
+    $template_files = array(
+      plugin_dir_path(__FILE__) . 'lib/style/subscription_button.template.css',
+      plugin_dir_path(__FILE__) . 'lib/bell.template.svg',
+    );
+
+    $color = get_option('webpush_subscription_button_color');
+
+    foreach ($template_files as $template_file) {
+      $style = str_replace('$COLOR$', $color, file_get_contents($template_file));
+
+      $file = str_replace('.template', '', $template_file);
+      file_put_contents($file, $style);
+    }
+  }
 }
 
 ?>
