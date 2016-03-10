@@ -48,6 +48,9 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.0 =
+* Customization of the subscription button color.
+
 = 1.0.0 =
 * New, improved, mobile and desktop interface for the subscription button and related tooltips.
 * Fixed minor bugs.
