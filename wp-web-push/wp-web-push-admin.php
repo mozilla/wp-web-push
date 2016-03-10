@@ -219,6 +219,8 @@ class WebPush_Admin {
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
 
+      WebPush_Main::generate_subscription_button_files();
+
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
 <?php
