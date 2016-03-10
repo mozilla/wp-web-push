@@ -103,7 +103,8 @@ class WebPush_Admin {
         $custom_icon_url = $icon_option;
       }
 
-      wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__));
+      wp_enqueue_style('wp-color-picker');
+      wp_register_script('options-page-script', plugins_url('lib/js/options-page.js', __FILE__), array('wp-color-picker'));
       wp_localize_script('options-page-script', 'webPushOptions', array(
         'blog_title' => get_bloginfo('name'),
         'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
@@ -273,7 +274,8 @@ class WebPush_Admin {
 <tr>
 <th scope="row"></th>
 <td>
-<img src="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" style="max-width:64px;max-height:64px;"><br>
+<object id="webpush_subscription_button_svg" data="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
+<input type="text" value="#005189" class="webpush_subscription_button_color" data-default-color="#005189" /><br>
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe. We suggest enabling it to offer an easy way for users to manage their subscription.', 'web-push')?></p>
 </td>
