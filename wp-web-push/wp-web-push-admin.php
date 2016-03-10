@@ -76,7 +76,11 @@ class WebPush_Admin {
       $sent = array();
       $opened = array();
       foreach ($posts as $post) {
-        $labels[] = $post->post_title;
+        $title = $post->post_title;
+        if (strlen($title) > 20) {
+          $title = substr($post->post_title, 0, 20) . '…';
+        }
+        $labels[] = $title;
         $sent[] = intval($post->_notifications_sent);
         $opened[] = intval($post->_notifications_clicked);
       }
