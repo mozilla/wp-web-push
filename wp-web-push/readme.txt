@@ -48,6 +48,9 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.1 =
+* Fix bug in the dashboard graph with long post titles.
+
 = 1.1.0 =
 * Customization of the subscription button color.
 
