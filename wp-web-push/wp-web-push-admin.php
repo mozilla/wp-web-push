@@ -213,6 +213,7 @@ class WebPush_Admin {
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
       update_option('webpush_subscription_button', $subscription_button_option);
+      update_option('webpush_subscription_button_color', $subscription_button_color_option);
       update_option('webpush_prompt_interval', $prompt_interval_option);
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
