@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Web Push package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Web Push 0.0.9\n"
+"Project-Id-Version: Web Push 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-web-push\n"
-"POT-Creation-Date: 2016-02-24 13:04:27+00:00\n"
+"POT-Creation-Date: 2016-03-10 12:58:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  wp-web-push.pot (Web Push 0.0.9)  #-#-#-#-#
+#. #-#-#-#-#  wp-web-push.pot (Web Push 1.0.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-web-push-admin.php:16 wp-web-push-admin.php:118
 #: wp-web-push-admin.php:138 wp-web-push-admin.php:218
@@ -68,6 +68,10 @@ msgstr ""
 
 #: wp-web-push-admin.php:180
 msgid "Invalid value for `Registration Behavior`"
+msgstr ""
+
+#: wp-web-push-admin.php:190
+msgid "Invalid value in Push Triggers: %s"
 msgstr ""
 
 #: wp-web-push-admin.php:207
@@ -133,8 +137,8 @@ msgstr ""
 msgid ""
 "In this section, you can customize the subscription behavior and tailor it "
 "to your site. We suggest limiting automatic prompting to avoid nagging users "
-"(unless you know that your visitors are really interested) and always giving "
-"the option to subscribe/unsubscribe through the subscription button."
+"and always giving the option to subscribe/unsubscribe through the "
+"subscription button."
 msgstr ""
 
 #: wp-web-push-admin.php:277
@@ -144,7 +148,8 @@ msgstr ""
 #: wp-web-push-admin.php:278
 msgid ""
 "A button in the bottom-right corner of the page that the user can use to "
-"subscribe/unsubscribe."
+"subscribe/unsubscribe. We suggest enabling it to offer an easy way for users "
+"to manage their subscription."
 msgstr ""
 
 #: wp-web-push-admin.php:283
@@ -163,30 +168,42 @@ msgstr ""
 msgid "Never automatically ask the user to register"
 msgstr ""
 
-#: wp-web-push-admin.php:295
+#: wp-web-push-admin.php:291
+msgid ""
+"Limiting automatic prompting is suggested to avoid nagging users (unless you "
+"know that your visitors are really interested)."
+msgstr ""
+
+#: wp-web-push-admin.php:296
 msgid "Interval between prompts"
 msgstr ""
 
-#: wp-web-push-admin.php:297
+#: wp-web-push-admin.php:298
 msgid ""
 "If the user declines or dismisses the prompt, this is the time interval (in "
 "days) to wait before prompting again."
 msgstr ""
 
-#: wp-web-push-admin.php:304
+#: wp-web-push-admin.php:305
 msgid "Push Triggers"
 msgstr ""
 
-#: wp-web-push-admin.php:305
+#: wp-web-push-admin.php:306
 msgid ""
 "Select which events should trigger sending a push notification to users."
 msgstr ""
 
-#: wp-web-push-admin.php:321
+#: wp-web-push-admin.php:316
+msgid ""
+"N.B.: You can override these options for individual posts when you create/"
+"edit them."
+msgstr ""
+
+#: wp-web-push-admin.php:323
 msgid "Google Chrome Support"
 msgstr ""
 
-#: wp-web-push-admin.php:322
+#: wp-web-push-admin.php:324
 msgid ""
 "To configure Google Chrome support, follow the steps in <a href=\"https://"
 "developers.google.com/web/fundamentals/getting-started/push-notifications/"
@@ -195,15 +212,15 @@ msgid ""
 "i> and <i>Project Number</i> into the fields below."
 msgstr ""
 
-#: wp-web-push-admin.php:325
+#: wp-web-push-admin.php:327
 msgid "GCM API Key"
 msgstr ""
 
-#: wp-web-push-admin.php:330
+#: wp-web-push-admin.php:332
 msgid "GCM Project Number"
 msgstr ""
 
-#: wp-web-push-admin.php:335
+#: wp-web-push-admin.php:337
 msgid "Save Changes"
 msgstr ""
 
@@ -221,16 +238,48 @@ msgid ""
 "like)."
 msgstr ""
 
-#: wp-web-push-main.php:89
+#: wp-web-push-main.php:99
 msgid "Successfully subscribed to notifications"
 msgstr ""
 
-#: wp-web-push-main.php:95
+#: wp-web-push-main.php:103
 msgid "Welcome! Use this button to subscribe to notifications."
 msgstr ""
 
-#: wp-web-push-main.php:96
+#: wp-web-push-main.php:104
+msgid "Subscribe to notifications"
+msgstr ""
+
+#: wp-web-push-main.php:105
 msgid "You can unsubscribe whenever you want using this button."
+msgstr ""
+
+#: wp-web-push-main.php:106
+msgid "You are now subscribed!"
+msgstr ""
+
+#: wp-web-push-main.php:107
+msgid "You are unsubscribed!"
+msgstr ""
+
+#: wp-web-push-main.php:109
+msgid "<b>%s</b> can send you notifications for new posts."
+msgstr ""
+
+#: wp-web-push-main.php:110
+msgid "You are subscribed to <b>%s</b>'s notifications."
+msgstr ""
+
+#: wp-web-push-main.php:111
+msgid "Unsubscribe"
+msgstr ""
+
+#: wp-web-push-main.php:112
+msgid "Subscribe"
+msgstr ""
+
+#: wp-web-push-main.php:113
+msgid "Close"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
