@@ -21,6 +21,7 @@ build: $(COMPOSER)
 	cp vendor/mozilla/wp-sw-manager/*.php build/vendor/mozilla/wp-sw-manager
 	cp -r vendor/mozilla/wp-sw-manager/lib build/vendor/mozilla/wp-sw-manager/
 	./node_modules/.bin/svgo -f $(PLUGIN_NAME)/lib/ -o build/lib/ -p 1 --enable=cleanupNumericValues --enable=cleanupListOfValues --enable=convertPathData
+	./node_modules/.bin/svgo -i $(PLUGIN_NAME)/lib/bell.template.svg -o build/lib/bell.template.svg -p 1 --enable=cleanupNumericValues --enable=cleanupListOfValues --enable=convertPathData --disable=cleanupIDs
 	cd build/ && zip $(PLUGIN_NAME).zip -r *
 	mv build/$(PLUGIN_NAME).zip $(PLUGIN_NAME).zip
 
