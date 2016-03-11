@@ -122,7 +122,7 @@
   pointer-events: none;
 }
 
-#webpush-subscription img {
+#webpush-subscription .notification-image {
   margin-top: 10px;
 }
 

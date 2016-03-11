@@ -289,7 +289,7 @@ if (navigator.serviceWorker) {
               });
             };
           } else {
-            setSubscriptionTip('<p>' + WP_Web_Push.subscription_prompt + '</p><p><img src="' + WP_Web_Push.notification_preview + '" alt="" /></p>', true);
+            setSubscriptionTip('<p>' + WP_Web_Push.subscription_prompt + '</p><p><img class="notification-image" src="' + WP_Web_Push.notification_preview + '" alt="" /></p>', true);
           }
         });
       };
