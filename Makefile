@@ -1,26 +1,27 @@
 .PHONY: reinstall build test generate-pot release version-changelog
 
+PLUGIN_NAME = wp-web-push
 WP_CLI = tools/wp-cli.phar
 PHPUNIT = tools/phpunit.phar
 COMPOSER = tools/composer.phar
 
 reinstall: $(WP_CLI) build
-	$(WP_CLI) plugin uninstall --deactivate wp-web-push --path=$(WORDPRESS_PATH)
-	$(WP_CLI) plugin install --activate wp-web-push.zip --path=$(WORDPRESS_PATH)
+	$(WP_CLI) plugin uninstall --deactivate $(PLUGIN_NAME) --path=$(WORDPRESS_PATH)
+	$(WP_CLI) plugin install --activate $(PLUGIN_NAME).zip --path=$(WORDPRESS_PATH)
 
 build: $(COMPOSER)
 	npm install
 	$(COMPOSER) install
-	rm -rf build wp-web-push.zip
-	cp -r wp-web-push/ build/
+	rm -rf build $(PLUGIN_NAME).zip
+	cp -r $(PLUGIN_NAME)/ build/
 	cp node_modules/localforage/dist/localforage.nopromises.min.js build/lib/js/localforage.nopromises.min.js
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
 	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/WebAppManifestGenerator.php
 	mkdir -p build/vendor/mozilla/wp-sw-manager
 	cp vendor/mozilla/wp-sw-manager/*.php build/vendor/mozilla/wp-sw-manager
 	cp -r vendor/mozilla/wp-sw-manager/lib build/vendor/mozilla/wp-sw-manager/
-	cd build/ && zip wp-web-push.zip -r *
-	mv build/wp-web-push.zip wp-web-push.zip
+	cd build/ && zip $(PLUGIN_NAME).zip -r *
+	mv build/$(PLUGIN_NAME).zip $(PLUGIN_NAME).zip
 
 test: $(PHPUNIT) build
 	$(PHPUNIT)
@@ -31,6 +32,7 @@ version-changelog:
 release: build tools/wordpress-repo version-changelog build
 
 tools/wordpress-repo:
+	mkdir -p tools
 	cd tools && svn checkout https://develop.svn.wordpress.org/trunk/ && mv trunk wordpress-repo
 
 $(COMPOSER):
