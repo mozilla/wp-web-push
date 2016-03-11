@@ -20,5 +20,8 @@
   "dependencies": {
     "chart.js": "^1.0.2",
     "localforage": "^1.4.0"
+  },
+  "devDependencies": {
+    "svgo": "^0.6.2"
   }
 }
