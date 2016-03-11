@@ -53,6 +53,7 @@
   height: 15px;
   padding: 0;
   margin-left: 5px;
+  margin-top: 0;
   background-color: transparent;
   background-image: url('../close.svg');
   background-size: cover;
@@ -77,6 +78,7 @@
 
 #webpush-subscription button {
   margin: 0;
+  margin-top: 10px;
   padding: 8px 25px;
   padding-top: 12px;
   color: $COLOR$;
