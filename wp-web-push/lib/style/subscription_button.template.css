@@ -125,6 +125,10 @@
   transition-property: opacity, right;
 }
 
+#webpush-subscription .notification-image {
+  margin-top: 10px;
+}
+
 #webpush-subscription .bubble.shown {
   opacity: 1.0;
   pointer-events: auto;
