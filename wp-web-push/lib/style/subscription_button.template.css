@@ -89,6 +89,7 @@
   line-height: normal;
   background-color: transparent;
   text-transform: uppercase;
+  outline: 0;
 }
 
 #webpush-subscription .default {
