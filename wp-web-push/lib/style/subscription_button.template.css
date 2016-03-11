@@ -89,7 +89,7 @@
 #webpush-subscription .default {
   color: #fff;
   background-color: $COLOR$;
-  border-radius: 3px;
+  border-radius: 6px;
   box-shadow: #BBB 0 2px 0;
 }
 
