@@ -6,6 +6,7 @@
   left: 0;
   right: 0;
   z-index: 100;
+  pointer-events: none;
 }
 
 #webpush-subscription .subscribe {
@@ -19,6 +20,7 @@
   background-size: cover;
   transition-duration: 500ms;
   transition-property: width, height, opacity;
+  pointer-events: auto;
 }
 
 #webpush-subscription.interacted .subscribe {
@@ -40,6 +42,7 @@
   justify-content: space-between;
   transition: transform 600ms;
   transform: translateY(100%);
+  pointer-events: auto;
 }
 
 #webpush-subscription .dialog.shown {
@@ -119,7 +122,6 @@
   opacity: 0.0;
   transition-duration: 500ms;
   transition-property: opacity, right;
-  pointer-events: none;
 }
 
 #webpush-subscription .bubble.shown {
@@ -140,7 +142,6 @@
   content: " ";
   height: 0;
   width: 0;
-  pointer-events: none;
   border-width: 9px;
   transition: bottom 500ms;
 }
