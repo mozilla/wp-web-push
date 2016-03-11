@@ -59,6 +59,10 @@
   background-size: cover;
 }
 
+#webpush-subscription .dialog button {
+  border-radius: 0;
+}
+
 #webpush-subscription .message {
   min-height: 40px;
   padding-left: 2.5em;
