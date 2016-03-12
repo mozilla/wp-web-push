@@ -4,6 +4,7 @@ require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 require_once(plugin_dir_path(__FILE__) . 'WebAppManifestGenerator.php');
 require_once(plugin_dir_path(__FILE__) . 'vendor/mozilla/wp-sw-manager/class-wp-sw-manager.php');
+require_once(plugin_dir_path(__FILE__) . 'WPServeFile.php');
 
 class WebPush_Main {
   private static $instance;
@@ -54,6 +55,8 @@ class WebPush_Main {
       $manifestGenerator->set_field('gcm_sender_id', $senderID);
       $manifestGenerator->set_field('gcm_user_visible_only', true);
     }
+
+    WPServeFile::getInstance();
   }
 
   public static function init() {
@@ -115,7 +118,7 @@ class WebPush_Main {
     wp_enqueue_script('wp-web-push-script');
 
     if (get_option('webpush_subscription_button')) {
-      wp_enqueue_style('subscription-button-style', '?webpush_file=subscription_button.css');
+      wp_enqueue_style('subscription-button-style', WPServeFile::get_relative_to_wp_root_url('subscription_button.css'));
     }
   }
 
@@ -150,20 +153,6 @@ class WebPush_Main {
       $notifications_clicked = get_post_meta($post_id, '_notifications_clicked', true);
       if ($notifications_clicked !== '') {
         update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
-      }
-    }
-
-    if (array_key_exists('webpush_file', $query->query_vars)) {
-      $file = $query->query_vars['webpush_file'];
-
-      if ($file === 'bell.svg') {
-        header('Content-Type: image/svg+xml');
-        require_once(plugin_dir_path(__FILE__) . 'lib/bell.svg');
-        die();
-      } else if ($file === 'subscription_button.css') {
-        header('Content-Type: text/css');
-        require_once(plugin_dir_path(__FILE__) . 'lib/style/subscription_button.css');
-        die();
       }
     }
   }
@@ -266,19 +255,15 @@ class WebPush_Main {
   }
 
   public static function generate_subscription_button_files() {
-    $template_files = array(
-      plugin_dir_path(__FILE__) . 'lib/style/subscription_button.template.css',
-      plugin_dir_path(__FILE__) . 'lib/bell.template.svg',
-    );
+    ob_start();
+    require_once(plugin_dir_path(__FILE__) . 'lib/style/subscription_button.css');
+    $style = ob_get_clean();
+    WPServeFile::add_file('subscription_button.css', $style, 'text/css');
 
-    $color = get_option('webpush_subscription_button_color');
-
-    foreach ($template_files as $template_file) {
-      $style = str_replace('$COLOR$', $color, file_get_contents($template_file));
-
-      $file = str_replace('.template', '', $template_file);
-      file_put_contents($file, $style);
-    }
+    ob_start();
+    require_once(plugin_dir_path(__FILE__) . 'lib/bell.svg');
+    $svg = ob_get_clean();
+    WPServeFile::add_file('bell.svg', $svg, 'image/svg+xml');
   }
 }
 
