@@ -143,7 +143,6 @@ class WebPush_Main {
 
   public static function on_query_vars($qvars) {
     $qvars[] = 'webpush_post_id';
-    $qvars[] = 'webpush_file';
     return $qvars;
   }
 
