@@ -26,7 +26,21 @@ class WPServeFile {
       return;
     }
     $contentType = get_option('wpservefile_files_' . $name . '_contentType');
+    $lastModified = get_option('wpservefile_files_' . $name . '_lastModified');
 
+    $maxAge = DAY_IN_SECONDS;
+    $etag = md5($lastModified);
+
+    if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= strtotime($lastModified) || $_SERVER['HTTP_IF_NONE_MATCH'] == $etag) {
+      header('HTTP/1.1 304 Not Modified');
+      exit;
+    }
+
+    header('HTTP/1.1 200 OK');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $maxAge) . ' GMT');
+    header('Cache-Control: max-age=' . $maxAge . ', public, must-revalidate');
+    header('Last-Modified: ' . $lastModified);
+    header('ETag: ' . $etag);
     header('Content-Type: ' . $contentType);
     echo $content;
     wp_die();
@@ -35,6 +49,7 @@ class WPServeFile {
   public static function add_file($name, $content, $contentType) {
     update_option('wpservefile_files_' . $name . '_content', $content);
     update_option('wpservefile_files_' . $name . '_contentType', $contentType);
+    update_option('wpservefile_files_' . $name . '_lastModified', gmdate('D, d M Y H:i:s', time()) . ' GMT');
   }
 
   public static function get_relative_to_host_root_url($name) {
