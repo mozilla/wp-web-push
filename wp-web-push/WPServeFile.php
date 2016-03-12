@@ -21,12 +21,10 @@ class WPServeFile {
   public static function serve_file() {
     $name = $_GET['wpservefile_file'];
 
-    $content = get_option('wpservefile_files_' . $name . '_content');
-    if (!$content) {
+    $lastModified = get_option('wpservefile_files_' . $name . '_lastModified');
+    if (!$lastModified) {
       return;
     }
-    $contentType = get_option('wpservefile_files_' . $name . '_contentType');
-    $lastModified = get_option('wpservefile_files_' . $name . '_lastModified');
 
     $maxAge = DAY_IN_SECONDS;
     $etag = md5($lastModified);
@@ -35,6 +33,9 @@ class WPServeFile {
       header('HTTP/1.1 304 Not Modified');
       exit;
     }
+
+    $content = get_option('wpservefile_files_' . $name . '_content');
+    $contentType = get_option('wpservefile_files_' . $name . '_contentType');
 
     header('HTTP/1.1 200 OK');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $maxAge) . ' GMT');
