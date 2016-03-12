@@ -223,8 +223,6 @@ class WebPush_Admin {
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
 
-      WebPush_Main::generate_subscription_button_files();
-
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
 <?php
@@ -295,7 +293,7 @@ class WebPush_Admin {
 <tr>
 <th scope="row"></th>
 <td>
-<object id="webpush_subscription_button_svg" data="<?php echo plugins_url('lib/bell.svg', __FILE__); ?>" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
+<object id="webpush_subscription_button_svg" data="<?php echo home_url('/', 'relative'); ?>?webpush_file=bell.svg" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
 <input type="text" value="<?php echo $subscription_button_color_option; ?>" name="webpush_subscription_button_color" class="webpush_subscription_button_color" data-default-color="<?php echo $subscription_button_color_option; ?>" /><br>
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe. We suggest enabling it to offer an easy way for users to manage their subscription.', 'web-push')?></p>

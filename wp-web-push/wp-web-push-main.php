@@ -115,7 +115,7 @@ class WebPush_Main {
     wp_enqueue_script('wp-web-push-script');
 
     if (get_option('webpush_subscription_button')) {
-      wp_enqueue_style('subscription-button-style', plugins_url('lib/style/subscription_button.css', __FILE__));
+      wp_enqueue_style('subscription-button-style', '?webpush_file=subscription_button.css');
     }
   }
 
@@ -140,6 +140,7 @@ class WebPush_Main {
 
   public static function on_query_vars($qvars) {
     $qvars[] = 'webpush_post_id';
+    $qvars[] = 'webpush_file';
     return $qvars;
   }
 
@@ -149,6 +150,20 @@ class WebPush_Main {
       $notifications_clicked = get_post_meta($post_id, '_notifications_clicked', true);
       if ($notifications_clicked !== '') {
         update_post_meta($post_id, '_notifications_clicked', $notifications_clicked + 1);
+      }
+    }
+
+    if (array_key_exists('webpush_file', $query->query_vars)) {
+      $file = $query->query_vars['webpush_file'];
+
+      if ($file === 'bell.svg') {
+        header('Content-Type: image/svg+xml');
+        require_once(plugin_dir_path(__FILE__) . 'lib/bell.svg');
+        die();
+      } else if ($file === 'subscription_button.css') {
+        header('Content-Type: text/css');
+        require_once(plugin_dir_path(__FILE__) . 'lib/style/subscription_button.css');
+        die();
       }
     }
   }

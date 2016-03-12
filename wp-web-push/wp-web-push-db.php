@@ -72,8 +72,6 @@ class WebPush_DB {
     add_option('webpush_accepted_prompt_count', 0);
     add_option('webpush_subscription_button_color', '#005189');
 
-    WebPush_Main::generate_subscription_button_files();
-
     $default_triggers = WebPush_Main::get_triggers_by_key_value('enable_by_default', true);
     $default_triggers_keys = array();
     foreach ($default_triggers as $trigger) {
