@@ -58,7 +58,7 @@
   margin-left: 5px;
   margin-top: 0;
   background-color: transparent;
-  background-image: url(<?php echo plugins_url('lib/close.svg', __FILE__); ?>);
+  background-image: url(<?php echo plugins_url('../close.svg', __FILE__); ?>);
   background-size: cover;
 }
 
