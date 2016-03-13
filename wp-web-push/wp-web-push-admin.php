@@ -196,14 +196,12 @@ class WebPush_Admin {
 
       $subscription_button_option = isset($_POST['webpush_subscription_button']) ? true : false;
 
-      $subscription_button_color_val = $this->sanitize_hex_color($_POST['webpush_subscription_button_color']);
-      if (!$subscription_button_color_val) {
+      $subscription_button_color_option = $this->sanitize_hex_color($_POST['webpush_subscription_button_color']);
+      if (!$subscription_button_color_option) {
         wp_die(__('Invalid color for the subscription button', 'web-push'));
-      } else if ($subscription_button_color_val !== $subscription_button_color_option) {
-        $subscription_button_color_option = $subscription_button_color_val;
+      } else if ($subscription_button_color_option !== get_option('webpush_subscription_button_color')) {
         update_option('webpush_subscription_button_color', $subscription_button_color_option);
-        // Update SVG and CSS files.
-        WebPush_Main::generate_subscription_button_files();
+        WPServeFile::getInstance()->invalidate_files(array('subscription_button.css', 'bell.svg'));
       }
 
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);

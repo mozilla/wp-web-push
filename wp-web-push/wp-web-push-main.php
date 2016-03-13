@@ -56,7 +56,9 @@ class WebPush_Main {
       $manifestGenerator->set_field('gcm_user_visible_only', true);
     }
 
-    WPServeFile::getInstance();
+    $wpServeFile = WPServeFile::getInstance();
+    $wpServeFile->add_file('subscription_button.css', array($this, 'subscriptionButtonCSSGenerator'));
+    $wpServeFile->add_file('bell.svg', array($this, 'bellSVGGenerator'));
   }
 
   public static function init() {
@@ -253,16 +255,22 @@ class WebPush_Main {
     }
   }
 
-  public static function generate_subscription_button_files() {
+  public static function subscriptionButtonCSSGenerator() {
     ob_start();
     require_once(plugin_dir_path(__FILE__) . 'lib/style/subscription_button.css');
-    $style = ob_get_clean();
-    WPServeFile::add_file('subscription_button.css', $style, 'text/css');
+    return array(
+      'content' => ob_get_clean(),
+      'contentType' => 'text/css',
+    );
+  }
 
+  public static function bellSVGGenerator() {
     ob_start();
     require_once(plugin_dir_path(__FILE__) . 'lib/bell.svg');
-    $svg = ob_get_clean();
-    WPServeFile::add_file('bell.svg', $svg, 'image/svg+xml');
+    return array(
+      'content' => ob_get_clean(),
+      'contentType' => 'image/svg+xml',
+    );
   }
 }
 

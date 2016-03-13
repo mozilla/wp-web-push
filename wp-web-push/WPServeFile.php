@@ -4,6 +4,7 @@ if (!class_exists('WPServeFile')) {
 
 class WPServeFile {
   private static $instance;
+  private $files = array();
 
   public function __construct() {
     add_action('wp_ajax_wpservefile', array($this, 'serve_file'));
@@ -18,24 +19,46 @@ class WPServeFile {
     return self::$instance;
   }
 
-  public static function serve_file() {
+  private function regenerate_file($name) {
+    $generatorFunc = $this->files[$name];
+    if (!$generatorFunc) {
+      // The file isn't registered.
+      return null;
+    }
+
+    $file = call_user_func($generatorFunc);
+    if (empty($file['lastModified'])) {
+      $file['lastModified'] = gmdate('D, d M Y H:i:s', time()) . ' GMT';
+    }
+
+    set_transient('wpservefile_files_' . $name, $file, YEAR_IN_SECONDS);
+
+    return $file;
+  }
+
+  public function serve_file() {
     $name = $_GET['wpservefile_file'];
 
-    $lastModified = get_option('wpservefile_files_' . $name . '_lastModified');
-    if (!$lastModified) {
-      return;
+    $file = get_transient('wpservefile_files_' . $name);
+    if (empty($file)) {
+      $file = $this->regenerate_file($name);
+      if (empty($file)) {
+        return;
+      }
     }
+
+    $content = $file['content'];
+    $contentType = $file['contentType'];
+    $lastModified = $file['lastModified'];
 
     $maxAge = DAY_IN_SECONDS;
     $etag = md5($lastModified);
 
-    if (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= strtotime($lastModified) || $_SERVER['HTTP_IF_NONE_MATCH'] == $etag) {
+    if ((isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= strtotime($lastModified)) ||
+        (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
       header('HTTP/1.1 304 Not Modified');
       exit;
     }
-
-    $content = get_option('wpservefile_files_' . $name . '_content');
-    $contentType = get_option('wpservefile_files_' . $name . '_contentType');
 
     header('HTTP/1.1 200 OK');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $maxAge) . ' GMT');
@@ -47,10 +70,14 @@ class WPServeFile {
     wp_die();
   }
 
-  public static function add_file($name, $content, $contentType) {
-    update_option('wpservefile_files_' . $name . '_content', $content);
-    update_option('wpservefile_files_' . $name . '_contentType', $contentType);
-    update_option('wpservefile_files_' . $name . '_lastModified', gmdate('D, d M Y H:i:s', time()) . ' GMT');
+  public function add_file($name, $generatorFunc) {
+    $this->files[$name] = $generatorFunc;
+  }
+
+  public function invalidate_files($names) {
+    foreach ($names as $name) {
+      $this->regenerate_file($name);
+    }
   }
 
   public static function get_relative_to_host_root_url($name) {
