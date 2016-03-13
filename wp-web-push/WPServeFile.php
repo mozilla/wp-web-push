@@ -4,11 +4,20 @@ if (!class_exists('WPServeFile')) {
 
 class WPServeFile {
   private static $instance;
+  private static $useFS;
   private $files = array();
 
   public function __construct() {
-    add_action('wp_ajax_wpservefile', array($this, 'serve_file'));
-    add_action('wp_ajax_nopriv_wpservefile', array($this, 'serve_file'));
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+
+    if (get_filesystem_method() !== 'direct' || !WP_Filesystem(request_filesystem_credentials(admin_url()))) {
+      self::$useFS = false;
+
+      add_action('wp_ajax_wpservefile', array($this, 'serve_file'));
+      add_action('wp_ajax_nopriv_wpservefile', array($this, 'serve_file'));
+    } else {
+      self::$useFS = true;
+    }
   }
 
   public static function getInstance() {
@@ -31,7 +40,16 @@ class WPServeFile {
       $file['lastModified'] = gmdate('D, d M Y H:i:s', time()) . ' GMT';
     }
 
-    set_transient('wpservefile_files_' . $name, $file, YEAR_IN_SECONDS);
+    if (self::$useFS) {
+      global $wp_filesystem;
+      $upload_dir = wp_upload_dir();
+      $dir = trailingslashit($upload_dir['basedir']) . 'wpservefile_files/';
+
+      $wp_filesystem->mkdir($dir, FS_CHMOD_DIR);
+      $wp_filesystem->put_contents($dir . $name, $file['content'], FS_CHMOD_FILE);
+    } else {
+      set_transient('wpservefile_files_' . $name, $file, YEAR_IN_SECONDS);
+    }
 
     return $file;
   }
@@ -82,7 +100,12 @@ class WPServeFile {
   }
 
   public static function get_relative_to_host_root_url($name) {
-    return admin_url('admin-ajax.php', 'relative') . '?action=wpservefile&wpservefile_file=' . $name;
+    if (self::$useFS) {
+      $upload_dir = wp_upload_dir();
+      return trailingslashit($upload_dir['baseurl']) . 'wpservefile_files/' . $name;
+    } else {
+      return admin_url('admin-ajax.php', 'relative') . '?action=wpservefile&wpservefile_file=' . $name;
+    }
   }
 
   public static function get_relative_to_wp_root_url($name) {
