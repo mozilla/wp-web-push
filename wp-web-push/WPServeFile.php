@@ -62,9 +62,10 @@ class WPServeFile {
 
     header('HTTP/1.1 200 OK');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $maxAge) . ' GMT');
-    header('Cache-Control: max-age=' . $maxAge . ', public, must-revalidate');
+    header('Cache-Control: max-age=' . $maxAge . ', public');
     header('Last-Modified: ' . $lastModified);
     header('ETag: ' . $etag);
+    header('Pragma: cache');
     header('Content-Type: ' . $contentType);
     echo $content;
     wp_die();
