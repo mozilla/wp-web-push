@@ -18,8 +18,8 @@ build: $(COMPOSER)
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
 	mkdir -p build/vendor/marco-c/wp-web-app-manifest-generator
 	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php
-	mkdir -p build/vendor/marco-c/WP_Serve_File
-	cp vendor/marco-c/WP_Serve_File/class-wp-serve-file.php build/vendor/marco-c/WP_Serve_File/class-wp-serve-file.php
+	mkdir -p build/vendor/marco-c/wp_serve_file
+	cp vendor/marco-c/wp_serve_file/class-wp-serve-file.php build/vendor/marco-c/wp_serve_file/class-wp-serve-file.php
 	mkdir -p build/vendor/mozilla/wp-sw-manager
 	cp vendor/mozilla/wp-sw-manager/*.php build/vendor/mozilla/wp-sw-manager
 	cp -r vendor/mozilla/wp-sw-manager/lib build/vendor/mozilla/wp-sw-manager/
