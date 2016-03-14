@@ -10,7 +10,7 @@ class WPServeFile {
   public function __construct() {
     require_once(ABSPATH . 'wp-admin/includes/file.php');
 
-    $upload_dir = wp_upload_dir()
+    $upload_dir = wp_upload_dir();
     if (get_filesystem_method(array(), $upload_dir['basedir']) !== 'direct' || !WP_Filesystem(request_filesystem_credentials(admin_url()))) {
       self::$useFS = false;
 
