@@ -1,6 +1,7 @@
 {
     "name": "marco-c/wp-web-push",
     "description": "Web Push plugin for Wordpress.",
+    "license": "GPLv2",
     "authors": [
         {
             "name": "Marco Castelluccio",
