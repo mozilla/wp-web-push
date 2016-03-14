@@ -102,6 +102,7 @@ class WebPush_DB {
     delete_option('webpush_icon');
     delete_option('webpush_min_visits');
     delete_option('webpush_subscription_button');
+    delete_option('webpush_subscription_button_color');
     delete_option('webpush_prompt_interval');
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');
