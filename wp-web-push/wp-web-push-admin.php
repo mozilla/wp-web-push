@@ -221,7 +221,6 @@ class WebPush_Admin {
         $manifestGenerator = WebAppManifestGenerator::getInstance();
         $manifestGenerator->set_field('gcm_sender_id', $gcm_sender_id_option);
         $manifestGenerator->set_field('gcm_user_visible_only', true);
-        $manifestGenerator->regenerate_manifest();
       }
 
       update_option('webpush_title', $title_option);
