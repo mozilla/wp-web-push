@@ -45,8 +45,11 @@ class WebPush_Main {
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
     add_action('parse_request', array($this, 'on_parse_request'));
 
+    add_action('wp_ajax_webpush_register', array($this, 'handle_register'));
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_register'));
+    add_action('wp_ajax_webpush_get_payload', array($this, 'handle_get_payload'));
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_get_payload'));
+    add_action('wp_ajax_webpush_prompt', array($this, 'handle_prompt'));
     add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
 
     $senderID = get_option('webpush_gcm_sender_id');
