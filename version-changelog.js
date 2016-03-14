@@ -49,7 +49,7 @@ function writeFiles() {
 
   // Update version in the plugin's DB file.
   var pluginMain = fs.readFileSync(dbPHPFile, 'utf8');
-  var indexStart = pluginMain.indexOf('private $version = \'') + 'private $version = \''.length;
+  var indexStart = pluginMain.indexOf('const VERSION = \'') + 'const VERSION = \''.length;
   var indexEnd = pluginMain.indexOf('\'', indexStart);
   pluginMain = pluginMain.substring(0, indexStart) + version + pluginMain.substring(indexEnd);
   fs.writeFileSync(dbPHPFile, pluginMain);

@@ -4,7 +4,7 @@ require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/WP_Serve_File/class-wp-
 
 class WebPush_DB {
   private static $instance;
-  private $version = '0.0.1';
+  const VERSION = '0.0.1';
 
   public function __construct() {
     add_action('plugins_loaded', array($this, 'update_check'));
@@ -43,7 +43,7 @@ class WebPush_DB {
   public function update_check() {
     global $wpdb;
 
-    if ($this->version === get_option('webpush_db_version')) {
+    if (self::VERSION === get_option('webpush_db_version')) {
       return;
     }
 
