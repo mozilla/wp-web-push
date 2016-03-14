@@ -217,6 +217,12 @@ class WebPush_Admin {
 
       $gcm_key_option = $_POST['webpush_gcm_key'];
       $gcm_sender_id_option = $_POST['webpush_gcm_sender_id'];
+      if ($gcm_sender_id_option != get_option('webpush_gcm_sender_id')) {
+        $manifestGenerator = WebAppManifestGenerator::getInstance();
+        $manifestGenerator->set_field('gcm_sender_id', $gcm_sender_id_option);
+        $manifestGenerator->set_field('gcm_user_visible_only', true);
+        $manifestGenerator->regenerate_manifest();
+      }
 
       update_option('webpush_title', $title_option);
       update_option('webpush_icon', $icon_option);
