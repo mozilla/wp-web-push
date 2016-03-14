@@ -48,6 +48,10 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.3 =
+* Allow customization of subscription button also for users who don't have write privileges.
+* Improved performance.
+
 = 1.1.2 =
 * Misc bug fixes and improvements to the subscription button interface.
 

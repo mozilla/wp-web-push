@@ -4,7 +4,7 @@ require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp_serve_file/class-wp-
 
 class WebPush_DB {
   private static $instance;
-  const VERSION = '0.0.1';
+  const VERSION = '1.1.3';
 
   public function __construct() {
     add_action('plugins_loaded', array($this, 'update_check'));
