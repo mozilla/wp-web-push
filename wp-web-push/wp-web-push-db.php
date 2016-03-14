@@ -60,7 +60,7 @@ class WebPush_DB {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 
-    update_option('webpush_db_version', $this->version);
+    update_option('webpush_db_version', self::VERSION);
 
     // Set default options.
     add_option('webpush_title', 'blog_title');
