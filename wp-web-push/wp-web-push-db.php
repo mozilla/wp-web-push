@@ -1,5 +1,7 @@
 <?php
 
+require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/WP_Serve_File/class-wp-serve-file.php');
+
 class WebPush_DB {
   private static $instance;
   private $version = '0.0.1';
@@ -71,7 +73,7 @@ class WebPush_DB {
     add_option('webpush_prompt_count', 0);
     add_option('webpush_accepted_prompt_count', 0);
     add_option('webpush_subscription_button_color', '#005189');
-    WPServeFile::getInstance()->invalidate_files(array('subscription_button.css', 'bell.svg'));
+    WP_Serve_File::getInstance()->invalidate_files(array('subscription_button.css', 'bell.svg'));
 
     $default_triggers = WebPush_Main::get_triggers_by_key_value('enable_by_default', true);
     $default_triggers_keys = array();

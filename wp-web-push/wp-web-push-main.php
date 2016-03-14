@@ -4,7 +4,7 @@ require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 require_once(plugin_dir_path(__FILE__) . 'WebAppManifestGenerator.php');
 require_once(plugin_dir_path(__FILE__) . 'vendor/mozilla/wp-sw-manager/class-wp-sw-manager.php');
-require_once(plugin_dir_path(__FILE__) . 'WPServeFile.php');
+require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/WP_Serve_File/class-wp-serve-file.php');
 
 class WebPush_Main {
   private static $instance;
@@ -59,7 +59,7 @@ class WebPush_Main {
       $manifestGenerator->set_field('gcm_user_visible_only', true);
     }
 
-    $wpServeFile = WPServeFile::getInstance();
+    $wpServeFile = WP_Serve_File::getInstance();
     $wpServeFile->add_file('subscription_button.css', array($this, 'subscriptionButtonCSSGenerator'));
     $wpServeFile->add_file('bell.svg', array($this, 'bellSVGGenerator'));
   }
@@ -123,7 +123,7 @@ class WebPush_Main {
     wp_enqueue_script('wp-web-push-script');
 
     if (get_option('webpush_subscription_button')) {
-      wp_enqueue_style('subscription-button-style', WPServeFile::get_relative_to_wp_root_url('subscription_button.css'));
+      wp_enqueue_style('subscription-button-style', WP_Serve_File::get_relative_to_wp_root_url('subscription_button.css'));
     }
   }
 
