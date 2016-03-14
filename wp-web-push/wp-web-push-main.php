@@ -52,6 +52,11 @@ class WebPush_Main {
     add_action('wp_ajax_webpush_prompt', array($this, 'handle_prompt'));
     add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
 
+    $senderID = get_option('webpush_gcm_sender_id');
+    if ($senderID) {
+      $manifestGenerator = WebAppManifestGenerator::getInstance();
+    }
+
     $wpServeFile = WP_Serve_File::getInstance();
     $wpServeFile->add_file('subscription_button.css', array($this, 'subscriptionButtonCSSGenerator'));
     $wpServeFile->add_file('bell.svg', array($this, 'bellSVGGenerator'));
