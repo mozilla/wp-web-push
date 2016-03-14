@@ -12,6 +12,7 @@ var rl = readline.createInterface({
 var pluginName = process.argv[2];
 var pluginSlug = pluginName.substr(3);
 var mainPHPFile = pluginName + '/' + pluginName + '.php';
+var dbPHPFile = pluginName + '/' + pluginName + '-db.php';
 var readmeFile = pluginName + '/readme.txt';
 var generatedPOTFile = pluginName + '.pot';
 var targetPOTFile = pluginName + '/lang/' + pluginSlug + '.pot';
@@ -46,6 +47,13 @@ function writeFiles() {
   pluginMain = pluginMain.substring(0, indexStart) + version + pluginMain.substring(indexEnd);
   fs.writeFileSync(mainPHPFile, pluginMain);
 
+  // Update version in the plugin's DB file.
+  var pluginMain = fs.readFileSync(dbPHPFile, 'utf8');
+  var indexStart = pluginMain.indexOf('const VERSION = \'') + 'const VERSION = \''.length;
+  var indexEnd = pluginMain.indexOf('\'', indexStart);
+  pluginMain = pluginMain.substring(0, indexStart) + version + pluginMain.substring(indexEnd);
+  fs.writeFileSync(dbPHPFile, pluginMain);
+
   // Update version in the package.json file.
   var packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   packageJson.version = version;
@@ -71,6 +79,7 @@ function commitChanges() {
     targetPOTFile,
     readmeFile,
     mainPHPFile,
+    dbPHPFile,
   ].join(' ');
 
   generatePOT();
