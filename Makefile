@@ -16,7 +16,8 @@ build: $(COMPOSER)
 	cp -r $(PLUGIN_NAME)/ build/
 	cp node_modules/localforage/dist/localforage.nopromises.min.js build/lib/js/localforage.nopromises.min.js
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
-	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/WebAppManifestGenerator.php
+	mkdir -p build/vendor/marco-c/wp-web-app-manifest-generator
+	cp vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php build/vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php
 	mkdir -p build/vendor/marco-c/WP_Serve_File
 	cp vendor/marco-c/WP_Serve_File/class-wp-serve-file.php build/vendor/marco-c/WP_Serve_File/class-wp-serve-file.php
 	mkdir -p build/vendor/mozilla/wp-sw-manager

@@ -52,7 +52,7 @@ class ManifestTest extends WP_Ajax_UnitTestCase {
   function test_manifest_request_multiple_users() {
     update_option('webpush_gcm_sender_id', '42');
 
-    require dirname(dirname(__FILE__)) . '/build/WebAppManifestGenerator.php';
+    require dirname(dirname(__FILE__)) . '/build/vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php';
 
     WebAppManifestGenerator::getInstance()->set_field('test', 'Marco');
 
