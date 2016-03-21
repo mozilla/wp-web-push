@@ -63,16 +63,22 @@
         userVisibleOnly: true,
       })
       .then(function(subscription) {
-        var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+        return localforage.getItem('endpoint')
+        .then(function(oldEndpoint) {
+          var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
-        var formData = new FormData();
-        formData.append('action', 'webpush_register');
-        formData.append('endpoint', subscription.endpoint);
-        formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+          var formData = new FormData();
+          formData.append('action', 'webpush_register');
+          formData.append('endpoint', subscription.endpoint);
+          formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+          if (oldEndpoint) {
+            formData.append('oldEndpoint', oldEndpoint);
+          }
 
-        return fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-          method: 'post',
-          body: formData,
+          return fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'post',
+            body: formData,
+          });
         });
       })
     );
