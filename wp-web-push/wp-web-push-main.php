@@ -126,7 +126,7 @@ class WebPush_Main {
   }
 
   public static function handle_register() {
-    if (isset($_POST['oldEndpoint'])) {
+    if (isset($_POST['oldEndpoint']) && $_POST['oldEndpoint'] !== $_POST['endpoint']) {
       WebPush_DB::remove_subscription($_POST['oldEndpoint']);
     }
 
