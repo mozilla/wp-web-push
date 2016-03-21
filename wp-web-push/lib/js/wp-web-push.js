@@ -282,6 +282,12 @@ if (navigator.serviceWorker) {
       return $swRegistrations[WP_Web_Push.sw_id];
     })
     .then(function() {
+      if (/Chrome\/[\d\.]+/.test(navigator.userAgent) && !WP_Web_Push.gcm_enabled) {
+        WP_Web_Push.subscription_button = false;
+        document.getElementById('webpush-subscription').style.display = 'none';
+      }
+    })
+    .then(function() {
       if (!WP_Web_Push.subscription_button) {
         return;
       }

@@ -118,7 +118,8 @@ class WebPush_Main {
       'unsubscription_prompt' => sprintf(__('You are subscribed to <b>%s</b>\'s notifications.', 'web-push'), get_bloginfo('name')),
       'unsubscription_button_text' => __('Unsubscribe', 'web-push'),
       'subscription_button_text' => __('Subscribe', 'web-push'),
-      'close_button_text' => __('Close', 'web-push')
+      'close_button_text' => __('Close', 'web-push'),
+      'gcm_enabled' => get_option('webpush_gcm_sender_id') && get_option('webpush_gcm_key'),
     ));
     wp_enqueue_script('wp-web-push-script');
 
