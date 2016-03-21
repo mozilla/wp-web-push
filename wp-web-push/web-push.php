@@ -2,7 +2,7 @@
 
 define('GCM_REQUEST_URL', 'https://android.googleapis.com/gcm/send');
 
-function sendNotification($endpoint, $gcmKey) {
+function sendNotification($endpoint, $gcmKey, $sync) {
   $headers = array();
   $expectedResponseCode = 201;
   $requestURL = $endpoint;
@@ -30,10 +30,14 @@ function sendNotification($endpoint, $gcmKey) {
   }
 
   $result = wp_remote_post($requestURL, array(
-    'blocking' => true,
+    'blocking' => $sync ? true : false,
     'headers' => $headers,
     'body' => $body,
   ));
+
+  if (!$sync) {
+    return true;
+  }
 
   if (is_wp_error($result)) {
     // If there's an error during the request, return true

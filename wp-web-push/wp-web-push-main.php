@@ -199,8 +199,13 @@ class WebPush_Main {
     $notification_count = 0;
 
     $subscriptions = WebPush_DB::get_subscriptions();
+    $subscription_num = count($subscriptions);
     foreach ($subscriptions as $subscription) {
-      if (!sendNotification($subscription->endpoint, $gcmKey)) {
+      // Clean approximately ten random subscriptions, to avoid performance problems
+      // with sending too many synchronous requests.
+      $sync = mt_rand(1, $subscription_num) <= 10;
+
+      if (!sendNotification($subscription->endpoint, $gcmKey, $sync)) {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
