@@ -242,7 +242,7 @@ if (navigator.serviceWorker) {
         return localforage.getItem('hasRegistered')
         .then(function(hasRegistered) {
           return localforage.getItem('endpoint')
-          .then(function(oldEndpoint)) {
+          .then(function(oldEndpoint) {
             localforage.setItem('hasRegistered', true);
             localforage.setItem('endpoint', subscription.endpoint);
 
