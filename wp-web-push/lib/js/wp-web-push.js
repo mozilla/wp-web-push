@@ -223,25 +223,32 @@ if (navigator.serviceWorker) {
 
         return localforage.getItem('hasRegistered')
         .then(function(hasRegistered) {
-          localforage.setItem('hasRegistered', true);
+          return localforage.getItem('endpoint')
+          .then(function(oldEndpoint)) {
+            localforage.setItem('hasRegistered', true);
+            localforage.setItem('endpoint', subscription.endpoint);
 
-          var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+            var key = subscription.getKey ? subscription.getKey('p256dh') : '';
 
-          var formData = new FormData();
-          formData.append('action', 'webpush_register');
-          formData.append('endpoint', subscription.endpoint);
-          formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-          if (!hasRegistered) {
-            formData.append('newRegistration', true);
-          }
+            var formData = new FormData();
+            formData.append('action', 'webpush_register');
+            formData.append('endpoint', subscription.endpoint);
+            formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+            if (!hasRegistered) {
+              formData.append('newRegistration', true);
+            }
+            if (oldEndpoint) {
+              formData.append('oldEndpoint', oldEndpoint);
+            }
 
-          return fetch(WP_Web_Push.register_url, {
-            method: 'post',
-            body: formData,
-          })
-          .then(function() {
-            setNotificationsEnabled(true);
-          })
+            return fetch(WP_Web_Push.register_url, {
+              method: 'post',
+              body: formData,
+            })
+            .then(function() {
+              setNotificationsEnabled(true);
+            });
+          });
         });
       });
     }

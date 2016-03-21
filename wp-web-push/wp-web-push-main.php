@@ -126,6 +126,10 @@ class WebPush_Main {
   }
 
   public static function handle_register() {
+    if (isset($_POST['oldEndpoint'])) {
+      WebPush_DB::remove_subscription($_POST['oldEndpoint']);
+    }
+
     WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
 
     if (isset($_POST['newRegistration'])) {
