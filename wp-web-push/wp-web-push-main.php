@@ -47,6 +47,8 @@ class WebPush_Main {
 
     add_action('wp_ajax_webpush_register', array($this, 'handle_register'));
     add_action('wp_ajax_nopriv_webpush_register', array($this, 'handle_register'));
+    add_action('wp_ajax_webpush_unregister', array($this, 'handle_unregister'));
+    add_action('wp_ajax_nopriv_webpush_unregister', array($this, 'handle_unregister'));
     add_action('wp_ajax_webpush_get_payload', array($this, 'handle_get_payload'));
     add_action('wp_ajax_nopriv_webpush_get_payload', array($this, 'handle_get_payload'));
     add_action('wp_ajax_webpush_prompt', array($this, 'handle_prompt'));
@@ -134,6 +136,14 @@ class WebPush_Main {
 
     if (isset($_POST['newRegistration'])) {
       update_option('webpush_accepted_prompt_count', get_option('webpush_accepted_prompt_count') + 1);
+    }
+
+    wp_die();
+  }
+
+  public static function handle_unregister() {
+    if (isset($_POST['endpoint'])) {
+      WebPush_DB::remove_subscription($_POST['endpoint']);
     }
 
     wp_die();

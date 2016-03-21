@@ -131,6 +131,24 @@ if (navigator.serviceWorker) {
         }
       })
       .then(function() {
+        return localforage.getItem('endpoint');
+      })
+      .then(function(endpoint) {
+        if (!endpoint) {
+          return;
+        }
+
+        // Notify server that the user has unregistered.
+        var formData = new FormData();
+        formData.append('action', 'webpush_unregister');
+        formData.append('endpoint', endpoint);
+
+        return fetch(WP_Web_Push.register_url, {
+          method: 'post',
+          body: formData,
+        });
+      })
+      .then(function() {
         setNotificationsEnabled(false);
       });
     }
@@ -224,7 +242,7 @@ if (navigator.serviceWorker) {
         return localforage.getItem('hasRegistered')
         .then(function(hasRegistered) {
           return localforage.getItem('endpoint')
-          .then(function(oldEndpoint)) {
+          .then(function(oldEndpoint) {
             localforage.setItem('hasRegistered', true);
             localforage.setItem('endpoint', subscription.endpoint);
 
