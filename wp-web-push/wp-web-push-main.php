@@ -213,6 +213,10 @@ class WebPush_Main {
 
     $notification_count = 0;
 
+    // Sending notifications could take some time, so we extend the maximum
+    // execution time for the script.
+    set_time_limit(120);
+
     $subscriptions = WebPush_DB::get_subscriptions();
     $subscription_num = count($subscriptions);
     foreach ($subscriptions as $subscription) {
