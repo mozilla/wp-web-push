@@ -216,20 +216,22 @@ class WebPush_Main {
     $subscriptions = WebPush_DB::get_subscriptions();
     $subscription_num = count($subscriptions);
     foreach ($subscriptions as $subscription) {
+      // Ignore GCM endpoints if we don't have a GCM key.
+      $isGCM = strpos($subscription->endpoint, GCM_REQUEST_URL) === 0;
+      if (!$gcmKey && $isGCM) {
+        continue;
+      }
+
       // Clean approximately ten random subscriptions, to avoid performance problems
       // with sending too many synchronous requests.
       $sync = mt_rand(1, $subscription_num) <= 10;
 
-      if (!sendNotification($subscription->endpoint, $gcmKey, $sync)) {
+      if (!sendNotification($subscription->endpoint, $isGCM, $gcmKey, $sync)) {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
       } else {
-        // Don't count GCM endpoints if we don't have a GCM key (obviously, we don't
-        // actually send notifications to them).
-        if (strpos($subscription->endpoint, GCM_REQUEST_URL) !== 0 || $gcmKey) {
-          $notification_count++;
-        }
+        $notification_count++;
       }
     }
 
