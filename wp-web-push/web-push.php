@@ -1,6 +1,7 @@
 <?php
 
 define('GCM_REQUEST_URL', 'https://android.googleapis.com/gcm/send');
+define('GCM_REQUEST_URL_LEN', strlen(GCM_REQUEST_URL) + 1);
 
 function sendNotification($endpoint, $gcmKey, $sync) {
   $headers = array();
@@ -9,8 +10,7 @@ function sendNotification($endpoint, $gcmKey, $sync) {
   $body = '';
 
   if (strpos($endpoint, GCM_REQUEST_URL) === 0) {
-    $endpointSections = explode('/', $endpoint);
-    $subscriptionId = $endpointSections[sizeof($endpointSections) - 1];
+    $subscriptionId = substr($endpoint, GCM_REQUEST_URL_LEN);
     $body = json_encode(array('registration_ids' => array($subscriptionId)));
 
     $headers['Authorization'] = 'key=' . $gcmKey;

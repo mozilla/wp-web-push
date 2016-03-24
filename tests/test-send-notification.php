@@ -117,25 +117,6 @@ class SendNotificationTest extends WP_UnitTestCase {
     $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey', true));
   }
 
-  function test_send_gcm_notification_no_key() {
-    $self = $this;
-    add_filter('pre_http_request', function() use ($self) {
-      $self->assertTrue(false);
-
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    });
-
-    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', '', true));
-  }
-
   function test_send_notification_error() {
     add_filter('pre_http_request', function() {
       return new WP_Error('Error');
