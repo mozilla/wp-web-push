@@ -22,7 +22,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     }, 10, 2);
 
-    $this->assertTrue(sendNotification('endpoint', 'aKey', true));
+    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
   }
 
   function test_send_webpush_notification_async() {
@@ -41,7 +41,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     }, 10, 2);
 
-    $this->assertTrue(sendNotification('endpoint', 'aKey', false));
+    $this->assertTrue(sendNotification('endpoint', false, 'aKey', false));
   }
 
   function test_send_webpush_notification_success_no_key() {
@@ -57,7 +57,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertTrue(sendNotification('endpoint', '', true));
+    $this->assertTrue(sendNotification('endpoint', false, '', true));
   }
 
   function test_send_webpush_notification_failure() {
@@ -73,7 +73,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertFalse(sendNotification('endpoint', 'aKey', true));
+    $this->assertFalse(sendNotification('endpoint', false, 'aKey', true));
   }
 
   function test_send_gcm_notification_success() {
@@ -98,7 +98,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     }, 10, 2);
 
-    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey', true));
+    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
   }
 
   function test_send_gcm_notification_failure() {
@@ -114,7 +114,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', 'aKey', true));
+    $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
   }
 
   function test_send_notification_error() {
@@ -122,7 +122,7 @@ class SendNotificationTest extends WP_UnitTestCase {
       return new WP_Error('Error');
     });
 
-    $this->assertTrue(sendNotification('endpoint', 'aKey', true));
+    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
   }
 }
 
