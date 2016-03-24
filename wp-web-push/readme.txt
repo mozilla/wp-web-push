@@ -48,6 +48,9 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.5 =
+* Improve performance when sending notifications.
+
 = 1.1.4 =
 * Improve performance for websites that have many subscribers.
 
