@@ -11,7 +11,7 @@ function sendNotification($endpoint, $isGCM, $gcmKey, $sync) {
 
   if ($isGCM) {
     $subscriptionId = substr($endpoint, GCM_REQUEST_URL_LEN);
-    $body = json_encode(array('registration_ids' => array($subscriptionId)));
+    $body = '{"registration_ids":["' . $subscriptionId . '"]}';
 
     $headers['Authorization'] = 'key=' . $gcmKey;
     $headers['Content-Type'] = 'application/json';
