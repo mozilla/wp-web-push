@@ -227,7 +227,7 @@ class WebPush_Main {
       } else {
         // Don't count GCM endpoints if we don't have a GCM key (obviously, we don't
         // actually send notifications to them).
-        if (strpos($subscription->endpoint, GCM_REQUEST_URL) !== 0 || $gcmKey) {
+        if ($gcmKey || strpos($subscription->endpoint, GCM_REQUEST_URL) !== 0) {
           $notification_count++;
         }
       }
