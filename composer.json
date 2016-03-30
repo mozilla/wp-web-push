@@ -22,5 +22,6 @@
         "marco-c/wp-web-app-manifest-generator": "dev-master",
         "mozilla/wp-sw-manager": "dev-master",
         "marco-c/wp_serve_file": "dev-master"
-    }
+    },
+    "minimum-stability": "dev"
 }
