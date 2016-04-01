@@ -1,0 +1,115 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "0a364a5f948f73b90016e262e618cecd",
+    "packages": [
+        {
+            "name": "marco-c/wp-web-app-manifest-generator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marco-c/wp-web-app-manifest-generator.git",
+                "reference": "3a50b6edb3cc82eedf441c499e2df132cdbbe317"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/3a50b6edb3cc82eedf441c499e2df132cdbbe317",
+                "reference": "3a50b6edb3cc82eedf441c499e2df132cdbbe317",
+                "shasum": ""
+            },
+            "require": {
+                "marco-c/wp_serve_file": "dev-master"
+            },
+            "type": "library",
+            "license": [
+                "GPLv2"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Castelluccio",
+                    "email": "mcastelluccio@mozilla.com"
+                }
+            ],
+            "description": "Web App Manifest generator class for WordPress plugins.",
+            "support": {
+                "source": "https://github.com/marco-c/wp-web-app-manifest-generator/tree/master",
+                "issues": "https://github.com/marco-c/wp-web-app-manifest-generator/issues"
+            },
+            "time": "2016-03-14 18:34:24"
+        },
+        {
+            "name": "marco-c/wp_serve_file",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marco-c/WP_Serve_File.git",
+                "reference": "79be88a3cfdb584047cee6820d77d3b57724e01b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marco-c/WP_Serve_File/zipball/79be88a3cfdb584047cee6820d77d3b57724e01b",
+                "reference": "79be88a3cfdb584047cee6820d77d3b57724e01b",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv2"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Castelluccio",
+                    "email": "mcastelluccio@mozilla.com"
+                }
+            ],
+            "description": "Class to serve dynamic files in WordPress with performance in mind.",
+            "time": "2016-03-14 17:55:36"
+        },
+        {
+            "name": "mozilla/wp-sw-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mozilla/wp-sw-manager.git",
+                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
+                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
+                "shasum": ""
+            },
+            "type": "library",
+            "license": [
+                "GPLv2"
+            ],
+            "authors": [
+                {
+                    "name": "Salvador de la Puente",
+                    "email": "salva@mozilla.com"
+                }
+            ],
+            "description": "Service Worker infrastructure for WordPress plugins.",
+            "support": {
+                "source": "https://github.com/mozilla/wp-sw-manager/tree/master",
+                "issues": "https://github.com/mozilla/wp-sw-manager/issues"
+            },
+            "time": "2016-03-14 17:17:15"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "marco-c/wp-web-app-manifest-generator": 20,
+        "mozilla/wp-sw-manager": 20,
+        "marco-c/wp_serve_file": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
