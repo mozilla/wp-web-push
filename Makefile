@@ -11,8 +11,7 @@ reinstall: $(WP_CLI) build
 
 build: $(COMPOSER)
 	npm install
-	$(COMPOSER) install --prefer-dist --no-interaction
-	$(COMPOSER) dumpautoload -o
+	$(COMPOSER) install --prefer-dist --no-interaction --optimize-autoloader
 	rm -rf build $(PLUGIN_NAME).zip
 	cp -r $(PLUGIN_NAME)/ build/
 	cp node_modules/localforage/dist/localforage.nopromises.min.js build/lib/js/localforage.nopromises.min.js
