@@ -5,7 +5,6 @@
         "This file is @generated automatically"
     ],
     "hash": "0a364a5f948f73b90016e262e618cecd",
-    "content-hash": "4b8fa740f68d26df477ee869457e00cd",
     "packages": [
         {
             "name": "marco-c/wp-web-app-manifest-generator",
@@ -13,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/wp-web-app-manifest-generator.git",
-                "reference": "a618eafb557b850034cce4067c8fd358fbb14384"
+                "reference": "8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/a618eafb557b850034cce4067c8fd358fbb14384",
-                "reference": "a618eafb557b850034cce4067c8fd358fbb14384",
+                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76",
+                "reference": "8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +38,7 @@
                 "source": "https://github.com/marco-c/wp-web-app-manifest-generator/tree/master",
                 "issues": "https://github.com/marco-c/wp-web-app-manifest-generator/issues"
             },
-            "time": "2016-03-30 16:03:52"
+            "time": "2016-04-04 12:15:18"
         },
         {
             "name": "marco-c/wp_serve_file",
