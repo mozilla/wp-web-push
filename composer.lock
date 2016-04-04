@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "0a364a5f948f73b90016e262e618cecd",
+    "content-hash": "4b8fa740f68d26df477ee869457e00cd",
     "packages": [
         {
             "name": "marco-c/wp-web-app-manifest-generator",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/wp-web-app-manifest-generator.git",
-                "reference": "3a50b6edb3cc82eedf441c499e2df132cdbbe317"
+                "reference": "a618eafb557b850034cce4067c8fd358fbb14384"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/3a50b6edb3cc82eedf441c499e2df132cdbbe317",
-                "reference": "3a50b6edb3cc82eedf441c499e2df132cdbbe317",
+                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/a618eafb557b850034cce4067c8fd358fbb14384",
+                "reference": "a618eafb557b850034cce4067c8fd358fbb14384",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +39,7 @@
                 "source": "https://github.com/marco-c/wp-web-app-manifest-generator/tree/master",
                 "issues": "https://github.com/marco-c/wp-web-app-manifest-generator/issues"
             },
-            "time": "2016-03-14 18:34:24"
+            "time": "2016-03-30 16:03:52"
         },
         {
             "name": "marco-c/wp_serve_file",
@@ -46,12 +47,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/WP_Serve_File.git",
-                "reference": "79be88a3cfdb584047cee6820d77d3b57724e01b"
+                "reference": "3240b22d9399fd12f2efb754e34c8bcf008f8300"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/WP_Serve_File/zipball/79be88a3cfdb584047cee6820d77d3b57724e01b",
-                "reference": "79be88a3cfdb584047cee6820d77d3b57724e01b",
+                "url": "https://api.github.com/repos/marco-c/WP_Serve_File/zipball/3240b22d9399fd12f2efb754e34c8bcf008f8300",
+                "reference": "3240b22d9399fd12f2efb754e34c8bcf008f8300",
                 "shasum": ""
             },
             "type": "library",
@@ -66,7 +67,7 @@
                 }
             ],
             "description": "Class to serve dynamic files in WordPress with performance in mind.",
-            "time": "2016-03-14 17:55:36"
+            "time": "2016-04-04 10:07:44"
         },
         {
             "name": "mozilla/wp-sw-manager",
