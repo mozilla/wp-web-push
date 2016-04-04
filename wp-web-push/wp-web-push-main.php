@@ -53,10 +53,10 @@ class WebPush_Main {
 
     $senderID = get_option('webpush_gcm_sender_id');
     if ($senderID) {
-      $manifestGenerator = WebAppManifestGenerator::getInstance();
+      $manifestGenerator = Mozilla\WebAppManifestGenerator::getInstance();
     }
 
-    $wpServeFile = WP_Serve_File::getInstance();
+    $wpServeFile = Mozilla\WP_Serve_File::getInstance();
     $wpServeFile->add_file('subscription_button.css', array($this, 'subscriptionButtonCSSGenerator'));
     $wpServeFile->add_file('bell.svg', array($this, 'bellSVGGenerator'));
   }
@@ -121,7 +121,7 @@ class WebPush_Main {
     wp_enqueue_script('wp-web-push-script');
 
     if (get_option('webpush_subscription_button')) {
-      wp_enqueue_style('subscription-button-style', WP_Serve_File::get_relative_to_wp_root_url('subscription_button.css'));
+      wp_enqueue_style('subscription-button-style', Mozilla\WP_Serve_File::get_relative_to_wp_root_url('subscription_button.css'));
     }
   }
 
