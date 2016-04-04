@@ -1,7 +1,5 @@
 <?php
 
-require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp_serve_file/class-wp-serve-file.php');
-
 class WebPush_Admin {
   private static $instance;
   private $options_page;

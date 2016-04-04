@@ -2,9 +2,6 @@
 
 require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
-require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp-web-app-manifest-generator/WebAppManifestGenerator.php');
-require_once(plugin_dir_path(__FILE__) . 'vendor/mozilla/wp-sw-manager/class-wp-sw-manager.php');
-require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp_serve_file/class-wp-serve-file.php');
 
 class WebPush_Main {
   private static $instance;

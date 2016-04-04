@@ -23,5 +23,8 @@
         "mozilla/wp-sw-manager": "dev-master",
         "marco-c/wp_serve_file": "dev-master"
     },
+    "autoload": {
+      "classmap": ["vendor/"]
+    },
     "minimum-stability": "dev"
 }

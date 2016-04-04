@@ -12,6 +12,8 @@ Text Domain: web-push
 
 load_plugin_textdomain('web-push', false, dirname(plugin_basename(__FILE__)) . '/lang');
 
+require_once(plugin_dir_path(__FILE__) . 'vendor/autoload.php');
+
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-main.php');
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
