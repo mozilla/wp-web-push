@@ -48,6 +48,12 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.6 =
+* Fix bug with the bell icon on some servers.
+* Fix bug with Safari.
+* Allow resetting the bell icon color to the default blue.
+* Always use HTTPS protocol to avoid mixed content warnings.
+
 = 1.1.5 =
 * Improve performance when sending notifications.
 
