@@ -91,7 +91,9 @@ if (navigator.serviceWorker) {
       var tooltipElement = document.querySelector('#webpush-subscription .bubble');
       if (tip) {
         tooltipElement.innerHTML = tip;
-        requestAnimationFrame(() => tooltipElement.classList.add('shown'));
+        requestAnimationFrame(function() {
+          tooltipElement.classList.add('shown')
+        });
         if (!dontFade) {
           transientTooltipIntervalId = setInterval(hideTooltip, 2000);
         }
