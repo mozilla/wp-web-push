@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dd2f793edc6fe7233920c7b859e52d39",
+    "hash": "0a364a5f948f73b90016e262e618cecd",
     "packages": [
         {
             "name": "marco-c/wp-web-app-manifest-generator",
@@ -84,15 +84,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mozilla/wp-sw-manager.git",
-                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f"
+                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
-                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
+                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
+                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
                 "shasum": ""
             },
+            "require": {
+                "marco-c/wp_serve_file": "dev-master"
+            },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mozilla\\": ""
+                }
+            },
             "license": [
                 "GPLv2"
             ],
@@ -107,7 +115,7 @@
                 "source": "https://github.com/mozilla/wp-sw-manager/tree/master",
                 "issues": "https://github.com/mozilla/wp-sw-manager/issues"
             },
-            "time": "2016-03-14 17:17:15"
+            "time": "2016-04-06 12:37:44"
         }
     ],
     "packages-dev": [],
