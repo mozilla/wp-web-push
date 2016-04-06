@@ -12,18 +12,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/wp-web-app-manifest-generator.git",
-                "reference": "8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76"
+                "reference": "df594f6b6ba60030008be0fc48174bec3899ffd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76",
-                "reference": "8d8dfd2cc7fdfc4e7c114fac6a55e13924a73f76",
+                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/df594f6b6ba60030008be0fc48174bec3899ffd1",
+                "reference": "df594f6b6ba60030008be0fc48174bec3899ffd1",
                 "shasum": ""
             },
             "require": {
                 "marco-c/wp_serve_file": "dev-master"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mozilla\\": ""
+                }
+            },
             "license": [
                 "GPLv2"
             ],
@@ -38,7 +43,7 @@
                 "source": "https://github.com/marco-c/wp-web-app-manifest-generator/tree/master",
                 "issues": "https://github.com/marco-c/wp-web-app-manifest-generator/issues"
             },
-            "time": "2016-04-04 12:15:18"
+            "time": "2016-04-04 16:57:49"
         },
         {
             "name": "marco-c/wp_serve_file",
@@ -46,15 +51,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/WP_Serve_File.git",
-                "reference": "3240b22d9399fd12f2efb754e34c8bcf008f8300"
+                "reference": "4b1c0d812375e609d31342118cb886e12a235b9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/WP_Serve_File/zipball/3240b22d9399fd12f2efb754e34c8bcf008f8300",
-                "reference": "3240b22d9399fd12f2efb754e34c8bcf008f8300",
+                "url": "https://api.github.com/repos/marco-c/WP_Serve_File/zipball/4b1c0d812375e609d31342118cb886e12a235b9f",
+                "reference": "4b1c0d812375e609d31342118cb886e12a235b9f",
                 "shasum": ""
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mozilla\\": ""
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPLv2"
@@ -66,7 +76,7 @@
                 }
             ],
             "description": "Class to serve dynamic files in WordPress with performance in mind.",
-            "time": "2016-04-04 10:07:44"
+            "time": "2016-04-04 19:09:54"
         },
         {
             "name": "mozilla/wp-sw-manager",
@@ -74,15 +84,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mozilla/wp-sw-manager.git",
-                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f"
+                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
-                "reference": "5d248ab5590b6e83ff23d7201d5b5f34b40c429f",
+                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
+                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
                 "shasum": ""
             },
+            "require": {
+                "marco-c/wp_serve_file": "dev-master"
+            },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mozilla\\": ""
+                }
+            },
             "license": [
                 "GPLv2"
             ],
@@ -97,7 +115,7 @@
                 "source": "https://github.com/mozilla/wp-sw-manager/tree/master",
                 "issues": "https://github.com/mozilla/wp-sw-manager/issues"
             },
-            "time": "2016-03-14 17:17:15"
+            "time": "2016-04-06 12:37:44"
         }
     ],
     "packages-dev": [],

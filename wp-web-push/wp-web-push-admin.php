@@ -1,7 +1,5 @@
 <?php
 
-require_once(plugin_dir_path(__FILE__) . 'vendor/marco-c/wp_serve_file/class-wp-serve-file.php');
-
 class WebPush_Admin {
   private static $instance;
   private $options_page;
@@ -203,7 +201,7 @@ class WebPush_Admin {
         wp_die(__('Invalid color for the subscription button', 'web-push'));
       } else if ($subscription_button_color_option !== get_option('webpush_subscription_button_color')) {
         update_option('webpush_subscription_button_color', $subscription_button_color_option);
-        WP_Serve_File::getInstance()->invalidate_files(array('subscription_button.css', 'bell.svg'));
+        Mozilla\WP_Serve_File::getInstance()->invalidate_files(array('subscription_button.css', 'bell.svg'));
       }
 
       $prompt_interval_option = intval($_POST['webpush_prompt_interval']);
@@ -218,7 +216,7 @@ class WebPush_Admin {
       $gcm_key_option = $_POST['webpush_gcm_key'];
       $gcm_sender_id_option = $_POST['webpush_gcm_sender_id'];
       if ($gcm_sender_id_option != get_option('webpush_gcm_sender_id')) {
-        $manifestGenerator = WebAppManifestGenerator::getInstance();
+        $manifestGenerator = Mozilla\WebAppManifestGenerator::getInstance();
         $manifestGenerator->set_field('gcm_sender_id', $gcm_sender_id_option);
         $manifestGenerator->set_field('gcm_user_visible_only', true);
       }
@@ -302,7 +300,7 @@ class WebPush_Admin {
 <tr>
 <th scope="row"></th>
 <td>
-<object id="webpush_subscription_button_svg" data="<?php echo WP_Serve_File::get_relative_to_host_root_url('bell.svg'); ?>" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
+<object id="webpush_subscription_button_svg" data="<?php echo Mozilla\WP_Serve_File::get_relative_to_host_root_url('bell.svg'); ?>" type="image/svg+xml" style="max-width:64px;max-height:64px;"></object><br>
 <input type="text" value="<?php echo $subscription_button_color_option; ?>" name="webpush_subscription_button_color" class="webpush_subscription_button_color" data-default-color="#005189" /><br>
 <label><input type="checkbox" name="webpush_subscription_button" <?php echo $subscription_button_option ? 'checked' : ''; ?> /> <?php _e('Show subscription icon', 'web-push'); ?></label>
 <p class="description"><?php _e('A button in the bottom-right corner of the page that the user can use to subscribe/unsubscribe. We suggest enabling it to offer an easy way for users to manage their subscription.', 'web-push')?></p>
