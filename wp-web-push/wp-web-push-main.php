@@ -36,7 +36,7 @@ class WebPush_Main {
       add_action('wp_footer', array($this, 'add_subscription_button'), 9999);
     }
 
-    WP_SW_Manager::get_manager()->sw()->add_content(array($this, 'service_worker'));
+    Mozilla\WP_SW_Manager::get_manager()->sw()->add_content(array($this, 'service_worker'));
 
     add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
     add_filter('query_vars', array($this, 'on_query_vars'), 10, 1);
@@ -94,9 +94,9 @@ class WebPush_Main {
       $icon = '';
     }
 
-    wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(WP_SW_Manager::SW_REGISTRAR_SCRIPT, 'localforage-script'));
+    wp_register_script('wp-web-push-script', plugins_url('lib/js/wp-web-push.js', __FILE__), array(Mozilla\WP_SW_Manager::SW_REGISTRAR_SCRIPT, 'localforage-script'));
     wp_localize_script('wp-web-push-script', 'WP_Web_Push', array(
-      'sw_id' => WP_SW_Manager::get_manager()->sw_js_id(),
+      'sw_id' => Mozilla\WP_SW_Manager::get_manager()->sw_js_id(),
       'register_url' => admin_url('admin-ajax.php'),
       'min_visits' => get_option('webpush_min_visits'),
       'welcome_enabled' => in_array('on-subscription', get_option('webpush_triggers')),
