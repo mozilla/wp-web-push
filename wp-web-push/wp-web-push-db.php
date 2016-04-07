@@ -23,6 +23,13 @@ class WebPush_DB {
     ));
   }
 
+  public static function is_subscription($endpoint) {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'webpush_subscription';
+    return $wpdb->get_var($wpdb->prepare('SELECT count(1) FROM ' . $table_name . ' WHERE `endpoint` = %s', $endpoint)) != 0;
+  }
+
   public static function remove_subscription($endpoint) {
     global $wpdb;
 
