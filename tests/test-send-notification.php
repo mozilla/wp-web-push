@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
+
 class SendNotificationTest extends WP_UnitTestCase {
   function tearDown() {
     parent::tearDown();
@@ -22,26 +24,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     }, 10, 2);
 
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
-  }
-
-  function test_send_webpush_notification_async() {
-    $self = $this;
-    add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertTrue($r['headers']['TTL'] > 0);
-
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    }, 10, 2);
-
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', false));
+    $webPush = new WebPush();
+    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->sendNotifications();
   }
 
   function test_send_webpush_notification_success_no_key() {
@@ -57,7 +42,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertTrue(sendNotification('endpoint', false, '', true));
+    $webPush = new WebPush();
+    $webPush->addRecipient('endpoint', false, '');
+    $webPush->sendNotifications();
   }
 
   function test_send_webpush_notification_failure() {
@@ -73,7 +60,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertFalse(sendNotification('endpoint', false, 'aKey', true));
+    $webPush = new WebPush();
+    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->sendNotifications();
   }
 
   function test_send_gcm_notification_success() {
@@ -98,7 +87,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     }, 10, 2);
 
-    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
+    $webPush = new WebPush();
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey');
+    $webPush->sendNotifications();
   }
 
   function test_send_gcm_notification_failure() {
@@ -114,7 +105,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       );
     });
 
-    $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
+    $webPush = new WebPush();
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey');
+    $webPush->sendNotifications();
   }
 
   function test_send_notification_error() {
@@ -122,7 +115,9 @@ class SendNotificationTest extends WP_UnitTestCase {
       return new WP_Error('Error');
     });
 
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
+    $webPush = new WebPush();
+    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->sendNotifications();
   }
 }
 
