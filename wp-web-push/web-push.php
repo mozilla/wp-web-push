@@ -19,7 +19,6 @@ class WebPush {
 
   function addRecipient($endpoint, $isGCM, $gcmKey, $callback) {
     $headers = array();
-    $expectedResponseCode = 201;
     $requestURL = $endpoint;
     $body = '';
 
@@ -31,7 +30,6 @@ class WebPush {
       $headers['Content-Type'] = 'application/json';
       $headers['Content-Length'] = strlen($body);
       $requestURL = GCM_REQUEST_URL;
-      $expectedResponseCode = 200;
     } else {
       // Ask the push service to store the message for 4 weeks.
       $headers['TTL'] = 2419200;
@@ -42,7 +40,6 @@ class WebPush {
       'headers' => $headers,
       'body' => $body,
       'callback' => $callback,
-      'expected' => $expectedResponseCode,
     );
   }
 
@@ -96,7 +93,7 @@ class WebPush {
                // If there's an error during the request, return true
                // so the caller doesn't think the request failed.
                is_wp_error($result) ||
-               $result['response']['code'] === $request['expected'];
+               in_array($result['response']['code'], array(200, 201));
 
         call_user_func($request['callback'], $ret);
       }
