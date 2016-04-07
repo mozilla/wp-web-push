@@ -52,6 +52,7 @@
           body: data.body,
           icon: data.icon,
           data: data,
+          tag: 'wp-web-push',
         });
       })
     );
