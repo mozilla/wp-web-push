@@ -189,6 +189,8 @@ class WebPush_Main {
 
     require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 
+    $webPush = new WebPush();
+
     $title_option = get_option('webpush_title');
 
     $icon = get_option('webpush_icon');
@@ -224,18 +226,23 @@ class WebPush_Main {
         continue;
       }
 
-      // Clean approximately ten random subscriptions, to avoid performance problems
+      // TODO: Clean approximately ten random subscriptions, to avoid performance problems
       // with sending too many synchronous requests.
-      $sync = mt_rand(1, $subscription_num) <= 10;
+      //$sync = mt_rand(1, $subscription_num) <= 10;
 
-      if (!sendNotification($subscription->endpoint, $isGCM, $gcmKey, $sync)) {
+      /*if (!sendNotification($subscription->endpoint, $isGCM, $gcmKey, $sync)) {
         // If there's an error while sending the push notification,
         // the subscription is no longer valid, hence we remove it.
         WebPush_DB::remove_subscription($subscription->endpoint);
       } else {
         $notification_count++;
-      }
+      }*/
+
+      $webPush->addRecipient($subscription->endpoint, $isGCM, $gcmKey);
+      $notification_count++;
     }
+
+    $webPush->sendNotifications();
 
     update_post_meta($post->ID, '_notifications_clicked', 0);
     update_post_meta($post->ID, '_notifications_sent', $notification_count);
