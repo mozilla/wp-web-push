@@ -31,15 +31,6 @@ class WP_Http_Curl_Multi {
 	private $max_body_length = false;
 
 	/**
-	 * The file resource used for streaming to file.
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @var resource
-	 */
-	private $stream_handle = false;
-
-	/**
 	 * The total bytes written in the current request.
 	 *
 	 * @since 4.1.0
@@ -142,29 +133,12 @@ class WP_Http_Curl_Multi {
 				break;
 		}
 
-		if ( true === $r['blocking'] ) {
-			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( $this, 'stream_headers' ) );
-			curl_setopt( $handle, CURLOPT_WRITEFUNCTION, array( $this, 'stream_body' ) );
-		}
-
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 
 		if ( isset( $r['limit_response_size'] ) )
 			$this->max_body_length = intval( $r['limit_response_size'] );
 		else
 			$this->max_body_length = false;
-
-		// If streaming to a file open a file handle, and setup our curl streaming handler.
-		if ( $r['stream'] ) {
-			if ( ! WP_DEBUG )
-				$this->stream_handle = @fopen( $r['filename'], 'w+' );
-			else
-				$this->stream_handle = fopen( $r['filename'], 'w+' );
-			if ( ! $this->stream_handle )
-				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
-		} else {
-			$this->stream_handle = false;
-		}
 
 		if ( !empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element.
@@ -195,51 +169,6 @@ class WP_Http_Curl_Multi {
 		do_action_ref_array( 'http_api_curl', array( &$handle, $r, $url ) );
 
 		return $handle;
-	}
-
-	/**
-	 * Grab the headers of the cURL request
-	 *
-	 * Each header is sent individually to this callback, so we append to the $header property for temporary storage
-	 *
-	 * @since 3.2.0
-	 * @access private
-	 * @return int
-	 */
-	private function stream_headers( $handle, $headers ) {
-		$this->headers .= $headers;
-		return strlen( $headers );
-	}
-
-	/**
-	 * Grab the body of the cURL request
-	 *
-	 * The contents of the document are passed in chunks, so we append to the $body property for temporary storage.
-	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request with CURLE_WRITE_ERROR
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @return int
-	 */
-	private function stream_body( $handle, $data ) {
-		$data_length = strlen( $data );
-
-		if ( $this->max_body_length && ( $this->bytes_written_total + $data_length ) > $this->max_body_length ) {
-			$data_length = ( $this->max_body_length - $this->bytes_written_total );
-			$data = substr( $data, 0, $data_length );
-		}
-
-		if ( $this->stream_handle ) {
-			$bytes_written = fwrite( $this->stream_handle, $data );
-		} else {
-			$this->body .= $data;
-			$bytes_written = $data_length;
-		}
-
-		$this->bytes_written_total += $bytes_written;
-
-		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR.
-		return $bytes_written;
 	}
 
 	/**
