@@ -1,22 +1,7 @@
 <?php
-/**
- * HTTP API: WP_Http_Curl class
- *
- * @package WordPress
- * @subpackage HTTP
- * @since 4.4.0
- */
+// Based on the WordPress WP_Http_Curl class.
 
-/**
- * Core class used to integrate Curl as an HTTP transport.
- *
- * HTTP request method uses Curl extension to retrieve the url.
- *
- * Requires the Curl extension to be installed.
- *
- * @since 2.7.0
- */
-class WP_Http_Curl {
+class WP_Http_Curl_Multi {
 
 	/**
 	 * Temporary header storage for during requests.
@@ -64,7 +49,7 @@ class WP_Http_Curl {
 	private $bytes_written_total = 0;
 
 	/**
-	 * Send a HTTP request to a URI using cURL extension.
+	 * Create cURL handle for a HTTP request.
 	 *
 	 * @access public
 	 * @since 2.7.0
@@ -73,7 +58,7 @@ class WP_Http_Curl {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
-	public function request($url, $args = array()) {
+	public function createHandle($url, $args = array()) {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
@@ -219,82 +204,7 @@ class WP_Http_Curl {
 		 */
 		do_action_ref_array( 'http_api_curl', array( &$handle, $r, $url ) );
 
-		// We don't need to return the body, so don't. Just execute request and return.
-		if ( ! $r['blocking'] ) {
-			curl_exec( $handle );
-
-			if ( $curl_error = curl_error( $handle ) ) {
-				curl_close( $handle );
-				return new WP_Error( 'http_request_failed', $curl_error );
-			}
-			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) ) {
-				curl_close( $handle );
-				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
-			}
-
-			curl_close( $handle );
-			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
-		}
-
-		curl_exec( $handle );
-		$theHeaders = WP_Http::processHeaders( $this->headers, $url );
-		$theBody = $this->body;
-		$bytes_written_total = $this->bytes_written_total;
-
-		$this->headers = '';
-		$this->body = '';
-		$this->bytes_written_total = 0;
-
-		$curl_error = curl_errno( $handle );
-
-		// If an error occurred, or, no response.
-		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) ) {
-			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error ) {
-				if ( ! $this->max_body_length || $this->max_body_length != $bytes_written_total ) {
-					if ( $r['stream'] ) {
-						curl_close( $handle );
-						fclose( $this->stream_handle );
-						return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
-					} else {
-						curl_close( $handle );
-						return new WP_Error( 'http_request_failed', curl_error( $handle ) );
-					}
-				}
-			} else {
-				if ( $curl_error = curl_error( $handle ) ) {
-					curl_close( $handle );
-					return new WP_Error( 'http_request_failed', $curl_error );
-				}
-			}
-			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) ) {
-				curl_close( $handle );
-				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
-			}
-		}
-
-		curl_close( $handle );
-
-		if ( $r['stream'] )
-			fclose( $this->stream_handle );
-
-		$response = array(
-			'headers' => $theHeaders['headers'],
-			'body' => null,
-			'response' => $theHeaders['response'],
-			'cookies' => $theHeaders['cookies'],
-			'filename' => $r['filename']
-		);
-
-		// Handle redirects.
-		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
-			return $redirect_response;
-
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
-			$theBody = WP_Http_Encoding::decompress( $theBody );
-
-		$response['body'] = $theBody;
-
-		return $response;
+		return $handle;
 	}
 
 	/**
@@ -351,7 +261,7 @@ class WP_Http_Curl {
 	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
-		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) )
+		if ( ! function_exists( 'curl_multi_init' ) || ! function_exists( 'curl_multi_exec' ) )
 			return false;
 
 		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
