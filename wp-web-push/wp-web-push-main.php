@@ -1,6 +1,5 @@
 <?php
 
-require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
 class WebPush_Main {
@@ -187,6 +186,8 @@ class WebPush_Main {
     if (!isset($_REQUEST['webpush_send_notification'])) {
       return;
     }
+
+    require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 
     $title_option = get_option('webpush_title');
 
