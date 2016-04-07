@@ -64,13 +64,19 @@ class WebPush {
 
       $still_running = true;
       do {
-        curl_multi_exec($mh, $still_running);
-        curl_multi_select($mh);
-      } while ($still_running);
+        while (($curlCode = curl_multi_exec($mh, $still_running)) == CURLM_CALL_MULTI_PERFORM) {
+          curl_multi_select($mh);
+        }
 
-      foreach ($handles as $handle) {
-        curl_multi_remove_handle($mh, $handle);
-      }
+        if ($curlCode != CURLM_OK) {
+          break;
+        }
+
+        while ($res = curl_multi_info_read($mh)) {
+          call_user_func($request['callback'], in_array(curl_getinfo($res['handle'], CURLINFO_HTTP_CODE), array(200, 201)));
+          curl_multi_remove_handle($mh, $res['handle']);
+        }
+      } while ($still_running);
 
       curl_multi_close($mh);
     } else {
