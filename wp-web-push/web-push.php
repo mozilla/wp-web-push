@@ -17,7 +17,7 @@ class WebPush {
     }
   }
 
-  function addRecipient($endpoint, $isGCM, $gcmKey) {
+  function addRecipient($endpoint, $isGCM, $gcmKey, $callback) {
     $headers = array();
     $expectedResponseCode = 201;
     $requestURL = $endpoint;
@@ -39,11 +39,10 @@ class WebPush {
 
     $this->requests[] = array(
       'url' => $requestURL,
-      'args' => array(
-        'headers' => $headers,
-        'body' => $body,
-        'method' => 'POST',
-      )
+      'headers' => $headers,
+      'body' => $body,
+      'callback' => $callback,
+      'expected' => $expectedResponseCode,
     );
   }
 
@@ -51,7 +50,11 @@ class WebPush {
     if ($this->useMulti) {
       $handles = array();
       foreach ($this->requests as $request) {
-        $handles[] = $this->httpCurlMulti->createHandle($request['url'], $request['args']);
+        $handles[] = $this->httpCurlMulti->createHandle($request['url'], array(
+          'headers' => $request['headers'],
+          'body' => $request['body'],
+          'method' => 'POST',
+        ));
       }
 
       $mh = curl_multi_init();
@@ -71,12 +74,25 @@ class WebPush {
 
       curl_multi_close($mh);
     } else {
+      $num = count($this->requests);
       foreach ($this->requests as $request) {
-        wp_remote_post($requestURL, array(
-          'blocking' => false,
-          'headers' => $headers,
-          'body' => $body,
+        // Clean approximately ten random subscriptions, to avoid performance problems
+        // with sending too many synchronous requests.
+        $sync = mt_rand(1, $num) <= 10;
+
+        $result = wp_remote_post($request['url'], array(
+          'headers' => $request['headers'],
+          'body' => $request['body'],
+          'blocking' => $sync,
         ));
+
+        $ret = !$sync ||
+               // If there's an error during the request, return true
+               // so the caller doesn't think the request failed.
+               is_wp_error($result) ||
+               $result['response']['code'] === $request['expected'];
+
+        call_user_func($request['callback'], $ret);
       }
     }
   }
