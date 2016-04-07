@@ -68,14 +68,6 @@ class WP_Http_Curl_Multi {
 
 		$r = wp_parse_args( $args, $defaults );
 
-		if ( isset( $r['headers']['User-Agent'] ) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset( $r['headers']['User-Agent'] );
-		} elseif ( isset( $r['headers']['user-agent'] ) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset( $r['headers']['user-agent'] );
-		}
-
 		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $r );
 
@@ -122,8 +114,6 @@ class WP_Http_Curl_Multi {
 		if ( $ssl_verify ) {
 			curl_setopt( $handle, CURLOPT_CAINFO, $r['sslcertificates'] );
 		}
-
-		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
 
 		/*
 		 * The option doesn't work with safe mode or when open_basedir is set, and there's
