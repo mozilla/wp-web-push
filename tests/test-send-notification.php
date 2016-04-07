@@ -25,7 +25,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     }, 10, 2);
 
     $webPush = new WebPush();
-    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->addRecipient('endpoint', false, 'aKey', function($success) {
+      $this->assertTrue($success);
+    });
     $webPush->sendNotifications();
   }
 
@@ -43,7 +45,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $webPush = new WebPush();
-    $webPush->addRecipient('endpoint', false, '');
+    $webPush->addRecipient('endpoint', false, '', function($success) {
+      $this->assertTrue($success);
+    });
     $webPush->sendNotifications();
   }
 
@@ -61,7 +65,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $webPush = new WebPush();
-    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->addRecipient('endpoint', false, 'aKey', function($success) {
+      $this->assertFalse($success);
+    });
     $webPush->sendNotifications();
   }
 
@@ -88,7 +94,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     }, 10, 2);
 
     $webPush = new WebPush();
-    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey');
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) {
+      $this->assertTrue($success);
+    });
     $webPush->sendNotifications();
   }
 
@@ -106,7 +114,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $webPush = new WebPush();
-    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey');
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) {
+      $this->assertFalse($success);
+    });
     $webPush->sendNotifications();
   }
 
@@ -116,7 +126,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $webPush = new WebPush();
-    $webPush->addRecipient('endpoint', false, 'aKey');
+    $webPush->addRecipient('endpoint', false, 'aKey', function($success) {
+      $this->assertTrue($success);
+    });
     $webPush->sendNotifications();
   }
 }
