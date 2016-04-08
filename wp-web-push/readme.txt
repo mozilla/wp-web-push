@@ -48,6 +48,11 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.1.7 =
+* Support sending notifications for scheduled posts.
+* Improve performance while sending a large number of notifications by using curl_multi.
+* Add a per-post push preference.
+
 = 1.1.6 =
 * Fix bug with the bell icon on some servers.
 * Fix bug with Safari.

@@ -2,7 +2,7 @@
 
 class WebPush_DB {
   private static $instance;
-  const VERSION = '1.1.6';
+  const VERSION = '1.1.7';
 
   public function __construct() {
     add_action('plugins_loaded', array($this, 'update_check'));
