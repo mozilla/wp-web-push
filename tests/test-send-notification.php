@@ -3,8 +3,8 @@
 require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
 
 class SendNotificationTest extends WP_UnitTestCase {
-  function test_send_webpush_notification_success() {
-    $webPush = new WebPush();
+  function send_webpush_notification_success($forceWP) {
+    $webPush = new WebPush($forceWP);
     $self = $this;
     $webPush->addRecipient('http://localhost:55555/201', false, 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
@@ -12,8 +12,13 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->sendNotifications();
   }
 
-  function test_send_webpush_notification_success_no_key() {
-    $webPush = new WebPush();
+  function test_send_webpush_notification_success() {
+    $this->send_webpush_notification_success(false);
+    $this->send_webpush_notification_success(true);
+  }
+
+  function send_webpush_notification_success_no_key($forceWP) {
+    $webPush = new WebPush($forceWP);
     $self = $this;
     $webPush->addRecipient('http://localhost:55555/201', false, '', function($success) use ($self) {
       $self->assertTrue($success);
@@ -21,8 +26,13 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->sendNotifications();
   }
 
-  function test_send_webpush_notification_failure() {
-    $webPush = new WebPush();
+  function test_send_webpush_notification_success_no_key() {
+    $this->send_webpush_notification_success_no_key(false);
+    $this->send_webpush_notification_success_no_key(true);
+  }
+
+  function send_webpush_notification_failure($forceWP) {
+    $webPush = new WebPush($forceWP);
     $self = $this;
     $webPush->addRecipient('http://localhost:55555/400', false, 'aKey', function($success) use ($self) {
       $self->assertFalse($success);
@@ -30,8 +40,13 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->sendNotifications();
   }
 
-  function test_send_gcm_notification_success() {
-    $webPush = new WebPush();
+  function test_send_webpush_notification_failure() {
+    $this->send_webpush_notification_failure(false);
+    $this->send_webpush_notification_failure(true);
+  }
+
+  function send_gcm_notification_success($forceWP) {
+    $webPush = new WebPush($forceWP);
     $self = $this;
     $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
@@ -42,8 +57,13 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->sendNotifications();
   }
 
-  function test_send_gcm_notification_failure() {
-    $webPush = new WebPush();
+  function test_send_gcm_notification_success() {
+    $this->send_gcm_notification_success(false);
+    $this->send_gcm_notification_success(true);
+  }
+
+  function send_gcm_notification_failure($forceWP) {
+    $webPush = new WebPush($forceWP);
     $self = $this;
     $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
       $self->assertFalse($success);
@@ -52,6 +72,11 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->requests[0]['url'] = 'http://localhost:55555/400/gcm';
 
     $webPush->sendNotifications();
+  }
+
+  function test_send_gcm_notification_failure() {
+    $this->send_gcm_notification_failure(false);
+    $this->send_gcm_notification_failure(true);
   }
 
   /*function test_send_notification_error() {
