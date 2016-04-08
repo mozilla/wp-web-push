@@ -79,17 +79,17 @@ class SendNotificationTest extends WP_UnitTestCase {
     $this->send_gcm_notification_failure(true);
   }
 
-  /*function test_send_notification_error() {
+  function test_send_notification_error() {
     add_filter('pre_http_request', function() {
       return new WP_Error('Error');
     });
 
-    $webPush = new WebPush();
+    $webPush = new WebPush(true);
     $webPush->addRecipient('endpoint', false, 'aKey', function($success) {
       $this->assertTrue($success);
     });
     $webPush->sendNotifications();
-  }*/
+  }
 }
 
 ?>
