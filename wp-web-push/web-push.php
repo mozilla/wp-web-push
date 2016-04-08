@@ -46,12 +46,15 @@ class WebPush {
   function sendNotifications() {
     if ($this->useMulti) {
       $handles = array();
+      $handleToReq = array();
       foreach ($this->requests as $request) {
-        $handles[] = $this->httpCurlMulti->createHandle($request['url'], array(
+        $handle = $this->httpCurlMulti->createHandle($request['url'], array(
           'headers' => $request['headers'],
           'body' => $request['body'],
           'method' => 'POST',
         ));
+        $handles[] = $handle;
+        $handleToReq[intval($handle)] = $request;
       }
 
       $mh = curl_multi_init();
@@ -70,8 +73,9 @@ class WebPush {
         }
 
         while ($res = curl_multi_info_read($mh)) {
-          call_user_func($request['callback'], in_array(curl_getinfo($res['handle'], CURLINFO_HTTP_CODE), array(200, 201)));
-          curl_multi_remove_handle($mh, $res['handle']);
+          $handle = $res['handle'];
+          call_user_func($handleToReq[intval($handle)]['callback'], in_array(curl_getinfo($handle, CURLINFO_HTTP_CODE), array(200, 201)));
+          curl_multi_remove_handle($mh, $handle);
         }
       } while ($still_running);
 
