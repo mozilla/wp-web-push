@@ -116,6 +116,7 @@ class WebPush_DB {
     delete_option('webpush_accepted_prompt_count');
     delete_post_meta_by_key('_notifications_sent');
     delete_post_meta_by_key('_notifications_clicked');
+    delete_post_meta_by_key('_notifications_enabled');
   }
 }
 
