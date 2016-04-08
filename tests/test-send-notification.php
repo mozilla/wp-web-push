@@ -90,6 +90,29 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
     $webPush->sendNotifications();
   }
+
+  function send_multiple_notifications_success($forceWP) {
+    $webPush = new WebPush($forceWP);
+    $self = $this;
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->addRecipient('http://localhost:55555/400', true, 'aKey', function($success) use ($self) {
+      $self->assertFalse($success);
+    });
+    $webPush->addRecipient('http://localhost:55555/201', false, 'aKey', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+
+    $webPush->requests[0]['url'] = 'http://localhost:55555/200/gcm';
+
+    $webPush->sendNotifications();
+  }
+
+  function test_send_multiple_notifications_success() {
+    $this->send_multiple_notifications_success(false);
+    $this->send_multiple_notifications_success(true);
+  }
 }
 
 ?>
