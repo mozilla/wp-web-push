@@ -231,25 +231,10 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum + 2, getSentNotificationNum());
   }
 
-  /*function test_success_no_gcm_key() {
+  function test_success_no_gcm_key() {
     $oldNum = getSentNotificationNum();
 
     WebPush_DB::add_subscription('https://android.googleapis.com/gcm/send/endpoint', '');
-
-    $self = $this;
-    add_filter('pre_http_request', function() use ($self) {
-      $self->assertTrue(true);
-
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    });
 
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
     $main = new WebPush_Main();
@@ -269,51 +254,11 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     // Test that the GCM endpoint isn't removed.
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(2, count($subscriptions));
-    $this->assertEquals('endpoint', $subscriptions[0]->endpoint);
+    $this->assertEquals('http://localhost:55555/201', $subscriptions[0]->endpoint);
     $this->assertEquals('aKey', $subscriptions[0]->userKey);
     $this->assertEquals('https://android.googleapis.com/gcm/send/endpoint', $subscriptions[1]->endpoint);
     $this->assertEquals('', $subscriptions[1]->userKey);
   }
-
-  function test_success_with_gcm_key() {
-    $oldNum = getSentNotificationNum();
-
-    WebPush_DB::add_subscription('https://android.googleapis.com/gcm/send/endpoint', '');
-
-    $self = $this;
-    add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertTrue(true);
-
-      $code = isset($r['headers']['TTL']) ? 201 : 200;
-
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => $code,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    }, 10, 2);
-
-    update_option('webpush_gcm_key', 'ASD');
-
-    $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
-    $main = new WebPush_Main();
-    $main->on_transition_post_status('publish', 'draft', $post);
-
-    $payload = get_option('webpush_payload');
-    $this->assertEquals('Test Blog', $payload['title']);
-    $this->assertEquals('Test Post Title', $payload['body']);
-    $this->assertEquals('', $payload['icon']);
-    $this->assertEquals('http://example.org/?p=' . $post->ID, $payload['url']);
-    $this->assertEquals($post->ID, $payload['postID']);
-    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
-    $this->assertEquals(2, get_post_meta($post->ID, '_notifications_sent', true));
-
-    $this->assertEquals($oldNum + 2, getSentNotificationNum());
-  }*/
 
   function test_success_remove_invalid_subscription() {
     $oldNum = getSentNotificationNum();

@@ -8,7 +8,7 @@ define('GCM_REQUEST_URL_LEN', strlen(GCM_REQUEST_URL) + 1);
 class WebPush {
   private $useMulti;
   private $httpCurlMulti;
-  private $requests = array();
+  public $requests = array();
 
   function __construct() {
     $this->useMulti = WP_Http_Curl_Multi::test();
