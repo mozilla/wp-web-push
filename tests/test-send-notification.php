@@ -85,8 +85,9 @@ class SendNotificationTest extends WP_UnitTestCase {
     });
 
     $webPush = new WebPush(true);
-    $webPush->addRecipient('endpoint', false, 'aKey', function($success) {
-      $this->assertTrue($success);
+    $self = $this;
+    $webPush->addRecipient('endpoint', false, 'aKey', function($success) use ($self) {
+      $self->assertTrue($success);
     });
     $webPush->sendNotifications();
   }
