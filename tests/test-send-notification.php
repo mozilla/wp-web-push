@@ -1,128 +1,150 @@
 <?php
 
+require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
+
 class SendNotificationTest extends WP_UnitTestCase {
-  function tearDown() {
-    parent::tearDown();
-    remove_all_filters('pre_http_request');
+  function send_webpush_notification_success($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setGCMKey('aKey');
+    $self = $this;
+    $webPush->addRecipient('http://localhost:55555/201', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
   function test_send_webpush_notification_success() {
-    $self = $this;
-    add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertTrue($r['headers']['TTL'] > 0);
-
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    }, 10, 2);
-
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
+    $this->send_webpush_notification_success(false);
+    $this->send_webpush_notification_success(true);
   }
 
-  function test_send_webpush_notification_async() {
+  function send_webpush_notification_success_no_key($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
     $self = $this;
-    add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertTrue($r['headers']['TTL'] > 0);
+    $webPush->addRecipient('http://localhost:55555/201', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->sendNotifications();
 
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    }, 10, 2);
-
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', false));
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
   function test_send_webpush_notification_success_no_key() {
-    add_filter('pre_http_request', function() {
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 201,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    });
+    $this->send_webpush_notification_success_no_key(false);
+    $this->send_webpush_notification_success_no_key(true);
+  }
 
-    $this->assertTrue(sendNotification('endpoint', false, '', true));
+  function send_webpush_notification_failure($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $self = $this;
+    $webPush->addRecipient('http://localhost:55555/400', function($success) use ($self) {
+      $self->assertFalse($success);
+    });
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
   function test_send_webpush_notification_failure() {
-    add_filter('pre_http_request', function() {
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 400,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
+    $this->send_webpush_notification_failure(false);
+    $this->send_webpush_notification_failure(true);
+  }
+
+  function send_gcm_notification_success($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setGCMKey('aKey');
+    $self = $this;
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', function($success) use ($self) {
+      $self->assertTrue($success);
     });
 
-    $this->assertFalse(sendNotification('endpoint', false, 'aKey', true));
+    $webPush->requests[0]['url'] = 'http://localhost:55555/200/gcm';
+
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
   function test_send_gcm_notification_success() {
+    $this->send_gcm_notification_success(false);
+    $this->send_gcm_notification_success(true);
+  }
+
+  function send_gcm_notification_failure($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setGCMKey('aKey');
     $self = $this;
-    add_filter('pre_http_request', function($url, $r) use ($self) {
-      $self->assertEquals('key=aKey', $r['headers']['Authorization']);
-      $self->assertEquals('application/json', $r['headers']['Content-Type']);
-      $self->assertEquals(33, $r['headers']['Content-Length']);
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', function($success) use ($self) {
+      $self->assertFalse($success);
+    });
 
-      $data = json_decode($r['body']);
-      $self->assertEquals(1, count($data->registration_ids));
-      $self->assertEquals('endpoint', $data->registration_ids[0]);
+    $webPush->requests[0]['url'] = 'http://localhost:55555/400/gcm';
 
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 200,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    }, 10, 2);
+    $webPush->sendNotifications();
 
-    $this->assertTrue(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
   function test_send_gcm_notification_failure() {
-    add_filter('pre_http_request', function() {
-      return array(
-        'headers' => array(),
-        'body' => '',
-        'response' => array(
-          'code' => 400,
-        ),
-        'cookies' => array(),
-        'filename' => '',
-      );
-    });
-
-    $this->assertFalse(sendNotification('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', true));
+    $this->send_gcm_notification_failure(false);
+    $this->send_gcm_notification_failure(true);
   }
 
   function test_send_notification_error() {
+    $oldNum = getSentNotificationNum();
+
     add_filter('pre_http_request', function() {
       return new WP_Error('Error');
     });
 
-    $this->assertTrue(sendNotification('endpoint', false, 'aKey', true));
+    $webPush = new WebPush(true);
+    $self = $this;
+    $webPush->addRecipient('endpoint', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum, getSentNotificationNum());
+  }
+
+  function send_multiple_notifications_success($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setGCMKey('aKey');
+    $self = $this;
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->addRecipient('http://localhost:55555/400', function($success) use ($self) {
+      $self->assertFalse($success);
+    });
+    $webPush->addRecipient('http://localhost:55555/201', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+
+    $webPush->requests[0]['url'] = 'http://localhost:55555/200/gcm';
+
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 3, getSentNotificationNum());
+  }
+
+  function test_send_multiple_notifications_success() {
+    $this->send_multiple_notifications_success(false);
+    $this->send_multiple_notifications_success(true);
   }
 }
 
