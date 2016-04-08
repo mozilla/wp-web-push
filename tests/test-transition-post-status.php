@@ -146,6 +146,30 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum, getSentNotificationNum());
   }
 
+  function test_success_scheduled() {
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
+    $main = new WebPush_Main();
+    $main->on_transition_post_status('scheduled', 'draft', $post);
+
+    $this->assertEquals('e', get_post_meta($post->ID, '_notifications_enabled', true));
+
+    unset($_REQUEST['webpush_meta_box_nonce']);
+    $main->on_transition_post_status('publish', 'scheduled', $post);
+
+    $payload = get_option('webpush_payload');
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $post->ID, $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
   function test_success_custom_title() {
     $oldNum = getSentNotificationNum();
 
