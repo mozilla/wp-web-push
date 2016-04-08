@@ -175,7 +175,7 @@ class WebPush_Main {
   }
 
   public static function on_transition_post_status($new_status, $old_status, $post) {
-    if (empty($post) or get_post_type($post) !== 'post' or $new_status !== 'publish') {
+    if (empty($post) or get_post_type($post) !== 'post') {
       return;
     }
 
@@ -185,6 +185,10 @@ class WebPush_Main {
       }
 
       update_post_meta($post->ID, '_notifications_enabled', isset($_REQUEST['webpush_send_notification']) ? 'e' : 'd');
+    }
+
+    if ($new_status !== 'publish') {
+      return;
     }
 
     $notificationsEnabled = get_post_meta($post->ID, '_notifications_enabled', true);
