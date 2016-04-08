@@ -24,7 +24,10 @@ build: $(COMPOSER)
 	mv build/$(PLUGIN_NAME).zip $(PLUGIN_NAME).zip
 
 test: $(PHPUNIT) build
+	-pkill node
+	node tests/server.js &
 	$(PHPUNIT)
+	-pkill node -n
 
 version-changelog:
 	./version-changelog.js $(PLUGIN_NAME)
