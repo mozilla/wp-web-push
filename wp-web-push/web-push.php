@@ -17,12 +17,12 @@ class WebPush {
     }
   }
 
-  function addRecipient($endpoint, $isGCM, $gcmKey, $callback) {
+  function addRecipient($endpoint, $gcmKey, $callback) {
     $headers = array();
     $requestURL = $endpoint;
     $body = '';
 
-    if ($isGCM) {
+    if (strpos($endpoint, GCM_REQUEST_URL) === 0) {
       $subscriptionId = substr($endpoint, GCM_REQUEST_URL_LEN);
       $body = '{"registration_ids":["' . $subscriptionId . '"]}';
 

@@ -8,7 +8,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('http://localhost:55555/201', false, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('http://localhost:55555/201', 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
     });
     $webPush->sendNotifications();
@@ -26,7 +26,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('http://localhost:55555/201', false, '', function($success) use ($self) {
+    $webPush->addRecipient('http://localhost:55555/201', '', function($success) use ($self) {
       $self->assertTrue($success);
     });
     $webPush->sendNotifications();
@@ -44,7 +44,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('http://localhost:55555/400', false, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('http://localhost:55555/400', 'aKey', function($success) use ($self) {
       $self->assertFalse($success);
     });
     $webPush->sendNotifications();
@@ -62,7 +62,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
     });
 
@@ -83,7 +83,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', 'aKey', function($success) use ($self) {
       $self->assertFalse($success);
     });
 
@@ -108,7 +108,7 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush(true);
     $self = $this;
-    $webPush->addRecipient('endpoint', false, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('endpoint', 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
     });
     $webPush->sendNotifications();
@@ -121,13 +121,13 @@ class SendNotificationTest extends WP_UnitTestCase {
 
     $webPush = new WebPush($forceWP);
     $self = $this;
-    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', true, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
     });
-    $webPush->addRecipient('http://localhost:55555/400', false, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('http://localhost:55555/400', 'aKey', function($success) use ($self) {
       $self->assertFalse($success);
     });
-    $webPush->addRecipient('http://localhost:55555/201', false, 'aKey', function($success) use ($self) {
+    $webPush->addRecipient('http://localhost:55555/201', 'aKey', function($success) use ($self) {
       $self->assertTrue($success);
     });
 

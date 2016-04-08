@@ -226,7 +226,7 @@ class WebPush_Main {
         continue;
       }
 
-      $webPush->addRecipient($subscription->endpoint, $isGCM, $gcmKey, function($success) use ($subscription, &$notification_count) {
+      $webPush->addRecipient($subscription->endpoint, $gcmKey, function($success) use ($subscription, &$notification_count) {
         if (!$success) {
           // If there's an error while sending the push notification,
           // the subscription is no longer valid, hence we remove it.
