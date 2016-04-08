@@ -10,8 +10,8 @@ class WebPush {
   private $httpCurlMulti;
   public $requests = array();
 
-  function __construct() {
-    $this->useMulti = WP_Http_Curl_Multi::test();
+  function __construct($forceWP = false) {
+    $this->useMulti = !$forceWP && WP_Http_Curl_Multi::test();
     if ($this->useMulti) {
       $this->httpCurlMulti = new WP_Http_Curl_Multi();
     }
