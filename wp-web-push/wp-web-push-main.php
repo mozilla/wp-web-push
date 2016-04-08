@@ -179,11 +179,17 @@ class WebPush_Main {
       return;
     }
 
-    if (!isset($_REQUEST['webpush_meta_box_nonce']) or !wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
-      return;
+    if (isset($_REQUEST['webpush_meta_box_nonce'])) {
+      if (!wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
+        return;
+      }
+
+      update_post_meta($post->ID, '_notifications_enabled', isset($_REQUEST['webpush_send_notification']) ? 'e' : 'd');
     }
 
-    if (!isset($_REQUEST['webpush_send_notification'])) {
+    $notificationsEnabled = get_post_meta($post->ID, '_notifications_enabled', true);
+
+    if ($notificationsEnabled !== 'e') {
       return;
     }
 
