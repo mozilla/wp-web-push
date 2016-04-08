@@ -210,6 +210,7 @@ class WebPush_Main {
     ));
 
     $gcmKey = get_option('webpush_gcm_key');
+    $webPush->setGCMKey($gcmKey);
 
     $notification_count = 0;
 
@@ -226,7 +227,7 @@ class WebPush_Main {
         continue;
       }
 
-      $webPush->addRecipient($subscription->endpoint, $gcmKey, function($success) use ($subscription, &$notification_count) {
+      $webPush->addRecipient($subscription->endpoint, function($success) use ($subscription, &$notification_count) {
         if (!$success) {
           // If there's an error while sending the push notification,
           // the subscription is no longer valid, hence we remove it.

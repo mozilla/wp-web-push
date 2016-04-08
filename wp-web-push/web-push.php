@@ -9,6 +9,7 @@ class WebPush {
   private $useMulti;
   private $httpCurlMulti;
   public $requests = array();
+  private $gcmKey;
 
   function __construct($forceWP = false) {
     $this->useMulti = !$forceWP && WP_Http_Curl_Multi::test();
@@ -17,7 +18,11 @@ class WebPush {
     }
   }
 
-  function addRecipient($endpoint, $gcmKey, $callback) {
+  function setGCMKey($gcmKey) {
+    $this->gcmKey = $gcmKey;
+  }
+
+  function addRecipient($endpoint, $callback) {
     $headers = array();
     $requestURL = $endpoint;
     $body = '';
@@ -26,7 +31,7 @@ class WebPush {
       $subscriptionId = substr($endpoint, GCM_REQUEST_URL_LEN);
       $body = '{"registration_ids":["' . $subscriptionId . '"]}';
 
-      $headers['Authorization'] = 'key=' . $gcmKey;
+      $headers['Authorization'] = 'key=' . $this->gcmKey;
       $headers['Content-Type'] = 'application/json';
       $headers['Content-Length'] = strlen($body);
       $requestURL = GCM_REQUEST_URL;
