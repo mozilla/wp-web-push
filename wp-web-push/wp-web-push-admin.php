@@ -382,7 +382,7 @@ class WebPush_Admin {
   $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
   $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
   $pubKeySerializer = new PemPublicKeySerializer(new DerPublicKeySerializer());
-  echo $pubKeySerializer->serialize($privateKeyObject->getPublicKey());
+  echo nl2br($pubKeySerializer->serialize($privateKeyObject->getPublicKey()));
 ?>
 </code></td>
 </tr>
