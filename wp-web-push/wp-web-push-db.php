@@ -1,5 +1,9 @@
 <?php
 
+use Mdanter\Ecc\EccFactory;
+use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
+
 class WebPush_DB {
   private static $instance;
   const VERSION = '1.1.7';
@@ -75,7 +79,11 @@ class WebPush_DB {
     add_option('webpush_prompt_interval', 3);
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
-    add_option('webpush_vapid_key', '');
+
+    $generator = EccFactory::getNistCurves()->generator256();
+    $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+
+    add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
     $parsedURL = parse_url(home_url('/', 'https'));
     add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
     add_option('webpush_vapid_subject', get_option('admin_email'));
