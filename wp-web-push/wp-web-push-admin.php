@@ -374,17 +374,17 @@ class WebPush_Admin {
   if (USE_VAPID) {
 ?>
 <table class="form-table">
-<h2 class="title"><?php _e('Voluntary Application Server Identification - VAPID', 'web-push'); ?></h2>
-<p><?php _e('Describe why VAPID is useful.', 'web-push'); ?></p>
+<h2 class="title"><?php _e('Voluntary Application Server Identification (VAPID)', 'web-push'); ?></h2>
+<p><?php _e('VAPID is useful to monitor your push messages. It allows your server to submit information about itself to the push service, which improves application stability, exception handling, and security.', 'web-push'); ?></p>
 
 <tr>
-<th scope="row"><label for="webpush_vapid_key"><?php _e('VAPID Private Key', 'web-push'); ?></label></th>
+<th scope="row"><label for="webpush_vapid_key"><?php _e('Private Key', 'web-push'); ?></label></th>
 <td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
-<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+<p class="description"><?php _e('The private key used to sign your push notifications.', 'web-push')?></p></td>
 </tr>
 
 <tr>
-<th scope="row"><?php _e('VAPID Public Key', 'web-push'); ?></th>
+<th scope="row"><?php _e('Public Key', 'web-push'); ?></th>
 <td><code>
 <?php
   $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
@@ -396,15 +396,15 @@ class WebPush_Admin {
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_vapid_audience"><?php _e('VAPID Audience', 'web-push'); ?></label></th>
+<th scope="row"><label for="webpush_vapid_audience"><?php _e('Audience', 'web-push'); ?></label></th>
 <td><input name="webpush_vapid_audience" type="url" value="<?php echo $vapid_audience_option; ?>" class="regular-text code" />
-<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+<p class="description"><?php _e('The origin URL of the sender.', 'web-push')?></p></td>
 </tr>
 
 <tr>
-<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Subject', 'web-push'); ?></label></th>
+<th scope="row"><label for="webpush_vapid_subject"><?php _e('Subject', 'web-push'); ?></label></th>
 <td><input name="webpush_vapid_subject" type="url" value="<?php echo $vapid_subject_option; ?>" class="regular-text code" />
-<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+<p class="description"><?php _e('The primary contact in case something goes wrong.', 'web-push')?></p></td>
 </tr>
 </table>
 <?php
