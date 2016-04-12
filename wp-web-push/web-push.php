@@ -56,11 +56,12 @@ AwEHoUQDQgAEJXwAdITiPFcSUsaRI2nlzTNRn++q6F38XrH8m8sf28DQ+2Oob5SU
 zvgjVS0e70pIqH6bSXDgPc8mKtSs9Zi26Q==
 -----END EC PRIVATE KEY-----';
 
-        $token = (new Builder())->setAudience('http://catfacts.example.com')
-                                ->setExpiration(time() + 86400)
-                                ->setSubject('mailto:webpush_ops@catfacts.example.com')
-                                ->sign(new Sha256(),  new Key($privateKey))
-                                ->getToken();
+        $builder = new Builder();
+        $token = $builder->setAudience('http://catfacts.example.com')
+                         ->setExpiration(time() + 86400)
+                         ->setSubject('mailto:webpush_ops@catfacts.example.com')
+                         ->sign(new Sha256(),  new Key($privateKey))
+                         ->getToken();
 
         $headers['Authorization'] = 'Bearer ' . $token;
 
