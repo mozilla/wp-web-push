@@ -171,7 +171,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   }
 
   function test_success_with_vapid() {
-    WebPush_DB::add_subscription('http://localhost:55555/201//vapid', 'aKey3');
+    WebPush_DB::add_subscription('http://localhost:55555/200' . (USE_VAPID ? '//vapid' : ''), 'aKey3');
 
     update_option('webpush_vapid_key', file_get_contents('tests/example_ec_key_with_public_key.pem'));
     update_option('webpush_vapid_audience', 'http://catfacts.example.com');
