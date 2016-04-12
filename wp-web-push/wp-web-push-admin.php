@@ -165,6 +165,8 @@ class WebPush_Admin {
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
+    $vapid_key_option = get_option('webpush_vapid_key');
+    $vapid_subject_option = get_option('webpush_vapid_subject');
 
     if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
       if ($_POST['webpush_title'] === 'blog_title') {
@@ -224,6 +226,9 @@ class WebPush_Admin {
         $manifestGenerator->set_field('gcm_user_visible_only', true);
       }
 
+      $vapid_key_option = $_POST['webpush_vapid_key'];
+      $vapid_subject_option = $_POST['webpush_vapid_subject'];
+
       update_option('webpush_title', $title_option);
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
@@ -232,6 +237,8 @@ class WebPush_Admin {
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
+      update_option('webpush_vapid_key', $vapid_key_option);
+      update_option('webpush_vapid_subject', $vapid_subject_option);
 
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
@@ -346,6 +353,24 @@ class WebPush_Admin {
 </fieldset>
 <p class="description"><?php _e('N.B.: You can override these options for individual posts when you create/edit them.', 'web-push'); ?></p>
 </td>
+</tr>
+</table>
+
+
+<table class="form-table">
+<h2 class="title"><?php _e('Voluntary Application Server Identification - VAPID', 'web-push'); ?></h2>
+<p><?php _e('Describe why VAPID is useful.', 'web-push'); ?></p>
+
+<tr>
+<th scope="row"><label for="webpush_vapid_key"><?php _e('VAPID Private Key', 'web-push'); ?></label></th>
+<td><input name="webpush_vapid_key" type="text" value="<?php echo $vapid_key_option; ?>" class="regular-text code" />
+<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Subject', 'web-push'); ?></label></th>
+<td><input name="webpush_vapid_subject" type="text" value="<?php echo $vapid_subject_option; ?>" class="code" />
+<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
 </tr>
 </table>
 
