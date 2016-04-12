@@ -45,6 +45,13 @@ class WebPush_DB {
     return $wpdb->get_results('SELECT `endpoint`,`userKey` FROM ' . $table_name);
   }
 
+  public static function count_subscriptions() {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'webpush_subscription';
+    return $wpdb->get_var('SELECT COUNT(*) FROM ' . $table_name);
+  }
+
   public function update_check() {
     global $wpdb;
 
