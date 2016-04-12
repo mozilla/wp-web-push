@@ -1,5 +1,10 @@
 <?php
 
+use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
+use Mdanter\Ecc\Serializer\PublicKey\PemPublicKeySerializer;
+
 class WebPush_Admin {
   private static $instance;
   private $options_page;
@@ -368,6 +373,18 @@ class WebPush_Admin {
 <th scope="row"><label for="webpush_vapid_key"><?php _e('VAPID Private Key', 'web-push'); ?></label></th>
 <td><input name="webpush_vapid_key" type="text" value="<?php echo $vapid_key_option; ?>" class="regular-text code" />
 <p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e('VAPID Public Key', 'web-push'); ?></th>
+<td><code>
+<?php
+  $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+  $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
+  $pubKeySerializer = new PemPublicKeySerializer(new DerPublicKeySerializer());
+  echo $pubKeySerializer->serialize($privateKeyObject->getPublicKey());
+?>
+</code></td>
 </tr>
 
 <tr>
