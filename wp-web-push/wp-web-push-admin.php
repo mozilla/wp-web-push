@@ -397,13 +397,13 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><label for="webpush_vapid_audience"><?php _e('VAPID Audience', 'web-push'); ?></label></th>
-<td><input name="webpush_vapid_audience" type="text" value="<?php echo $vapid_audience_option; ?>" class="code" />
+<td><input name="webpush_vapid_audience" type="url" value="<?php echo $vapid_audience_option; ?>" class="regular-text code" />
 <p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
 </tr>
 
 <tr>
 <th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Subject', 'web-push'); ?></label></th>
-<td><input name="webpush_vapid_subject" type="text" value="<?php echo $vapid_subject_option; ?>" class="code" />
+<td><input name="webpush_vapid_subject" type="url" value="<?php echo $vapid_subject_option; ?>" class="regular-text code" />
 <p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
 </tr>
 </table>
