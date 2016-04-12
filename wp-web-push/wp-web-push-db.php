@@ -87,7 +87,7 @@ class WebPush_DB {
       add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
       $parsedURL = parse_url(home_url('/', 'https'));
       add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
-      add_option('webpush_vapid_subject', get_option('admin_email'));
+      add_option('webpush_vapid_subject', 'mailto:' . get_option('admin_email'));
     }
 
     add_option('webpush_prompt_count', 0);
