@@ -80,13 +80,16 @@ class WebPush_DB {
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
 
-    $generator = EccFactory::getNistCurves()->generator256();
-    $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+    if (USE_VAPID) {
+      $generator = EccFactory::getNistCurves()->generator256();
+      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
 
-    add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
-    $parsedURL = parse_url(home_url('/', 'https'));
-    add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
-    add_option('webpush_vapid_subject', get_option('admin_email'));
+      add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
+      $parsedURL = parse_url(home_url('/', 'https'));
+      add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
+      add_option('webpush_vapid_subject', get_option('admin_email'));
+    }
+
     add_option('webpush_prompt_count', 0);
     add_option('webpush_accepted_prompt_count', 0);
     add_option('webpush_subscription_button_color', '#005189');
