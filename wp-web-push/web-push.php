@@ -13,7 +13,6 @@ require_once(plugin_dir_path(__FILE__) . 'class-wp-http-curl-multi.php' );
 
 define('GCM_REQUEST_URL', 'https://android.googleapis.com/gcm/send');
 define('GCM_REQUEST_URL_LEN', strlen(GCM_REQUEST_URL) + 1);
-define('USE_VAPID', version_compare(phpversion(), '5.5') >= 0);
 
 class WebPush {
   private $useMulti;

@@ -10,6 +10,8 @@ License: GPLv2 or later
 Text Domain: web-push
 */
 
+define('USE_VAPID', version_compare(phpversion(), '5.5') >= 0);
+
 load_plugin_textdomain('web-push', false, dirname(plugin_basename(__FILE__)) . '/lang');
 
 require_once(plugin_dir_path(__FILE__) . 'vendor/autoload.php');
