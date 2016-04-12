@@ -20,6 +20,9 @@ class WebPush {
   private $httpCurlMulti;
   public $requests = array();
   private $gcmKey;
+  private $vapidPrivateKey;
+  private $vapidAudience;
+  private $vapidSubject;
 
   function __construct($forceWP = false) {
     $this->useMulti = !$forceWP && WP_Http_Curl_Multi::test();
@@ -30,6 +33,12 @@ class WebPush {
 
   function setGCMKey($gcmKey) {
     $this->gcmKey = $gcmKey;
+  }
+
+  function setVAPIDInfo($privateKey, $audience, $subject) {
+    $this->vapidPrivateKey = $privateKey;
+    $this->vapidAudience = $audience;
+    $this->vapidSubject = $subject;
   }
 
   function addRecipient($endpoint, $callback) {
@@ -49,24 +58,18 @@ class WebPush {
       // Ask the push service to store the message for 4 weeks.
       $headers['TTL'] = 2419200;
 
-      if (USE_VAPID) {
-        $privateKey = '-----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIDYEX2yQlhJXDIwBEwcfyAn2eICEKJxqsAPGChey1a2toAoGCCqGSM49
-AwEHoUQDQgAEJXwAdITiPFcSUsaRI2nlzTNRn++q6F38XrH8m8sf28DQ+2Oob5SU
-zvgjVS0e70pIqH6bSXDgPc8mKtSs9Zi26Q==
------END EC PRIVATE KEY-----';
-
+      if (USE_VAPID && $this->vapidPrivateKey && $this->vapidAudience && $this->vapidSubject) {
         $builder = new Builder();
-        $token = $builder->setAudience('http://catfacts.example.com')
+        $token = $builder->setAudience($this->vapidAudience)
                          ->setExpiration(time() + 86400)
-                         ->setSubject('mailto:webpush_ops@catfacts.example.com')
-                         ->sign(new Sha256(),  new Key($privateKey))
+                         ->setSubject($this->vapidSubject)
+                         ->sign(new Sha256(),  new Key($this->vapidPrivateKey))
                          ->getToken();
 
         $headers['Authorization'] = 'Bearer ' . $token;
 
         $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
-        $privateKeyObject = $privKeySerializer->parse($privateKey);
+        $privateKeyObject = $privKeySerializer->parse($this->vapidPrivateKey);
         $publicKeyObject = $privateKeyObject->getPublicKey();
         $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
         $headers['Crypto-Key'] = 'p256ecdsa=' . Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
