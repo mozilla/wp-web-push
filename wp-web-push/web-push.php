@@ -13,6 +13,7 @@ require_once(plugin_dir_path(__FILE__) . 'class-wp-http-curl-multi.php' );
 
 define('GCM_REQUEST_URL', 'https://android.googleapis.com/gcm/send');
 define('GCM_REQUEST_URL_LEN', strlen(GCM_REQUEST_URL) + 1);
+define('USE_VAPID', version_compare(phpversion(), '5.5') >= 0);
 
 class WebPush {
   private $useMulti;
@@ -48,25 +49,27 @@ class WebPush {
       // Ask the push service to store the message for 4 weeks.
       $headers['TTL'] = 2419200;
 
-      $privateKey = '-----BEGIN EC PRIVATE KEY-----
+      if (USE_VAPID) {
+        $privateKey = '-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIDYEX2yQlhJXDIwBEwcfyAn2eICEKJxqsAPGChey1a2toAoGCCqGSM49
 AwEHoUQDQgAEJXwAdITiPFcSUsaRI2nlzTNRn++q6F38XrH8m8sf28DQ+2Oob5SU
 zvgjVS0e70pIqH6bSXDgPc8mKtSs9Zi26Q==
 -----END EC PRIVATE KEY-----';
 
-      $token = (new Builder())->setAudience('http://catfacts.example.com')
-                              ->setExpiration(time() + 86400)
-                              ->setSubject('mailto:webpush_ops@catfacts.example.com')
-                              ->sign(new Sha256(),  new Key($privateKey))
-                              ->getToken();
+        $token = (new Builder())->setAudience('http://catfacts.example.com')
+                                ->setExpiration(time() + 86400)
+                                ->setSubject('mailto:webpush_ops@catfacts.example.com')
+                                ->sign(new Sha256(),  new Key($privateKey))
+                                ->getToken();
 
-      $headers['Authorization'] = 'Bearer ' . $token;
+        $headers['Authorization'] = 'Bearer ' . $token;
 
-      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
-      $privateKeyObject = $privKeySerializer->parse($privateKey);
-      $publicKeyObject = $privateKeyObject->getPublicKey();
-      $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
-      $headers['Crypto-Key'] = 'p256ecdsa=' . Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+        $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+        $privateKeyObject = $privKeySerializer->parse($privateKey);
+        $publicKeyObject = $privateKeyObject->getPublicKey();
+        $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+        $headers['Crypto-Key'] = 'p256ecdsa=' . Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+      }
     }
 
     $this->requests[] = array(
