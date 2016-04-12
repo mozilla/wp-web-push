@@ -22,7 +22,6 @@ var server = http.createServer(function(req, res) {
 
   if (isGCM) {
     if (req.headers['authorization'] !== 'key=aKey') {
-    console.log(req.headers['authorization'])
       res.writeHead(500);
       return;
     }
