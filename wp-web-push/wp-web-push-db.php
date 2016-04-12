@@ -76,6 +76,8 @@ class WebPush_DB {
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
     add_option('webpush_vapid_key', '');
+    $parsedURL = parse_url(home_url('/', 'https'));
+    add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
     add_option('webpush_vapid_subject', get_option('admin_email'));
     add_option('webpush_prompt_count', 0);
     add_option('webpush_accepted_prompt_count', 0);
@@ -115,6 +117,7 @@ class WebPush_DB {
     delete_option('webpush_gcm_key');
     delete_option('webpush_gcm_sender_id');
     delete_option('webpush_vapid_key');
+    delete_option('webpush_vapid_audience');
     delete_option('webpush_vapid_subject');
     delete_option('webpush_prompt_count');
     delete_option('webpush_accepted_prompt_count');

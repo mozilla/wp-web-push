@@ -167,6 +167,7 @@ class WebPush_Admin {
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
     $vapid_key_option = get_option('webpush_vapid_key');
     $vapid_subject_option = get_option('webpush_vapid_subject');
+    $vapid_audience_option = get_option('webpush_vapid_audience');
 
     if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
       if ($_POST['webpush_title'] === 'blog_title') {
@@ -228,6 +229,7 @@ class WebPush_Admin {
 
       $vapid_key_option = $_POST['webpush_vapid_key'];
       $vapid_subject_option = $_POST['webpush_vapid_subject'];
+      $vapid_audience_option = $_POST['webpush_vapid_audience'];
 
       update_option('webpush_title', $title_option);
       update_option('webpush_icon', $icon_option);
@@ -238,6 +240,7 @@ class WebPush_Admin {
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
       update_option('webpush_vapid_key', $vapid_key_option);
+      update_option('webpush_vapid_audience', $vapid_audience_option);
       update_option('webpush_vapid_subject', $vapid_subject_option);
 
 ?>
@@ -364,6 +367,12 @@ class WebPush_Admin {
 <tr>
 <th scope="row"><label for="webpush_vapid_key"><?php _e('VAPID Private Key', 'web-push'); ?></label></th>
 <td><input name="webpush_vapid_key" type="text" value="<?php echo $vapid_key_option; ?>" class="regular-text code" />
+<p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_vapid_audience"><?php _e('VAPID Audience', 'web-push'); ?></label></th>
+<td><input name="webpush_vapid_audience" type="text" value="<?php echo $vapid_audience_option; ?>" class="code" />
 <p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
 </tr>
 
