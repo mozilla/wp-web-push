@@ -221,6 +221,7 @@ class WebPush_Main {
 
     $gcmKey = get_option('webpush_gcm_key');
     $webPush->setGCMKey($gcmKey);
+    $webPush->setVAPIDInfo(get_option('webpush_vapid_key'), get_option('webpush_vapid_audience'), get_option('webpush_vapid_subject'));
 
     $notification_count = 0;
 
