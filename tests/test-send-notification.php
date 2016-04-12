@@ -146,6 +146,48 @@ class SendNotificationTest extends WP_UnitTestCase {
     $this->send_multiple_notifications_success(false);
     $this->send_multiple_notifications_success(true);
   }
+
+  function send_webpush_notification_success_with_VAPID($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setVAPIDInfo(file_get_contents('tests/example_ec_key_with_public_key.pem'), 'http://catfacts.example.com', 'mailto:webpush_ops@catfacts.example.com');
+    $self = $this;
+    $webPush->addRecipient('http://localhost:55555/201//vapid', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
+  function test_send_webpush_notification_success_with_VAPID() {
+    $this->send_webpush_notification_success_with_VAPID(false);
+    $this->send_webpush_notification_success_with_VAPID(true);
+  }
+
+  function send_gcm_notification_success_with_VAPID($forceWP) {
+    $oldNum = getSentNotificationNum();
+
+    $webPush = new WebPush($forceWP);
+    $webPush->setGCMKey('aKey');
+    $webPush->setVAPIDInfo(file_get_contents('tests/example_ec_key_with_public_key.pem'), 'http://catfacts.example.com', 'mailto:webpush_ops@catfacts.example.com');
+    $self = $this;
+    $webPush->addRecipient('https://android.googleapis.com/gcm/send/endpoint', function($success) use ($self) {
+      $self->assertTrue($success);
+    });
+
+    $webPush->requests[0]['url'] = 'http://localhost:55555/200/gcm/vapid';
+
+    $webPush->sendNotifications();
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
+  function test_send_gcm_notification_success_with_VAPID() {
+    $this->send_gcm_notification_success_with_VAPID(false);
+    $this->send_gcm_notification_success_with_VAPID(true);
+  }
 }
 
 ?>
