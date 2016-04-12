@@ -174,7 +174,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     WebPush_DB::add_subscription('http://localhost:55555/200' . (USE_VAPID ? '//vapid' : ''), 'aKey3');
 
     update_option('webpush_vapid_key', file_get_contents('tests/example_ec_key_with_public_key.pem'));
-    update_option('webpush_vapid_audience', 'http://catfacts.example.com');
+    update_option('webpush_vapid_audience', 'https://example.org');
     update_option('webpush_vapid_subject', 'mailto:webpush_ops@catfacts.example.com');
 
     $oldNum = getSentNotificationNum();
