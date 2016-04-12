@@ -371,7 +371,7 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><label for="webpush_vapid_key"><?php _e('VAPID Private Key', 'web-push'); ?></label></th>
-<td><input name="webpush_vapid_key" type="text" value="<?php echo $vapid_key_option; ?>" class="regular-text code" />
+<td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
 <p class="description"><?php _e('Description for the field.', 'web-push')?></p></td>
 </tr>
 
