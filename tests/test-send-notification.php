@@ -151,7 +151,7 @@ class SendNotificationTest extends WP_UnitTestCase {
     $oldNum = getSentNotificationNum();
 
     $webPush = new WebPush($forceWP);
-    $webPush->setVAPIDInfo(file_get_contents('tests/example_ec_key_with_public_key.pem'), 'http://catfacts.example.com', 'mailto:webpush_ops@catfacts.example.com');
+    $webPush->setVAPIDInfo(file_get_contents('tests/example_ec_key_with_public_key.pem'), 'https://example.org', 'mailto:webpush_ops@catfacts.example.com');
     $self = $this;
     $webPush->addRecipient('http://localhost:55555/201' . (USE_VAPID ? '//vapid' : ''), function($success) use ($self) {
       $self->assertTrue($success);

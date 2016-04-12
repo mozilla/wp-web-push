@@ -221,7 +221,11 @@ class WebPush_Main {
 
     $gcmKey = get_option('webpush_gcm_key');
     $webPush->setGCMKey($gcmKey);
-    $webPush->setVAPIDInfo(get_option('webpush_vapid_key'), get_option('webpush_vapid_audience'), get_option('webpush_vapid_subject'));
+
+    $parsedURL = parse_url(home_url('/', 'https'));
+    $audience = $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : '');
+
+    $webPush->setVAPIDInfo(get_option('webpush_vapid_key'), $audience, get_option('webpush_vapid_subject'));
 
     $notification_count = 0;
 

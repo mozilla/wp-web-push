@@ -109,7 +109,7 @@ var server = http.createServer(function(req, res) {
         return;
       }
 
-      if (decoded.payload.aud !== 'http://catfacts.example.com') {
+      if (decoded.payload.aud !== 'https://example.org') {
         res.writeHead(500);
         return;
       }
