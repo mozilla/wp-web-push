@@ -1,9 +1,10 @@
 <?php
 
+use Base64Url\Base64Url;
+use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
 use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
-use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
-use Mdanter\Ecc\Serializer\PublicKey\PemPublicKeySerializer;
+use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
 
 class WebPush_Admin {
   private static $instance;
@@ -389,8 +390,9 @@ class WebPush_Admin {
 <?php
   $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
   $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
-  $pubKeySerializer = new PemPublicKeySerializer(new DerPublicKeySerializer());
-  echo nl2br($pubKeySerializer->serialize($privateKeyObject->getPublicKey()));
+  $publicKeyObject = $privateKeyObject->getPublicKey();
+  $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+  echo Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
 ?>
 </code></td>
 </tr>
