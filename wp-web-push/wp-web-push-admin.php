@@ -1,5 +1,11 @@
 <?php
 
+use Base64Url\Base64Url;
+use Mdanter\Ecc\EccFactory;
+use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
+
 class WebPush_Admin {
   private static $instance;
   private $options_page;
@@ -168,6 +174,11 @@ class WebPush_Admin {
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
+    if (USE_VAPID) {
+      $vapid_key_option = get_option('webpush_vapid_key');
+      $vapid_subject_option = get_option('webpush_vapid_subject');
+      $vapid_audience_option = get_option('webpush_vapid_audience');
+    }
 
     if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
       if ($_POST['webpush_title'] === 'blog_title') {
@@ -227,6 +238,12 @@ class WebPush_Admin {
         $manifestGenerator->set_field('gcm_user_visible_only', true);
       }
 
+      if (USE_VAPID) {
+        $vapid_key_option = $_POST['webpush_vapid_key'];
+        $vapid_subject_option = $_POST['webpush_vapid_subject'];
+        $vapid_audience_option = $_POST['webpush_vapid_audience'];
+      }
+
       update_option('webpush_title', $title_option);
       update_option('webpush_icon', $icon_option);
       update_option('webpush_min_visits', $min_visits_option);
@@ -235,6 +252,11 @@ class WebPush_Admin {
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
+      if (USE_VAPID) {
+        update_option('webpush_vapid_key', $vapid_key_option);
+        update_option('webpush_vapid_audience', $vapid_audience_option);
+        update_option('webpush_vapid_subject', $vapid_subject_option);
+      }
 
 ?>
 <div class="updated"><p><strong><?php _e('Settings saved.'); ?></strong></p></div>
@@ -350,6 +372,64 @@ class WebPush_Admin {
 <p class="description"><?php _e('N.B.: You can override these options for individual posts when you create/edit them.', 'web-push'); ?></p>
 </td>
 </tr>
+</table>
+
+
+<table class="form-table">
+<h2 class="title"><?php _e('Voluntary Application Server Identification (VAPID)', 'web-push'); ?></h2>
+<p><?php _e('VAPID is useful to monitor your push messages. It allows your server to submit information about itself to the push service, which improves application stability, exception handling, and security.', 'web-push'); ?></p>
+
+<?php
+  if (USE_VAPID) {
+?>
+<tr>
+<th scope="row"><label for="webpush_vapid_key"><?php _e('Private Key', 'web-push'); ?></label></th>
+<td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
+<p class="description"><?php _e('The private key used to sign your push notifications.', 'web-push')?></p></td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e('Public Key', 'web-push'); ?></th>
+<td><code>
+<?php
+  $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+  $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
+  $publicKeyObject = $privateKeyObject->getPublicKey();
+  $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+  echo Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+?>
+</code></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_vapid_audience"><?php _e('Audience', 'web-push'); ?></label></th>
+<td><input name="webpush_vapid_audience" type="url" value="<?php echo $vapid_audience_option; ?>" class="regular-text code" />
+<p class="description"><?php _e('The origin URL of the sender.', 'web-push')?></p></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_vapid_subject"><?php _e('Subject', 'web-push'); ?></label></th>
+<td><input name="webpush_vapid_subject" type="url" value="<?php echo $vapid_subject_option; ?>" class="regular-text code" />
+<p class="description"><?php _e('The primary contact in case something goes wrong.', 'web-push')?></p></td>
+</tr>
+<?php
+  } else {
+?>
+<p><?php _e('Unfortunately, VAPID can\'t be enabled on your website, because one or more prerequisites are missing.', 'web-push'); ?></p>
+<tr>
+<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Prerequisites:', 'web-push'); ?></label></th>
+<td>
+<ul style="list-style-type: circle;">
+<li style="color:<?php echo (version_compare(phpversion(), '5.5') >= 0) ? 'green' : 'red'; ?>;">PHP 5.5+</li>
+<li style="color:<?php echo function_exists('mcrypt_encrypt')           ? 'green' : 'red'; ?>;">mcrypt extension</li>
+<li style="color:<?php echo function_exists('gmp_mod')                  ? 'green' : 'red'; ?>;">gmp extension</li>
+<li style="color:<?php echo function_exists('openssl_encrypt')          ? 'green' : 'red'; ?>;">openssl extension</li>
+</ul>
+</td>
+</tr>
+<?php
+  }
+?>
 </table>
 
 

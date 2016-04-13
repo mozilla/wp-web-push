@@ -1,5 +1,9 @@
 <?php
 
+use Mdanter\Ecc\EccFactory;
+use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
+
 class WebPush_DB {
   private static $instance;
   const VERSION = '1.1.7';
@@ -82,6 +86,17 @@ class WebPush_DB {
     add_option('webpush_prompt_interval', 3);
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
+
+    if (USE_VAPID) {
+      $generator = EccFactory::getNistCurves()->generator256();
+      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+
+      add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
+      $parsedURL = parse_url(home_url('/', 'https'));
+      add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
+      add_option('webpush_vapid_subject', 'mailto:' . get_option('admin_email'));
+    }
+
     add_option('webpush_prompt_count', 0);
     add_option('webpush_accepted_prompt_count', 0);
     add_option('webpush_subscription_button_color', '#005189');
@@ -119,6 +134,9 @@ class WebPush_DB {
     delete_option('webpush_triggers');
     delete_option('webpush_gcm_key');
     delete_option('webpush_gcm_sender_id');
+    delete_option('webpush_vapid_key');
+    delete_option('webpush_vapid_audience');
+    delete_option('webpush_vapid_subject');
     delete_option('webpush_prompt_count');
     delete_option('webpush_accepted_prompt_count');
     delete_post_meta_by_key('_notifications_sent');
