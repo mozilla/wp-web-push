@@ -371,13 +371,14 @@ class WebPush_Admin {
 </tr>
 </table>
 
-<?php
-  if (USE_VAPID) {
-?>
+
 <table class="form-table">
 <h2 class="title"><?php _e('Voluntary Application Server Identification (VAPID)', 'web-push'); ?></h2>
 <p><?php _e('VAPID is useful to monitor your push messages. It allows your server to submit information about itself to the push service, which improves application stability, exception handling, and security.', 'web-push'); ?></p>
 
+<?php
+  if (USE_VAPID) {
+?>
 <tr>
 <th scope="row"><label for="webpush_vapid_key"><?php _e('Private Key', 'web-push'); ?></label></th>
 <td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
@@ -408,10 +409,25 @@ class WebPush_Admin {
 <td><input name="webpush_vapid_subject" type="url" value="<?php echo $vapid_subject_option; ?>" class="regular-text code" />
 <p class="description"><?php _e('The primary contact in case something goes wrong.', 'web-push')?></p></td>
 </tr>
-</table>
+<?php
+  } else {
+?>
+<p><?php _e('Unfortunately, VAPID can\'t be enabled on your website, because one or more prerequisites are missing.', 'web-push'); ?></p>
+<tr>
+<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Prerequisites:', 'web-push'); ?></label></th>
+<td>
+<ul style="list-style-type: circle;">
+<li style="color:<?php echo (version_compare(phpversion(), '5.5') >= 0) ? 'green' : 'red'; ?>;">PHP 5.5+</li>
+<li style="color:<?php echo function_exists('mcrypt_encrypt')           ? 'green' : 'red'; ?>;">mcrypt extension</li>
+<li style="color:<?php echo function_exists('gmp_mod')                  ? 'green' : 'red'; ?>;">gmp extension</li>
+<li style="color:<?php echo function_exists('openssl_encrypt')          ? 'green' : 'red'; ?>;">openssl extension</li>
+</ul>
+</td>
+</tr>
 <?php
   }
 ?>
+</table>
 
 
 <table class="form-table">
