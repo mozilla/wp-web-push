@@ -1,8 +1,15 @@
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
 
 class SendNotificationTest extends WP_UnitTestCase {
+  function tearDown() {
+    remove_all_filters('pre_http_request');
+    parent::tearDown();
+  }
+
   function send_webpush_notification_success($forceWP) {
     $oldNum = getSentNotificationNum();
 
