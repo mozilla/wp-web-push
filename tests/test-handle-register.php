@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 class HandleRegisterTest extends WP_Ajax_UnitTestCase {
   function test_new_registration() {
     $_POST['endpoint'] = 'http://localhost';

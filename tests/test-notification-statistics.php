@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 class NotificationStatisticsTest extends WP_UnitTestCase {
   function test_query_vars() {
     $this->assertContains('webpush_post_id', WebPush_Main::on_query_vars(array()));

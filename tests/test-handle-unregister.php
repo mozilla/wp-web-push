@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 class HandleUnregisterTest extends WP_Ajax_UnitTestCase {
   function test_unregister() {
     WebPush_DB::add_subscription('http://localhost', 'aKey');
