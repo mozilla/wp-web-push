@@ -19,6 +19,14 @@ matrix:
       env: WP_VERSION=latest WP_MULTISITE=1
     - php: 7.0
       env: WP_VERSION=3.9 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=4.1 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=4.2 WP_MULTISITE=0
+    - php: 5.6
+      env: WP_VERSION=4.3 WP_MULTISITE=0
   exclude:
     - php: 7.0
       env: WP_VERSION=3.7 WP_MULTISITE=0
