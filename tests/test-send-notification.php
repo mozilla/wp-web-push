@@ -12,7 +12,7 @@ class SendNotificationTest extends WP_UnitTestCase {
     WP_UnitTestCase::tearDownAfterClass();
   }
 
-  /*function test_send_notification_error() {
+  function test_send_notification_error() {
     $oldNum = getSentNotificationNum();
 
     add_filter('pre_http_request', function() {
@@ -27,7 +27,7 @@ class SendNotificationTest extends WP_UnitTestCase {
     $webPush->sendNotifications();
 
     $this->assertEquals($oldNum, getSentNotificationNum());
-  }*/
+  }
 
   /*function send_multiple_notifications_success($forceWP) {
     $oldNum = getSentNotificationNum();
