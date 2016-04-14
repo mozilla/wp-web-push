@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 class HandleGetPayloadTest extends WP_Ajax_UnitTestCase {
   function test_get_payload() {
     update_option('webpush_payload', array(

@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 class WebPushDBTest extends WP_UnitTestCase {
   function test_add_get_remove() {
     $this->assertFalse(WebPush_DB::is_subscription('http://localhost/1'));

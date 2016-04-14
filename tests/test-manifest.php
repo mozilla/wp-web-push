@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 // TODO: Some of these tests should be moved to the WebAppManifestGenerator repository (https://github.com/marco-c/wp-web-app-manifest-generator).
 
 class ManifestTest extends WP_Ajax_UnitTestCase {

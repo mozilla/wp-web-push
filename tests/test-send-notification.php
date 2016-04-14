@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
 
 class SendNotificationTest extends WP_UnitTestCase {

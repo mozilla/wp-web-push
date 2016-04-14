@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 class SubscriptionButtonTest extends WP_UnitTestCase {
   function setUp() {
     parent::setUp();
