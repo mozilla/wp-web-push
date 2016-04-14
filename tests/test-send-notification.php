@@ -3,6 +3,15 @@
 require_once dirname(dirname(__FILE__)) . '/build/web-push.php';
 
 class SendNotificationTest extends WP_UnitTestCase {
+  public static function setUpBeforeClass() {
+    WP_UnitTestCase::setUpBeforeClass();
+    error_reporting(E_ALL ^ E_DEPRECATED);
+  }
+  public static function tearDownAfterClass() {
+    error_reporting(E_ALL);
+    WP_UnitTestCase::tearDownAfterClass();
+  }
+
   /*function test_send_notification_error() {
     $oldNum = getSentNotificationNum();
 
