@@ -138,9 +138,11 @@ class WebPush {
         ));
 
         echo PHP_EOL . 'is_wp_error: ' . is_wp_error($result) . PHP_EOL;
-        echo PHP_EOL . 'response_code: ' . $result['response']['code'] . PHP_EOL;
-        var_dump($result['response']);
-        echo PHP_EOL;
+        if (!is_wp_error($result)) {
+          echo PHP_EOL . 'response_code: ' . $result['response']['code'] . PHP_EOL;
+          var_dump($result['response']);
+          echo PHP_EOL;
+        }
 
         $ret = !$sync ||
                // If there's an error during the request, return true
