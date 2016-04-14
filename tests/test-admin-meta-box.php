@@ -3,13 +3,13 @@
 require_once dirname(dirname(__FILE__)) . '/build/wp-web-push-admin.php';
 
 class AdminMetaBoxTest extends WP_UnitTestCase {
-  public static function setUp() {
+  function setUp() {
     error_reporting(E_ALL ^ E_DEPRECATED);
     parent::setUp();
   }
 
-  public static function tearDown() {
-    parent::tearDownAfterClass();
+  function tearDown() {
+    parent::tearDown();
     error_reporting(E_ALL);
   }
 
