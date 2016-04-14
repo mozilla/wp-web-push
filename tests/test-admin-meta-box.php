@@ -1,10 +1,18 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 require_once dirname(dirname(__FILE__)) . '/build/wp-web-push-admin.php';
 
 class AdminMetaBoxTest extends WP_UnitTestCase {
+  public static function setUpBeforeClass() {
+    parent::setUpBeforeClass();
+    error_reporting(E_ALL ^ E_DEPRECATED);
+  }
+
+  public static function tearDownAfterClass() {
+    error_reporting(E_ALL);
+    parent::tearDownAfterClass();
+  }
+
   function test_checked_draft_with_update_and_new() {
     $admin = new WebPush_Admin();
     $post = new WP_Post((object)array('post_status' => 'draft'));
