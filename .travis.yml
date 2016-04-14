@@ -1,46 +1,12 @@
 language: php
 matrix:
-  allow_failures:
-    - php: hhvm
-    - php: 5.6
-      env: WP_VERSION=3.7 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=3.8 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=3.9 WP_MULTISITE=0
   include:
-    - php: 5.3
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.4
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.5
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 7.0
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: hhvm
-      env: WP_VERSION=latest WP_MULTISITE=0
     - php: 5.6
       env: WP_VERSION=3.7 WP_MULTISITE=0
     - php: 5.6
       env: WP_VERSION=3.8 WP_MULTISITE=0
     - php: 5.6
       env: WP_VERSION=3.9 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=4.0 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=4.1 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=4.2 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=4.3 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=4.4 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=1
-    - php: 5.6
-      env: WP_VERSION=nightly WP_MULTISITE=0
 before_script:
   - ./install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 script: make test
