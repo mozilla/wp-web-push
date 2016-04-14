@@ -10,6 +10,8 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
 
     $_REQUEST['webpush_meta_box_nonce'] = wp_create_nonce('webpush_send_notification');
     $_REQUEST['webpush_send_notification'] = 1;
+
+    remove_all_actions('transition_post_status');
   }
 
   function test_empty_post() {
