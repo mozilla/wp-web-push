@@ -17,6 +17,8 @@ matrix:
   include:
     - php: 5.3
       env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=3.8 WP_MULTISITE=0
   exclude:
     - php: 7.0
       env: WP_VERSION=3.7 WP_MULTISITE=0
