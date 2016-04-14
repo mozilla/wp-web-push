@@ -287,6 +287,11 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   }
 
   function test_success_site_icon() {
+    // Skip test on WP versions that don't have this function.
+    if (!function_exists('get_site_icon_url')) {
+      return;
+    }
+
     $oldNum = getSentNotificationNum();
 
     update_option('webpush_icon', 'blog_icon');
