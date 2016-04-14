@@ -138,6 +138,8 @@ class WebPush {
         ));
 
         echo PHP_EOL . 'is_wp_error: ' . is_wp_error($result) . PHP_EOL;
+        var_dump($result);
+        var_dump($result->errors);
         if (!is_wp_error($result)) {
           echo PHP_EOL . 'response_code: ' . $result['response']['code'] . PHP_EOL;
           var_dump($result['response']);
