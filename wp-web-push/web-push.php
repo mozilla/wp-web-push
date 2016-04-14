@@ -127,11 +127,22 @@ class WebPush {
         // with sending too many synchronous requests.
         $sync = mt_rand(1, $num) <= 10;
 
+        echo PHP_EOL . 'SYNC: ' . $sync . PHP_EOL;
+        echo PHP_EOL . 'URL: ' . $request['url'] . PHP_EOL;
+        echo PHP_EOL . 'BODY: ' . $request['body'] . PHP_EOL;
+
         $result = wp_remote_post($request['url'], array(
           'headers' => $request['headers'],
           'body' => $request['body'],
           'blocking' => $sync,
         ));
+
+        echo PHP_EOL . 'is_wp_error: ' . is_wp_error($result) . PHP_EOL;
+        if (!is_wp_error($result)) {
+          echo PHP_EOL . 'response_code: ' . $result['response']['code'] . PHP_EOL;
+          var_dump($result['response']);
+          echo PHP_EOL;
+        }
 
         $ret = !$sync ||
                // If there's an error during the request, return true
