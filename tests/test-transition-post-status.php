@@ -6,7 +6,9 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   function setUp() {
     parent::setUp();
 
-    WebPush_DB::add_subscription('http://localhost:55555/201', 'aKey');
+    if (!WebPush_DB::is_subscription('http://localhost:55555/201')) {
+      WebPush_DB::add_subscription('http://localhost:55555/201', 'aKey');
+    }
 
     $_REQUEST['webpush_meta_box_nonce'] = wp_create_nonce('webpush_send_notification');
     $_REQUEST['webpush_send_notification'] = 1;
