@@ -3,16 +3,6 @@
 require_once dirname(dirname(__FILE__)) . '/build/wp-web-push-admin.php';
 
 class AdminNoticesTest extends WP_UnitTestCase {
-  public static function setUpBeforeClass() {
-    WP_UnitTestCase::setUpBeforeClass();
-    error_reporting(E_ALL ^ E_DEPRECATED);
-  }
-
-  public static function tearDownAfterClass() {
-    error_reporting(E_ALL);
-    WP_UnitTestCase::tearDownAfterClass();
-  }
-
   function test_no_notice_for_normal_users() {
     $admin = new WebPush_Admin();
     $output = get_echo(array($admin, 'on_admin_notices'));
