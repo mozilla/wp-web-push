@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL ^ E_DEPRECATED);
-
 class HandlePromptTest extends WP_Ajax_UnitTestCase {
   function test_prompt() {
     try {
