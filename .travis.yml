@@ -3,6 +3,7 @@ php:
   - 5.3
   - 5.6
 env:
+  - WP_VERSION=nightly WP_MULTISITE=0
   - WP_VERSION=latest WP_MULTISITE=0
   - WP_VERSION=4.4.1 WP_MULTISITE=0
   - WP_VERSION=3.7 WP_MULTISITE=0
