@@ -11,6 +11,8 @@ var server = http.createServer(function(req, res) {
   var isGCM = parts[2] === 'gcm';
   var isVAPID = parts[3] === 'vapid';
 
+  console.log(req);
+
   if (req.method === 'GET') {
     res.writeHead(202);
     res.end(num.toString());
