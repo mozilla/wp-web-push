@@ -6,7 +6,7 @@ use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
 
 class WebPush_DB {
   private static $instance;
-  const VERSION = '1.1.7';
+  const VERSION = '1.2.0';
 
   public function __construct() {
     add_action('plugins_loaded', array($this, 'update_check'));

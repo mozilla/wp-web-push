@@ -48,6 +48,11 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.2.0 =
+* Add support for VAPID (Voluntary Application Server Identification).
+* Show number of currently subscribed users in the dashboard widget.
+* Fix compatibility with WordPress < 4.1.0.
+
 = 1.1.7 =
 * Support sending notifications for scheduled posts.
 * Improve performance while sending a large number of notifications by using curl_multi.
