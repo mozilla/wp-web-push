@@ -142,7 +142,7 @@ class WebPush_Admin {
     $current_subscription_number = WebPush_DB::count_subscriptions();
     printf(_n('<b>%s</b> user currently subscribed.', '<b>%s</b> users currently subscribed.', $current_subscription_number, 'web-push'), number_format_i18n($current_subscription_number));
     echo '<br><br>';
-    echo '<div style="min-height:200px;"><canvas id="notifications-chart"></canvas></div>';
+    echo '<div style="min-height:400px;"><canvas id="notifications-chart"></canvas></div>';
   }
 
   public static function init() {
