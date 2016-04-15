@@ -65,16 +65,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/jwt.git",
-                "reference": "81a2e286ab35e8d6f64689e58381ae639c4b6621"
+                "reference": "0a5312300545f93a58f7f44363afab5b49464d23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/jwt/zipball/81a2e286ab35e8d6f64689e58381ae639c4b6621",
-                "reference": "81a2e286ab35e8d6f64689e58381ae639c4b6621",
+                "url": "https://api.github.com/repos/marco-c/jwt/zipball/0a5312300545f93a58f7f44363afab5b49464d23",
+                "reference": "0a5312300545f93a58f7f44363afab5b49464d23",
                 "shasum": ""
             },
             "require": {
-                "ext-openssl": "*",
                 "php": ">=5.4"
             },
             "require-dev": {
@@ -125,7 +124,7 @@
             "support": {
                 "source": "https://github.com/marco-c/jwt/tree/3.1-relaxed"
             },
-            "time": "2016-04-15 14:44:39"
+            "time": "2016-04-15 15:01:27"
         },
         {
             "name": "marco-c/wp-web-app-manifest-generator",

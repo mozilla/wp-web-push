@@ -12,8 +12,7 @@ Text Domain: web-push
 
 define('USE_VAPID', version_compare(phpversion(), '5.4') >= 0 && // PHP 5.4+
                     function_exists('mcrypt_encrypt') &&         // ext-mcrypt (https://packagist.org/packages/mdanter/ecc)
-                    function_exists('gmp_mod') &&                // ext-gmp (https://packagist.org/packages/mdanter/ecc)
-                    function_exists('openssl_encrypt')           // ext-openssl (https://packagist.org/packages/lcobucci/jwt)
+                    function_exists('gmp_mod')                   // ext-gmp (https://packagist.org/packages/mdanter/ecc)
       );
 
 load_plugin_textdomain('web-push', false, dirname(plugin_basename(__FILE__)) . '/lang');
