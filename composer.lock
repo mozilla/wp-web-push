@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "597824179135141f779bc57230bc9e1f",
-    "content-hash": "ae68fe8086361f794d090f98e1912bf7",
+    "hash": "fd912cd2e8aca6af1d8a18488a276dd1",
+    "content-hash": "bd5be86417086d1306d84c147f5597cc",
     "packages": [
         {
             "name": "fgrosse/phpasn1",
@@ -61,21 +61,21 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "3.1.0",
+            "version": "dev-3.1-relaxed",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "31499db4e692b343cec7ff345932899f98fde1cf"
+                "url": "https://github.com/marco-c/jwt.git",
+                "reference": "81a2e286ab35e8d6f64689e58381ae639c4b6621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/31499db4e692b343cec7ff345932899f98fde1cf",
-                "reference": "31499db4e692b343cec7ff345932899f98fde1cf",
+                "url": "https://api.github.com/repos/marco-c/jwt/zipball/81a2e286ab35e8d6f64689e58381ae639c4b6621",
+                "reference": "81a2e286ab35e8d6f64689e58381ae639c4b6621",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
-                "php": ">=5.5"
+                "php": ">=5.4"
             },
             "require-dev": {
                 "mdanter/ecc": "~0.3",
@@ -89,17 +89,19 @@
                 "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Lcobucci\\JWT\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Lcobucci\\JWT\\": [
+                        "test/unit",
+                        "test/functional"
+                    ]
+                }
+            },
             "license": [
                 "BSD-3-Clause"
             ],
@@ -108,14 +110,22 @@
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
                     "role": "Developer"
+                },
+                {
+                    "name": "Marco Castelluccio",
+                    "email": "mcastelluccio@mozilla.com",
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
             "keywords": [
                 "JWS",
-                "jwt"
+                "JWT"
             ],
-            "time": "2015-11-15 01:42:47"
+            "support": {
+                "source": "https://github.com/marco-c/jwt/tree/3.1-relaxed"
+            },
+            "time": "2016-04-15 14:44:39"
         },
         {
             "name": "marco-c/wp-web-app-manifest-generator",
@@ -346,6 +356,7 @@
         "marco-c/wp-web-app-manifest-generator": 20,
         "mozilla/wp-sw-manager": 20,
         "marco-c/wp_serve_file": 20,
+        "lcobucci/jwt": 20,
         "mdanter/ecc": 20,
         "spomky-labs/base64url": 20
     },

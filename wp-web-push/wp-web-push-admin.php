@@ -420,7 +420,7 @@ class WebPush_Admin {
 <th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Prerequisites:', 'web-push'); ?></label></th>
 <td>
 <ul style="list-style-type: circle;">
-<li style="color:<?php echo (version_compare(phpversion(), '5.5') >= 0) ? 'green' : 'red'; ?>;">PHP 5.5+</li>
+<li style="color:<?php echo (version_compare(phpversion(), '5.4') >= 0) ? 'green' : 'red'; ?>;">PHP 5.4+</li>
 <li style="color:<?php echo function_exists('mcrypt_encrypt')           ? 'green' : 'red'; ?>;">mcrypt extension</li>
 <li style="color:<?php echo function_exists('gmp_mod')                  ? 'green' : 'red'; ?>;">gmp extension</li>
 <li style="color:<?php echo function_exists('openssl_encrypt')          ? 'green' : 'red'; ?>;">openssl extension</li>
