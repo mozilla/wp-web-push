@@ -41,18 +41,6 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum, getSentNotificationNum());
   }
 
-  function test_nonce_not_set() {
-    $oldNum = getSentNotificationNum();
-
-    unset($_REQUEST['webpush_meta_box_nonce']);
-
-    $post = get_post($this->factory->post->create());
-    $main = new WebPush_Main();
-    $main->on_transition_post_status('publish', 'draft', $post);
-
-    $this->assertEquals($oldNum, getSentNotificationNum());
-  }
-
   function test_invalid_nonce() {
     $oldNum = getSentNotificationNum();
 
@@ -79,14 +67,37 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum, getSentNotificationNum());
   }
 
-  function test_success() {
+  function test_checkbox_not_set_not_published() {
     $oldNum = getSentNotificationNum();
+
+    unset($_REQUEST['webpush_send_notification']);
+
+    $post = get_post($this->factory->post->create());
+    $main = new WebPush_Main();
+    $main->on_transition_post_status('draft', 'draft', $post);
+
+    $this->assertEquals('d', get_post_meta($post->ID, '_notifications_enabled', true));
+
+    $this->assertEquals($oldNum, getSentNotificationNum());
+  }
+
+  function test_checkbox_not_set_and_then_set() {
+    $oldNum = getSentNotificationNum();
+
+    unset($_REQUEST['webpush_send_notification']);
 
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
     $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'draft', $post);
 
-    $this->assertEquals('e', get_post_meta($post->ID, '_notifications_enabled', true));
+    $this->assertEquals('d', get_post_meta($post->ID, '_notifications_enabled', true));
+
+    $this->assertEquals($oldNum, getSentNotificationNum());
+
+    $_REQUEST['webpush_send_notification'] = 1;
+    $main->on_transition_post_status('publish', 'draft', $post);
+
+    $this->assertEquals('', get_post_meta($post->ID, '_notifications_enabled', true));
 
     $payload = get_option('webpush_payload');
     $this->assertEquals('Test Blog', $payload['title']);
@@ -100,12 +111,32 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
-  function test_success_nonce_not_set_but_meta_set_to_enabled() {
+  function test_success() {
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
+    $main = new WebPush_Main();
+    $main->on_transition_post_status('publish', 'draft', $post);
+
+    $this->assertEquals('', get_post_meta($post->ID, '_notifications_enabled', true));
+
+    $payload = get_option('webpush_payload');
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $post->ID, $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
+  function test_success_nonce_not_set_but_meta_not_set() {
     $oldNum = getSentNotificationNum();
 
     unset($_REQUEST['webpush_meta_box_nonce']);
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
-    update_post_meta($post->ID, '_notifications_enabled', 'e');
 
     $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'draft', $post);
@@ -135,12 +166,11 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum, getSentNotificationNum());
   }
 
-  function test_nonce_invalid_but_meta_set() {
+  function test_nonce_invalid_but_meta_not_set() {
     $oldNum = getSentNotificationNum();
 
     $_REQUEST['webpush_meta_box_nonce'] = 'invalid';
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
-    update_post_meta($post->ID, '_notifications_enabled', 'e');
 
     $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'draft', $post);
@@ -155,7 +185,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main = new WebPush_Main();
     $main->on_transition_post_status('scheduled', 'draft', $post);
 
-    $this->assertEquals('e', get_post_meta($post->ID, '_notifications_enabled', true));
+    $this->assertEquals('', get_post_meta($post->ID, '_notifications_enabled', true));
 
     unset($_REQUEST['webpush_meta_box_nonce']);
     $main->on_transition_post_status('publish', 'scheduled', $post);
@@ -172,6 +202,39 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
 
+  function test_quickedit_updates_enabled() {
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
+    $main = new WebPush_Main();
+    unset($_REQUEST['webpush_meta_box_nonce']);
+    $main->on_transition_post_status('publish', 'publish', $post);
+
+    $payload = get_option('webpush_payload');
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $post->ID, $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
+  function test_quickedit_updates_disabled() {
+    update_option('webpush_triggers', array('new-post'));
+
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create());
+    $main = new WebPush_Main();
+    unset($_REQUEST['webpush_meta_box_nonce']);
+    $main->on_transition_post_status('publish', 'publish', $post);
+
+    $this->assertEquals($oldNum, getSentNotificationNum());
+  }
+
   function test_success_with_vapid() {
     WebPush_DB::add_subscription('http://localhost:55555/200' . (USE_VAPID ? '//vapid' : ''), 'aKey3');
 
@@ -185,7 +248,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'draft', $post);
 
-    $this->assertEquals('e', get_post_meta($post->ID, '_notifications_enabled', true));
+    $this->assertEquals('', get_post_meta($post->ID, '_notifications_enabled', true));
 
     $payload = get_option('webpush_payload');
     $this->assertEquals('Test Blog', $payload['title']);
