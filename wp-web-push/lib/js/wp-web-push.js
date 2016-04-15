@@ -338,16 +338,16 @@ if (navigator.serviceWorker) {
           subscriptionButtonInteracted = true;
 
           notificationsEnabled()
-            .then(function(enabled) {
-              if (enabled && Notification.permission === 'granted') {
-                // Do nothing.
-              } else {
-                enableNotifications(true)
-                .then(function() {
-                  setSubscriptionTip(WP_Web_Push.unsubscription_hint);
-                });
-              }
-            });
+          .then(function(enabled) {
+            if (enabled && Notification.permission === 'granted') {
+              // Do nothing.
+            } else {
+              enableNotifications(true)
+              .then(function() {
+                setSubscriptionTip(WP_Web_Push.unsubscription_hint);
+              });
+            }
+          });
         };
       }
       else {
