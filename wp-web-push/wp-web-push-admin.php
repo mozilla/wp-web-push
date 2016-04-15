@@ -421,8 +421,8 @@ class WebPush_Admin {
 <td>
 <ul style="list-style-type: circle;">
 <li style="color:<?php echo (version_compare(phpversion(), '5.4') >= 0) ? 'green' : 'red'; ?>;">PHP 5.4+</li>
-<li style="color:<?php echo function_exists('mcrypt_encrypt')           ? 'green' : 'red'; ?>;">mcrypt extension</li>
-<li style="color:<?php echo function_exists('gmp_mod')                  ? 'green' : 'red'; ?>;">gmp extension</li>
+<li style="color:<?php echo function_exists('mcrypt_encrypt')           ? 'green' : 'red'; ?>;"><?php _e('mcrypt extension', 'web-push'); ?></li>
+<li style="color:<?php echo function_exists('gmp_mod')                  ? 'green' : 'red'; ?>;"><?php _e('gmp extension', 'web-push'); ?></li>
 </ul>
 </td>
 </tr>
