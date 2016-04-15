@@ -184,7 +184,15 @@ class WebPush_Main {
         return;
       }
 
-      update_post_meta($post->ID, '_notifications_enabled', isset($_REQUEST['webpush_send_notification']) ? 'e' : 'd');
+      if (!isset($_REQUEST['webpush_send_notification'])) {
+        update_post_meta($post->ID, '_notifications_enabled', 'd');
+      } else {
+        delete_post_meta($post->ID, '_notifications_enabled');
+      }
+    } else {
+      if ($old_status === 'publish' && !in_array('update-post', get_option('webpush_triggers'))) {
+        return;
+      }
     }
 
     if ($new_status !== 'publish') {
@@ -193,7 +201,7 @@ class WebPush_Main {
 
     $notificationsEnabled = get_post_meta($post->ID, '_notifications_enabled', true);
 
-    if ($notificationsEnabled !== 'e') {
+    if ($notificationsEnabled === 'd') {
       return;
     }
 
