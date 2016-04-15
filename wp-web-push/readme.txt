@@ -48,6 +48,10 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.2.1 =
+* Support VAPID on more configurations (PHP 5.4+, OpenSSL is no longer required).
+* Honor push triggers options for quick edits.
+
 = 1.2.0 =
 * Add support for VAPID (Voluntary Application Server Identification).
 * Show number of currently subscribed users in the dashboard widget.

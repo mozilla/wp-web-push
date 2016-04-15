@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Web Push package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Web Push 1.2.0\n"
+"Project-Id-Version: Web Push 1.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-web-push\n"
-"POT-Creation-Date: 2016-04-14 16:22:10+00:00\n"
+"POT-Creation-Date: 2016-04-15 15:38:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  wp-web-push.pot (Web Push 1.2.0)  #-#-#-#-#
+#. #-#-#-#-#  wp-web-push.pot (Web Push 1.2.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: wp-web-push-admin.php:22 wp-web-push-admin.php:132
 #: wp-web-push-admin.php:155 wp-web-push-admin.php:273
@@ -258,11 +258,19 @@ msgstr ""
 msgid "VAPID Prerequisites:"
 msgstr ""
 
-#: wp-web-push-admin.php:437
+#: wp-web-push-admin.php:424
+msgid "mcrypt extension"
+msgstr ""
+
+#: wp-web-push-admin.php:425
+msgid "gmp extension"
+msgstr ""
+
+#: wp-web-push-admin.php:436
 msgid "Google Chrome Support"
 msgstr ""
 
-#: wp-web-push-admin.php:438
+#: wp-web-push-admin.php:437
 msgid ""
 "To configure Google Chrome support, follow the steps in <a href=\"https://"
 "developers.google.com/web/fundamentals/getting-started/push-notifications/"
@@ -271,15 +279,15 @@ msgid ""
 "i> and <i>Project Number</i> into the fields below."
 msgstr ""
 
-#: wp-web-push-admin.php:441
+#: wp-web-push-admin.php:440
 msgid "GCM API Key"
 msgstr ""
 
-#: wp-web-push-admin.php:446
+#: wp-web-push-admin.php:445
 msgid "GCM Project Number"
 msgstr ""
 
-#: wp-web-push-admin.php:451
+#: wp-web-push-admin.php:450
 msgid "Save Changes"
 msgstr ""
 
