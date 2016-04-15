@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/marco-c/wp-web-push#readme",
   "dependencies": {
-    "chart.js": "^1.0.2",
+    "chart.js": "^1.1.1",
     "localforage": "^1.4.0"
   },
   "devDependencies": {
