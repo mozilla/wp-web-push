@@ -16,9 +16,10 @@ build: $(COMPOSER)
 	cp -r $(PLUGIN_NAME)/ build/
 	cp node_modules/localforage/dist/localforage.nopromises.min.js build/lib/js/localforage.nopromises.min.js
 	cp node_modules/chart.js/Chart.min.js build/lib/js/Chart.min.js
-	cp -r vendor/ build/vendor
+	cp -r vendor/ build/
 	find build/vendor/ ! \( -iname \*.php -o -iname \*.js \) -type f -exec rm -f {} \;
 	find build/vendor/ -type d -empty -delete
+	find build/vendor/ -type d \( -name test -o -name tests -o -name examples \) -exec rm -rf {} +
 	./node_modules/.bin/svgo -f $(PLUGIN_NAME)/lib/ -o build/lib/ -p 1 --enable=cleanupNumericValues --enable=cleanupListOfValues --enable=convertPathData
 	# Need to keep the <?php ... ?>
 	cp $(PLUGIN_NAME)/lib/bell.svg build/lib/bell.svg
