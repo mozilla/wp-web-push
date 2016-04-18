@@ -174,57 +174,17 @@ class WebPush_Main {
     require_once(plugin_dir_path(__FILE__) . 'lib/js/sw.php');
   }
 
-  public static function on_transition_post_status($new_status, $old_status, $post) {
-    if (empty($post) or get_post_type($post) !== 'post') {
-      return;
-    }
-
-    if (isset($_REQUEST['webpush_meta_box_nonce'])) {
-      if (!wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
-        return;
-      }
-
-      if (!isset($_REQUEST['webpush_send_notification'])) {
-        update_post_meta($post->ID, '_notifications_enabled', 'd');
-      } else {
-        delete_post_meta($post->ID, '_notifications_enabled');
-      }
-    } else {
-      if (($old_status === 'publish' || isset($post->_notifications_sent)) && !in_array('update-post', get_option('webpush_triggers'))) {
-        return;
-      }
-    }
-
-    if ($new_status !== 'publish') {
-      return;
-    }
-
-    $notificationsEnabled = get_post_meta($post->ID, '_notifications_enabled', true);
-
-    if ($notificationsEnabled === 'd') {
-      return;
-    }
-
+  public static function sendNotification($title, $body, $icon, $url, $post) {
     require_once(plugin_dir_path(__FILE__) . 'web-push.php' );
 
     $webPush = new WebPush();
 
-    $title_option = get_option('webpush_title');
-
-    $icon = get_option('webpush_icon');
-    if ($icon === 'blog_icon') {
-      $icon = get_site_icon_url();
-    } else if ($icon === 'post_icon') {
-      $post_thumbnail_id = get_post_thumbnail_id($post->ID);
-      $icon = $post_thumbnail_id ? wp_get_attachment_url($post_thumbnail_id) : '';
-    }
-
     update_option('webpush_payload', array(
-      'title' => html_entity_decode($title_option === 'blog_title' ? get_bloginfo('name') : $title_option, ENT_COMPAT, get_option('blog_charset')),
-      'body' => html_entity_decode(get_the_title($post->ID), ENT_COMPAT, get_option('blog_charset')),
+      'title' => html_entity_decode($title, ENT_COMPAT, get_option('blog_charset')),
+      'body' => html_entity_decode($body, ENT_COMPAT, get_option('blog_charset')),
       'icon' => $icon,
-      'url' => get_permalink($post->ID),
-      'postID' => $post->ID,
+      'url' => $url,
+      'postID' => $post ? $post->ID : '',
     ));
 
     $gcmKey = get_option('webpush_gcm_key');
@@ -258,6 +218,58 @@ class WebPush_Main {
     }
 
     $webPush->sendNotifications();
+
+    return $notification_count;
+  }
+
+  public static function on_transition_post_status($new_status, $old_status, $post) {
+    if (empty($post) or get_post_type($post) !== 'post') {
+      return;
+    }
+
+    if (isset($_REQUEST['webpush_meta_box_nonce'])) {
+      if (!wp_verify_nonce($_REQUEST['webpush_meta_box_nonce'], 'webpush_send_notification')) {
+        return;
+      }
+
+      if (!isset($_REQUEST['webpush_send_notification'])) {
+        update_post_meta($post->ID, '_notifications_enabled', 'd');
+      } else {
+        delete_post_meta($post->ID, '_notifications_enabled');
+      }
+    } else {
+      if (($old_status === 'publish' || isset($post->_notifications_sent)) && !in_array('update-post', get_option('webpush_triggers'))) {
+        return;
+      }
+    }
+
+    if ($new_status !== 'publish') {
+      return;
+    }
+
+    $notificationsEnabled = get_post_meta($post->ID, '_notifications_enabled', true);
+
+    if ($notificationsEnabled === 'd') {
+      return;
+    }
+
+    $title_option = get_option('webpush_title');
+
+    $icon = get_option('webpush_icon');
+    if ($icon === 'blog_icon') {
+      $icon = get_site_icon_url();
+    } else if ($icon === 'post_icon') {
+      $post_thumbnail_id = get_post_thumbnail_id($post->ID);
+      $icon = $post_thumbnail_id ? wp_get_attachment_url($post_thumbnail_id) : '';
+    }
+
+    $notification_count = self::sendNotification(
+      $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
+      get_the_title($post->ID),
+      $icon,
+      get_permalink($post->ID),
+      $post
+    );
 
     update_post_meta($post->ID, '_notifications_clicked', 0);
     update_post_meta($post->ID, '_notifications_sent', $notification_count);

@@ -29,12 +29,14 @@
         }
 
         var newURL = new URL(url);
-        if (newURL.search) {
-          newURL.search += '&';
-        } else {
-          newURL.search += '?';
+        if (data.postID) {
+          if (newURL.search) {
+            newURL.search += '&';
+          } else {
+            newURL.search += '?';
+          }
+          newURL.search += 'webpush_post_id=' + data.postID;
         }
-        newURL.search += 'webpush_post_id=' + data.postID;
 
         return self.clients.openWindow(newURL);
       })

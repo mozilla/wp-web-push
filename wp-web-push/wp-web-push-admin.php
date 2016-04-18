@@ -8,7 +8,7 @@ use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
 
 class WebPush_Admin {
   private static $instance;
-  private $options_page;
+  private $options_page, $tools_page;
 
   public function __construct() {
     add_action('admin_menu', array($this, 'on_admin_menu'));
@@ -153,6 +153,8 @@ class WebPush_Admin {
 
   public function on_admin_menu() {
     $this->options_page = add_options_page(__('Web Push Settings', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
+
+    $this->tools_page = add_management_page(__('Send a custom push notification', 'web-push'), __('Send a custom push notification', 'web-push'), 'manage_options', 'web-push-tools', array($this, 'tools'));
   }
 
   private function sanitize_hex_color($color) {
@@ -291,7 +293,7 @@ class WebPush_Admin {
 <fieldset>
 <label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?></label><br />
 <label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
-<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="long-text" />
+<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="regular-text" />
 </fieldset>
 </td>
 </tr>
@@ -467,6 +469,93 @@ class WebPush_Admin {
 
 </div>
 
+<?php
+  }
+
+  public function tools() {
+    if (isset($_POST['webpush_form']) && $_POST['webpush_form'] === 'submitted') {
+      $title = '';
+      if ($_POST['webpush_title'] === 'blog_title') {
+        $title = get_bloginfo('name');
+      } else if ($_POST['webpush_title'] === 'custom') {
+        $title = $_POST['webpush_title_custom'];
+      } else {
+        wp_die(__('Invalid value for the Notification Title', 'web-push'));
+      }
+
+      $icon = '';
+      if ($_POST['webpush_icon'] === 'blog_icon') {
+        $icon = get_site_icon_url();
+      } else if ($_POST['webpush_icon'] === 'custom') {
+        $icon = $_POST['webpush_icon_custom'];
+      } else {
+        wp_die(__('Invalid value for the Notification Icon', 'web-push'));
+      }
+
+      WebPush_Main::sendNotification($title, $_POST['webpush_body'], $icon, $_POST['webpush_url'], null);
+
+?>
+<div class="updated"><p><strong><?php _e('Notification sent.'); ?></strong></p></div>
+<?php
+    }
+
+    $title_option = get_option('webpush_title');
+    $icon_option = get_option('webpush_icon');
+
+?>
+<div class="wrap">
+<h2><?php _e('Send a custom push notification', 'web-push'); ?></h2>
+
+<form method="post" action="" enctype="multipart/form-data">
+<input type="hidden" name="webpush_form" value="submitted" />
+<table class="form-table">
+<tr>
+<th scope="row"><?php _e('Title', 'web-push'); ?></th>
+<td>
+<fieldset>
+<label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?></label><br />
+<label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
+<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="regular-text" />
+</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row"><?php _e('Icon', 'web-push'); ?></th>
+<td>
+<fieldset>
+<label><input type="radio" name="webpush_icon" value="" <?php echo $icon_option === '' ? 'checked' : ''; ?> /> <?php _e('Don\'t use any icon', 'web-push'); ?></label>
+<br />
+<?php
+  if (function_exists('get_site_icon_url')) {
+?>
+<label><input type="radio" name="webpush_icon" value="blog_icon" <?php echo $icon_option === 'blog_icon' ? 'checked' : ''; ?> /> <?php _e('Use the Site Icon', 'web-push'); ?></label>
+<br />
+<?php
+  }
+?>
+<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
+<input type="hidden" id="webpush_icon_custom" name="webpush_icon_custom" value="<?php echo $icon_url; ?>" />
+<input type="button" class="button" id="webpush_icon_custom_button" value="<?php esc_attr_e('Select'); ?>"></input>
+</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_body"><?php _e('Body', 'web-push'); ?></label></th>
+<td><textarea name="webpush_body" type="text" rows="5" cols="65" class="regular-text"><?php esc_attr_e('Notification Body', 'web-push'); ?></textarea></td>
+</tr>
+
+<tr>
+<th scope="row"><label for="webpush_url"><?php _e('URL', 'web-push'); ?></label></th>
+<td><input name="webpush_url" type="text" value="<?php echo esc_attr(home_url()); ?>" class="regular-text code" />
+<p class="description"><?php _e('The URL to open when users click on the notification.', 'web-push')?></p></td>
+</tr>
+</table>
+
+<?php submit_button(__('Send notification'), 'primary'); ?>
+
+</form>
 <?php
   }
 }
