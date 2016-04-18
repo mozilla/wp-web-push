@@ -312,7 +312,7 @@ class WebPush_Admin {
 <?php
   }
 ?>
-<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom'); ?></label>
+<label><input type="radio" name="webpush_icon" value="custom" <?php echo $icon_option !== 'blog_icon' && $icon_option !== '' && $icon_option !== 'post_icon' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
 <input type="hidden" id="webpush_icon_custom" name="webpush_icon_custom" value="<?php echo $icon_url; ?>" />
 <input type="button" class="button" id="webpush_icon_custom_button" value="<?php esc_attr_e('Select'); ?>"></input>
 </fieldset>
