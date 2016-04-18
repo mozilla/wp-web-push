@@ -48,6 +48,11 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.2.2 =
+* Improve dashboard graph.
+* If notifications on updates are disabled, don't send notifications for already notified posts.
+* Fix sending notifications with unicode characters.
+
 = 1.2.1 =
 * Support VAPID on more configurations (PHP 5.4+, OpenSSL is no longer required).
 * Honor push triggers options for quick edits.
