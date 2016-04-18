@@ -293,7 +293,7 @@ class WebPush_Admin {
 <fieldset>
 <label><input type="radio" name="webpush_title" value="blog_title" <?php echo $title_option === 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Use the Site Title', 'web-push'); ?></label><br />
 <label><input type="radio" name="webpush_title" value="custom" <?php echo $title_option !== 'blog_title' ? 'checked' : ''; ?> /> <?php _e('Custom:'); ?></label>
-<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="long-text" />
+<input type="text" id="webpush_title_custom" name="webpush_title_custom" value="<?php echo $title_option !== 'blog_title' ? $title_option : esc_attr__('Your custom title', 'web-push'); ?>" class="regular-text" />
 </fieldset>
 </td>
 </tr>
