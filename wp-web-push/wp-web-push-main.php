@@ -220,8 +220,8 @@ class WebPush_Main {
     }
 
     update_option('webpush_payload', array(
-      'title' => $title_option === 'blog_title' ? get_bloginfo('name') : $title_option,
-      'body' => get_the_title($post->ID),
+      'title' => html_entity_decode($title_option === 'blog_title' ? get_bloginfo('name') : $title_option, ENT_COMPAT, get_option('blog_charset')),
+      'body' => html_entity_decode(get_the_title($post->ID), ENT_COMPAT, get_option('blog_charset')),
       'icon' => $icon,
       'url' => get_permalink($post->ID),
       'postID' => $post->ID,
