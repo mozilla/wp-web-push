@@ -154,7 +154,7 @@ class WebPush_Admin {
   public function on_admin_menu() {
     $this->options_page = add_options_page(__('Web Push Settings', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
 
-    $this->tools_page = add_management_page(__('Send a custom notification', 'web-push'), __('Send a custom notification', 'web-push'), 'manage_options', 'web-push-tools', array($this, 'tools'));
+    $this->tools_page = add_management_page(__('Send a custom push notification', 'web-push'), __('Send a custom push notification', 'web-push'), 'manage_options', 'web-push-tools', array($this, 'tools'));
   }
 
   private function sanitize_hex_color($color) {
@@ -504,7 +504,7 @@ class WebPush_Admin {
 
 ?>
 <div class="wrap">
-<h2><?php _e('Send a custom notification', 'web-push'); ?></h2>
+<h2><?php _e('Send a custom push notification', 'web-push'); ?></h2>
 
 <form method="post" action="" enctype="multipart/form-data">
 <input type="hidden" name="webpush_form" value="submitted" />
