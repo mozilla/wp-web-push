@@ -544,7 +544,7 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><label for="webpush_body"><?php _e('Body', 'web-push'); ?></label></th>
-<td><input name="webpush_body" type="text" value="<?php esc_attr_e('Notification Body', 'web-push'); ?>" class="regular-text" /></td>
+<td><textarea name="webpush_body" type="text" rows="5" cols="65" class="regular-text"><?php esc_attr_e('Notification Body', 'web-push'); ?></textarea></td>
 </tr>
 
 <tr>
