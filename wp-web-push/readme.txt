@@ -48,6 +48,10 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.3.0 =
+* Support sending custom notifications (not tied to posts) from the Tools menu.
+* Fix for the VAPID settings when an invalid private key is used.
+
 = 1.2.2 =
 * Improve dashboard graph.
 * If notifications on updates are disabled, don't send notifications for already notified posts.
