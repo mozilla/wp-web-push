@@ -262,12 +262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mozilla/wp-sw-manager.git",
-                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd"
+                "reference": "e6618e47bc21cb1a4daea6aca92ddd5d9e8d9c64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
-                "reference": "cc42eee94c4e1ba1a77890500b6eb02eb52798bd",
+                "url": "https://api.github.com/repos/mozilla/wp-sw-manager/zipball/e6618e47bc21cb1a4daea6aca92ddd5d9e8d9c64",
+                "reference": "e6618e47bc21cb1a4daea6aca92ddd5d9e8d9c64",
                 "shasum": ""
             },
             "require": {
@@ -290,10 +290,10 @@
             ],
             "description": "Service Worker infrastructure for WordPress plugins.",
             "support": {
-                "source": "https://github.com/mozilla/wp-sw-manager/tree/master",
+                "source": "https://github.com/mozilla/wp-sw-manager/tree/0.5.0",
                 "issues": "https://github.com/mozilla/wp-sw-manager/issues"
             },
-            "time": "2016-04-06 12:37:44"
+            "time": "2016-04-15 17:39:45"
         },
         {
             "name": "spomky-labs/base64url",
