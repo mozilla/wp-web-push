@@ -152,7 +152,7 @@ class WebPush_Admin {
   }
 
   public function on_admin_menu() {
-    $this->options_page = add_options_page(__('Web Push Options', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
+    $this->options_page = add_options_page(__('Web Push Settings', 'web-push'), __('Web Push', 'web-push'), 'manage_options', 'web-push-options', array($this, 'options'));
   }
 
   private function sanitize_hex_color($color) {
@@ -270,7 +270,7 @@ class WebPush_Admin {
 ?>
 
 <div class="wrap">
-<h2><?php _e('Web Push', 'web-push'); ?></h2>
+<h2><?php _e('Web Push Settings', 'web-push'); ?></h2>
 
 <form method="post" action="" enctype="multipart/form-data">
 <table class="form-table">
