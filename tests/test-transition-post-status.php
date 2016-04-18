@@ -459,6 +459,27 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $this->assertEquals('http://localhost:55555/201', $subscriptions[0]->endpoint);
     $this->assertEquals('aKey', $subscriptions[0]->userKey);
   }
+
+  function test_success_unicode_chars() {
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create(array('post_title' => 'Marco’s Test Post Title')));
+    $main = new WebPush_Main();
+    $main->on_transition_post_status('publish', 'draft', $post);
+
+    $this->assertEquals('', get_post_meta($post->ID, '_notifications_enabled', true));
+
+    $payload = get_option('webpush_payload');
+    $this->assertEquals('Test Blog', $payload['title']);
+    $this->assertEquals('Marco’s Test Post Title', $payload['body']);
+    $this->assertEquals('', $payload['icon']);
+    $this->assertEquals('http://example.org/?p=' . $post->ID, $payload['url']);
+    $this->assertEquals($post->ID, $payload['postID']);
+    $this->assertEquals(0, get_post_meta($post->ID, '_notifications_clicked', true));
+    $this->assertEquals(1, get_post_meta($post->ID, '_notifications_sent', true));
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
 }
 
 ?>
