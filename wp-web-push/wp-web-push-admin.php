@@ -492,8 +492,7 @@ class WebPush_Admin {
         wp_die(__('Invalid value for the Notification Icon', 'web-push'));
       }
 
-      $body = $_POST['webpush_body'];
-      $url = $_POST['webpush_url'];
+      WebPush_Main::sendNotification($title, $_POST['webpush_body'], $icon, $_POST['webpush_url'], null);
 
 ?>
 <div class="updated"><p><strong><?php _e('Notification sent.'); ?></strong></p></div>
