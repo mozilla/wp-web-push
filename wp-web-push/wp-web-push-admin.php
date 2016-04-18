@@ -392,7 +392,7 @@ class WebPush_Admin {
 <th scope="row"><?php _e('Public Key', 'web-push'); ?></th>
 <td><code><b>
 <?php
-  $publicKeyVal = 'Your private key is invalid.';
+  $publicKeyVal = __('Your private key is invalid.', 'web-push');
 
   if ($vapid_key_option) {
     try {
