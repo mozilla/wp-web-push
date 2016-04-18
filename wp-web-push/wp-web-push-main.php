@@ -190,7 +190,7 @@ class WebPush_Main {
         delete_post_meta($post->ID, '_notifications_enabled');
       }
     } else {
-      if ($old_status === 'publish' && !in_array('update-post', get_option('webpush_triggers'))) {
+      if (($old_status === 'publish' || isset($post->_notifications_sent)) && !in_array('update-post', get_option('webpush_triggers'))) {
         return;
       }
     }

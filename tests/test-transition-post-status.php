@@ -228,8 +228,31 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
     $oldNum = getSentNotificationNum();
 
     $post = get_post($this->factory->post->create());
-    $main = new WebPush_Main();
     unset($_REQUEST['webpush_meta_box_nonce']);
+
+    $main = new WebPush_Main();
+    $main->on_transition_post_status('publish', 'draft', $post);
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+
+    $main->on_transition_post_status('draft', 'publish', $post);
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+
+    $main->on_transition_post_status('publish', 'draft', $post);
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
+
+  function test_from_publish_updates_disabled() {
+    update_option('webpush_triggers', array('new-post'));
+
+    $oldNum = getSentNotificationNum();
+
+    $post = get_post($this->factory->post->create());
+    unset($_REQUEST['webpush_meta_box_nonce']);
+
+    $main = new WebPush_Main();
     $main->on_transition_post_status('publish', 'publish', $post);
 
     $this->assertEquals($oldNum, getSentNotificationNum());
