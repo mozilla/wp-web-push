@@ -390,15 +390,28 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><?php _e('Public Key', 'web-push'); ?></th>
-<td><code>
+<td><code><b>
 <?php
-  $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
-  $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
-  $publicKeyObject = $privateKeyObject->getPublicKey();
-  $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
-  echo Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+  $publicKeyVal = 'Your private key is invalid.';
+
+  if ($vapid_key_option) {
+    try {
+      error_reporting(E_ERROR);
+      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+      $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
+      $publicKeyObject = $privateKeyObject->getPublicKey();
+      $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+      $publicKeyVal = Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+    } catch (Exception $e) {
+      // Ignore exceptions while getting the public key from the private key.
+    } finally {
+      error_reporting(E_ALL);
+    }
+  }
+
+  echo $publicKeyVal;
 ?>
-</code></td>
+</b></code></td>
 </tr>
 
 <tr>
