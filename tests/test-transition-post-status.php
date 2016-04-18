@@ -503,6 +503,22 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
 
     $this->assertEquals($oldNum + 1, getSentNotificationNum());
   }
+
+  // XXX: This test should be moved to a different file.
+  function test_webpush_main_sendnotification() {
+    $oldNum = getSentNotificationNum();
+
+    WebPush_Main::sendNotification('A Title', 'A Body', 'http://marco/marco.png', 'http://marco/', null);
+
+    $payload = get_option('webpush_payload');
+    $this->assertEquals('A Title', $payload['title']);
+    $this->assertEquals('A Body', $payload['body']);
+    $this->assertEquals('http://marco/marco.png', $payload['icon']);
+    $this->assertEquals('http://marco/', $payload['url']);
+    $this->assertEquals('', $payload['postID']);
+
+    $this->assertEquals($oldNum + 1, getSentNotificationNum());
+  }
 }
 
 ?>
