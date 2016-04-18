@@ -395,8 +395,9 @@ class WebPush_Admin {
   $publicKeyVal = __('Your private key is invalid.', 'web-push');
 
   if ($vapid_key_option) {
+    error_reporting(E_ERROR);
+
     try {
-      error_reporting(E_ERROR);
       $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
       $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
       $publicKeyObject = $privateKeyObject->getPublicKey();
@@ -404,9 +405,9 @@ class WebPush_Admin {
       $publicKeyVal = Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
     } catch (Exception $e) {
       // Ignore exceptions while getting the public key from the private key.
-    } finally {
-      error_reporting(E_ALL);
     }
+
+    error_reporting(E_ALL);
   }
 
   echo $publicKeyVal;
