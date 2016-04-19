@@ -129,13 +129,13 @@ class WebPush {
           'blocking' => $sync,
         ));
 
-        $ret = !$sync ||
-               // If there's an error during the request, return true
-               // so the caller doesn't think the request failed.
-               is_wp_error($result) ||
-               in_array($result['response']['code'], array(200, 201));
-
-        call_user_func($request['callback'], $ret);
+        call_user_func($request['callback'],
+          !$sync ||
+          // If there's an error during the request, return true
+          // so the caller doesn't think the request failed.
+          is_wp_error($result) ||
+          in_array($result['response']['code'], array(200, 201))
+        );
       }
     }
   }
