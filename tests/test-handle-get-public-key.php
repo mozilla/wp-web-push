@@ -9,6 +9,13 @@ class HandleGetPublicKeyTest extends WP_Ajax_UnitTestCase {
   }
 
   function test_get_public_key_no_priv() {
+    $_POST['_ajax_nonce'] = wp_create_nonce('vapid_nonce');
+    $_POST['privateKey'] = '-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIM84un6Hdk08ulYyxK3F+AK6DqYfvn0HHXTQo0Oey4ZxoAoGCCqGSM49
+AwEHoUQDQgAEponEt39Fh27E5mz0DwUTT3PrJS67l+oeTdXg3KmIEXxjTmVsbOTq
+IynAAx6EGnJX/9UbNS7oY8XJVkIkgtz4Eg==
+-----END EC PRIVATE KEY-----';
+
     try {
       $this->_handleAjax('nopriv_webpush_get_public_key');
       $this->assertTrue(true);
@@ -20,8 +27,6 @@ class HandleGetPublicKeyTest extends WP_Ajax_UnitTestCase {
   }
 
   function test_get_public_key() {
-    wp_set_current_user(1);
-
     $_POST['_ajax_nonce'] = wp_create_nonce('vapid_nonce');
     $_POST['privateKey'] = '-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIM84un6Hdk08ulYyxK3F+AK6DqYfvn0HHXTQo0Oey4ZxoAoGCCqGSM49
