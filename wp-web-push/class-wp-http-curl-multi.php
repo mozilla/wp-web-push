@@ -13,24 +13,6 @@ class WP_Http_Curl_Multi {
 	private $headers = '';
 
 	/**
-	 * Temporary body storage for during requests.
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @var string
-	 */
-	private $body = '';
-
-	/**
-	 * The total bytes written in the current request.
-	 *
-	 * @since 4.1.0
-	 * @access private
-	 * @var int
-	 */
-	private $bytes_written_total = 0;
-
-	/**
 	 * Create cURL handle for a HTTP request.
 	 *
 	 * @access public
