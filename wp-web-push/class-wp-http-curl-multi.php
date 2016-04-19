@@ -70,14 +70,12 @@ class WP_Http_Curl_Multi {
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 
-		if ( !empty( $r['headers'] ) ) {
-			// cURL expects full header strings in each element.
-			$headers = array();
-			foreach ( $r['headers'] as $name => $value ) {
-				$headers[] = "{$name}: $value";
-			}
-			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
+		// cURL expects full header strings in each element.
+		$headers = array();
+		foreach ( $r['headers'] as $name => $value ) {
+			$headers[] = "{$name}: $value";
 		}
+		curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 
 		/**
 		 * Fires before the cURL request is executed.
