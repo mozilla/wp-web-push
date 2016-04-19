@@ -27,6 +27,10 @@ IynAAx6EGnJX/9UbNS7oY8XJVkIkgtz4Eg==
   }
 
   function test_get_public_key() {
+    if (!USE_VAPID) {
+      return;
+    }
+
     $_POST['_ajax_nonce'] = wp_create_nonce('vapid_nonce');
     $_POST['privateKey'] = '-----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIM84un6Hdk08ulYyxK3F+AK6DqYfvn0HHXTQo0Oey4ZxoAoGCCqGSM49
@@ -45,6 +49,10 @@ IynAAx6EGnJX/9UbNS7oY8XJVkIkgtz4Eg==
   }
 
   function test_get_public_key_without_private_key() {
+    if (!USE_VAPID) {
+      return;
+    }
+
     $_POST['_ajax_nonce'] = wp_create_nonce('vapid_nonce');
 
     try {
@@ -58,6 +66,10 @@ IynAAx6EGnJX/9UbNS7oY8XJVkIkgtz4Eg==
   }
 
   function test_get_public_key_invalid_private_key() {
+    if (!USE_VAPID) {
+      return;
+    }
+
     $_POST['_ajax_nonce'] = wp_create_nonce('vapid_nonce');
     $_POST['privateKey'] = '-----BEGIN EC PRIVATE KEY-----
 invalid
