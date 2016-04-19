@@ -74,8 +74,12 @@
           var formData = new FormData();
           formData.append('action', 'webpush_register');
           formData.append('endpoint', subscription.endpoint);
-          formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
-          formData.append('auth', auth ? btoa(String.fromCharCode.apply(null, new Uint8Array(auth))) : '');
+          if (key) {
+            formData.append('key', btoa(String.fromCharCode.apply(null, new Uint8Array(key))));
+          }
+          if (auth) {
+            formData.append('auth', btoa(String.fromCharCode.apply(null, new Uint8Array(auth))));
+          }
           if (oldEndpoint) {
             formData.append('oldEndpoint', oldEndpoint);
           }
