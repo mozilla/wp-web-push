@@ -4,7 +4,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   function setUp() {
     parent::setUp();
 
-    WebPush_DB::add_subscription('http://localhost:55555/201', 'aKey');
+    WebPush_DB::add_subscription('http://localhost:55555/201', 'aKey', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $_REQUEST['webpush_meta_box_nonce'] = wp_create_nonce('webpush_send_notification');
     $_REQUEST['webpush_send_notification'] = 1;
@@ -259,7 +259,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   }
 
   function test_success_with_vapid() {
-    WebPush_DB::add_subscription('http://localhost:55555/200' . (USE_VAPID ? '//vapid' : ''), 'aKey3');
+    WebPush_DB::add_subscription('http://localhost:55555/200' . (USE_VAPID ? '//vapid' : ''), 'aKey3', '89IdFKBhvi9H5LlvawK9Iw==');
 
     update_option('webpush_vapid_key', file_get_contents('tests/example_ec_key_with_public_key.pem'));
     update_option('webpush_vapid_audience', 'https://example.org');
@@ -409,7 +409,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   function test_success_multiple_subscribers() {
     $oldNum = getSentNotificationNum();
 
-    WebPush_DB::add_subscription('http://localhost:55555/200', 'aKey2');
+    WebPush_DB::add_subscription('http://localhost:55555/200', 'aKey2', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
     $main = new WebPush_Main();
@@ -430,7 +430,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   function test_success_no_gcm_key() {
     $oldNum = getSentNotificationNum();
 
-    WebPush_DB::add_subscription('https://android.googleapis.com/gcm/send/endpoint', '');
+    WebPush_DB::add_subscription('https://android.googleapis.com/gcm/send/endpoint', '', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
     $main = new WebPush_Main();
@@ -459,7 +459,7 @@ class TransitionPostStatusTest extends WP_UnitTestCase {
   function test_success_remove_invalid_subscription() {
     $oldNum = getSentNotificationNum();
 
-    WebPush_DB::add_subscription('http://localhost:55555/400', 'aKey2');
+    WebPush_DB::add_subscription('http://localhost:55555/400', 'aKey2', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $post = get_post($this->factory->post->create(array('post_title' => 'Test Post Title')));
     $main = new WebPush_Main();

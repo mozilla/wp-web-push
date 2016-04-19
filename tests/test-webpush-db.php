@@ -5,12 +5,12 @@ class WebPushDBTest extends WP_UnitTestCase {
     $this->assertFalse(WebPush_DB::is_subscription('http://localhost/1'));
     $this->assertFalse(WebPush_DB::is_subscription('http://localhost/2'));
 
-    WebPush_DB::add_subscription('http://localhost/1', 'aKey1');
+    WebPush_DB::add_subscription('http://localhost/1', 'aKey1', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $this->assertTrue(WebPush_DB::is_subscription('http://localhost/1'));
     $this->assertFalse(WebPush_DB::is_subscription('http://localhost/2'));
 
-    WebPush_DB::add_subscription('http://localhost/2', 'aKey2');
+    WebPush_DB::add_subscription('http://localhost/2', 'aKey2', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $this->assertTrue(WebPush_DB::is_subscription('http://localhost/1'));
     $this->assertTrue(WebPush_DB::is_subscription('http://localhost/2'));
