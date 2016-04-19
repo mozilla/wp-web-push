@@ -23,10 +23,7 @@ class WP_Http_Curl_Multi {
 	 * @return cURL handle
 	 */
 	public function createHandle($url, $args = array()) {
-		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'blocking' => true, 'headers' => array(), 'body' => null
-		);
+		$defaults = array('timeout' => 5, 'blocking' => true, 'headers' => array(), 'body' => null);
 
 		$r = wp_parse_args( $args, $defaults );
 
@@ -68,24 +65,8 @@ class WP_Http_Curl_Multi {
 		if ( defined( 'CURLOPT_PROTOCOLS' ) ) // PHP 5.2.10 / cURL 7.19.4
 			curl_setopt( $handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
 
-		switch ( $r['method'] ) {
-			case 'HEAD':
-				curl_setopt( $handle, CURLOPT_NOBODY, true );
-				break;
-			case 'POST':
-				curl_setopt( $handle, CURLOPT_POST, true );
-				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-			case 'PUT':
-				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'PUT' );
-				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-			default:
-				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
-				if ( ! is_null( $r['body'] ) )
-					curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-		}
+		curl_setopt( $handle, CURLOPT_POST, true );
+		curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 
