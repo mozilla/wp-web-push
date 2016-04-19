@@ -18,12 +18,13 @@ class WebPush_DB {
     }
   }
 
-  public static function add_subscription($endpoint, $userKey) {
+  public static function add_subscription($endpoint, $userKey, $userAuth) {
     global $wpdb;
 
     $wpdb->insert($wpdb->prefix . 'webpush_subscription', array(
       'endpoint' => $endpoint,
       'userKey' => $userKey,
+      'userAuth' => $userAuth,
     ));
   }
 
@@ -46,7 +47,7 @@ class WebPush_DB {
     global $wpdb;
 
     $table_name = $wpdb->prefix . 'webpush_subscription';
-    return $wpdb->get_results('SELECT `endpoint`,`userKey` FROM ' . $table_name);
+    return $wpdb->get_results('SELECT `endpoint`,`userKey`,`userAuth` FROM ' . $table_name);
   }
 
   public static function count_subscriptions() {
@@ -69,6 +70,7 @@ class WebPush_DB {
       `id` INT NOT NULL AUTO_INCREMENT,
       `endpoint` VARCHAR(300) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
       `userKey` VARCHAR(300) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+      `userAuth` BINARY(16) NOT NULL,
       PRIMARY KEY (`id`),
       UNIQUE (`endpoint`)
     );';
