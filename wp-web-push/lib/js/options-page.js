@@ -166,6 +166,6 @@ window.onload = function() {
     };
     xhr.open('POST', ajaxurl + '?action=webpush_get_public_key', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('privateKey=' + vapidPrivateKey.value);
+    xhr.send('_ajax_nonce=' + encodeURIComponent(webPushOptions.vapid_nonce) + '&privateKey=' + encodeURIComponent(vapidPrivateKey.value));
   });
 };

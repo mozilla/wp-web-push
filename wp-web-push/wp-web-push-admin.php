@@ -40,6 +40,8 @@ class WebPush_Admin {
   }
 
   function handle_get_public_key() {
+    check_ajax_referer('vapid_nonce');
+
     $privateKey = '';
     if (isset($_POST['privateKey'])) {
       $privateKey = $_POST['privateKey'];
@@ -157,6 +159,7 @@ class WebPush_Admin {
         'post_icon_placeholder' => plugins_url('lib/placeholder.png', __FILE__),
         'vapid_show_button' => esc_attr__('Show advanced options', 'web-push'),
         'vapid_hide_button' => esc_attr__('Hide advanced options', 'web-push'),
+        'vapid_nonce' => wp_create_nonce('vapid_nonce'),
       ));
       wp_enqueue_script('options-page-script');
     }
