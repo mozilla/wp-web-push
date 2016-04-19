@@ -15,15 +15,13 @@ define('GCM_REQUEST_URL', 'https://android.googleapis.com/gcm/send');
 define('GCM_REQUEST_URL_LEN', strlen(GCM_REQUEST_URL) + 1);
 
 class WebPush {
-  private $useMulti;
   private $httpCurlMulti;
   public $requests = array();
   private $gcmKey;
   private $additionalHeaders = array();
 
   function __construct($forceWP = false) {
-    $this->useMulti = !$forceWP && WP_Http_Curl_Multi::test();
-    if ($this->useMulti) {
+    if (!$forceWP && WP_Http_Curl_Multi::test()) {
       $this->httpCurlMulti = new WP_Http_Curl_Multi();
     }
   }
@@ -82,7 +80,7 @@ class WebPush {
   }
 
   function sendNotifications() {
-    if ($this->useMulti) {
+    if ($this->httpCurlMulti) {
       $handles = array();
       $handleToReq = array();
       foreach ($this->requests as $request) {
