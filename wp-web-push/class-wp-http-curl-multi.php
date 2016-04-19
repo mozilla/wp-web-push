@@ -20,7 +20,7 @@ class WP_Http_Curl_Multi {
 	 *
 	 * @param string $url The request URL.
 	 * @param string|array $args Optional. Override the defaults.
-	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @return cURL handle
 	 */
 	public function createHandle($url, $args = array()) {
 		$defaults = array(
