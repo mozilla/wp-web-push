@@ -22,15 +22,6 @@ class WP_Http_Curl_Multi {
 	private $body = '';
 
 	/**
-	 * The maximum amount of data to receive from the remote server.
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @var int
-	 */
-	private $max_body_length = false;
-
-	/**
 	 * The total bytes written in the current request.
 	 *
 	 * @since 4.1.0
@@ -134,11 +125,6 @@ class WP_Http_Curl_Multi {
 		}
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
-
-		if ( isset( $r['limit_response_size'] ) )
-			$this->max_body_length = intval( $r['limit_response_size'] );
-		else
-			$this->max_body_length = false;
 
 		if ( !empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element.
