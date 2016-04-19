@@ -49,16 +49,6 @@ class WP_Http_Curl_Multi {
 			}
 		}
 
-		$is_local = isset($r['local']) && $r['local'];
-		$ssl_verify = isset($r['sslverify']) && $r['sslverify'];
-		if ( $is_local ) {
-			/** This filter is documented in wp-includes/class-wp-http-streams.php */
-			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
-		} elseif ( ! $is_local ) {
-			/** This filter is documented in wp-includes/class-wp-http-streams.php */
-			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
-		}
-
 		/*
 		 * CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since.
 		 * a value of 0 will allow an unlimited timeout.
@@ -69,12 +59,8 @@ class WP_Http_Curl_Multi {
 
 		curl_setopt( $handle, CURLOPT_URL, $url);
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, ( $ssl_verify === true ) ? 2 : false );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
-
-		if ( $ssl_verify ) {
-			curl_setopt( $handle, CURLOPT_CAINFO, $r['sslcertificates'] );
-		}
+		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, false );
+		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, false );
 
 		/*
 		 * The option doesn't work with safe mode or when open_basedir is set, and there's
