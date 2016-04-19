@@ -92,27 +92,6 @@ class HandleRegisterTest extends WP_Ajax_UnitTestCase {
     $this->assertEquals(1, get_option('webpush_accepted_prompt_count'));
   }
 
-  function test_new_registration_with_auth_empty_string() {
-    $_POST['endpoint'] = 'http://localhost';
-    $_POST['key'] = 'aKey';
-    $_POST['auth'] = '';
-
-    try {
-      $this->_handleAjax('nopriv_webpush_register');
-      $this->assertTrue(false);
-    } catch (WPAjaxDieStopException $e) {
-      $this->assertTrue(true);
-    }
-
-    $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(1, count($subscriptions));
-    $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
-    $this->assertEquals('aKey', $subscriptions[0]->userKey);
-    $this->assertEquals('AAAAAAAAAAAAAAAAAAAAAA', Base64Url::encode($subscriptions[0]->userAuth));
-
-    $this->assertEquals(0, get_option('webpush_accepted_prompt_count'));
-  }
-
   function test_new_registration_without_auth() {
     $_POST['endpoint'] = 'http://localhost';
     $_POST['key'] = 'aKey';
@@ -128,28 +107,7 @@ class HandleRegisterTest extends WP_Ajax_UnitTestCase {
     $this->assertEquals(1, count($subscriptions));
     $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
     $this->assertEquals('aKey', $subscriptions[0]->userKey);
-    $this->assertEquals('AAAAAAAAAAAAAAAAAAAAAA', Base64Url::encode($subscriptions[0]->userAuth));
-
-    $this->assertEquals(0, get_option('webpush_accepted_prompt_count'));
-  }
-
-  function test_new_registration_with_key_and_auth_empty_strings() {
-    $_POST['endpoint'] = 'http://localhost';
-    $_POST['key'] = '';
-    $_POST['auth'] = '';
-
-    try {
-      $this->_handleAjax('nopriv_webpush_register');
-      $this->assertTrue(false);
-    } catch (WPAjaxDieStopException $e) {
-      $this->assertTrue(true);
-    }
-
-    $subscriptions = WebPush_DB::get_subscriptions();
-    $this->assertEquals(1, count($subscriptions));
-    $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
-    $this->assertEquals('', $subscriptions[0]->userKey);
-    $this->assertEquals('AAAAAAAAAAAAAAAAAAAAAA', Base64Url::encode($subscriptions[0]->userAuth));
+    $this->assertNull($subscriptions[0]->userAuth);
 
     $this->assertEquals(0, get_option('webpush_accepted_prompt_count'));
   }
@@ -168,7 +126,7 @@ class HandleRegisterTest extends WP_Ajax_UnitTestCase {
     $this->assertEquals(1, count($subscriptions));
     $this->assertEquals('http://localhost', $subscriptions[0]->endpoint);
     $this->assertEquals('', $subscriptions[0]->userKey);
-    $this->assertEquals('AAAAAAAAAAAAAAAAAAAAAA', Base64Url::encode($subscriptions[0]->userAuth));
+    $this->assertNull($subscriptions[0]->userAuth);
 
     $this->assertEquals(0, get_option('webpush_accepted_prompt_count'));
   }
