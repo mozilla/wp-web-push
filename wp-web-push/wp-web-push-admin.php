@@ -16,6 +16,38 @@ class WebPush_Admin {
     add_action('wp_dashboard_setup', array($this, 'add_dashboard_widgets'));
     add_action('admin_notices', array($this, 'on_admin_notices'));
     add_action('add_meta_boxes', array($this, 'on_add_meta_boxes'));
+    add_action('wp_ajax_webpush_get_public_key', array($this, 'handle_get_public_key'));
+  }
+
+  function get_public_key($privateKey) {
+    $publicKeyVal = __('Your private key is invalid.', 'web-push');
+
+    error_reporting(E_ERROR);
+
+    try {
+      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+      $privateKeyObject = $privKeySerializer->parse($privateKey);
+      $publicKeyObject = $privateKeyObject->getPublicKey();
+      $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+      $publicKeyVal = Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
+    } catch (Exception $e) {
+      // Ignore exceptions while getting the public key from the private key.
+    }
+
+    error_reporting(E_ALL);
+
+    return $publicKeyVal;
+  }
+
+  function handle_get_public_key() {
+    $privateKey = '';
+    if (isset($_POST['privateKey'])) {
+      $privateKey = $_POST['privateKey'];
+    }
+
+    echo $this->get_public_key($privateKey);
+
+    wp_die();
   }
 
   function on_add_meta_boxes() {
@@ -390,35 +422,13 @@ class WebPush_Admin {
 <table class="form-table" id="vapid_config" style="display:none;">
 <tr>
 <th scope="row"><label for="webpush_vapid_key"><?php _e('Private Key', 'web-push'); ?></label></th>
-<td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
+<td><textarea name="webpush_vapid_key" id="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>
 <p class="description"><?php _e('The private key used to sign your push notifications.', 'web-push')?></p></td>
 </tr>
 
 <tr>
 <th scope="row"><?php _e('Public Key', 'web-push'); ?></th>
-<td><code><b>
-<?php
-  $publicKeyVal = __('Your private key is invalid.', 'web-push');
-
-  if ($vapid_key_option) {
-    error_reporting(E_ERROR);
-
-    try {
-      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
-      $privateKeyObject = $privKeySerializer->parse($vapid_key_option);
-      $publicKeyObject = $privateKeyObject->getPublicKey();
-      $pointSerializer = new UncompressedPointSerializer(EccFactory::getAdapter());
-      $publicKeyVal = Base64Url::encode(hex2bin($pointSerializer->serialize($publicKeyObject->getPoint())));
-    } catch (Exception $e) {
-      // Ignore exceptions while getting the public key from the private key.
-    }
-
-    error_reporting(E_ALL);
-  }
-
-  echo $publicKeyVal;
-?>
-</b></code></td>
+<td><code><b><span id="webpush_vapid_public_key"><?php echo $this->get_public_key($vapid_key_option); ?></span></b></code></td>
 </tr>
 
 <tr>
