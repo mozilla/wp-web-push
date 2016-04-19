@@ -23,7 +23,7 @@ class WP_Http_Curl_Multi {
 	 * @return cURL handle
 	 */
 	public function createHandle($url, $args = array()) {
-		$defaults = array('timeout' => 5, 'blocking' => true, 'headers' => array(), 'body' => null);
+		$defaults = array('timeout' => 5, 'headers' => array(), 'body' => null);
 
 		$r = wp_parse_args( $args, $defaults );
 
