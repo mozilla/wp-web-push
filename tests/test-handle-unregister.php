@@ -2,7 +2,7 @@
 
 class HandleUnregisterTest extends WP_Ajax_UnitTestCase {
   function test_unregister() {
-    WebPush_DB::add_subscription('http://localhost', 'aKey');
+    WebPush_DB::add_subscription('http://localhost', 'aKey', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $_POST['endpoint'] = 'http://localhost';
 
@@ -18,7 +18,7 @@ class HandleUnregisterTest extends WP_Ajax_UnitTestCase {
   }
 
   function test_unregister_priv() {
-    WebPush_DB::add_subscription('http://localhost', 'aKey');
+    WebPush_DB::add_subscription('http://localhost', 'aKey', '89IdFKBhvi9H5LlvawK9Iw==');
 
     $_POST['endpoint'] = 'http://localhost';
 

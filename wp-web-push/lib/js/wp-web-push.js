@@ -249,11 +249,13 @@ if (navigator.serviceWorker) {
             localforage.setItem('endpoint', subscription.endpoint);
 
             var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+            var auth = subscription.getKey ? subscription.getKey('auth') : '';
 
             var formData = new FormData();
             formData.append('action', 'webpush_register');
             formData.append('endpoint', subscription.endpoint);
             formData.append('key', key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '');
+            formData.append('auth', auth ? btoa(String.fromCharCode.apply(null, new Uint8Array(auth))) : '');
             if (!hasRegistered) {
               formData.append('newRegistration', true);
             }

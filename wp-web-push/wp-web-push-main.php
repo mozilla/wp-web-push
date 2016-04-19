@@ -1,5 +1,7 @@
 <?php
 
+use Base64Url\Base64Url;
+
 require_once(plugin_dir_path(__FILE__) . 'wp-web-push-db.php');
 
 class WebPush_Main {
@@ -129,7 +131,7 @@ class WebPush_Main {
       WebPush_DB::remove_subscription($_POST['oldEndpoint']);
     }
 
-    WebPush_DB::add_subscription($_POST['endpoint'], $_POST['key']);
+    WebPush_DB::add_subscription($_POST['endpoint'], isset($_POST['key']) ? $_POST['key'] : '', isset($_POST['auth']) ? Base64Url::decode($_POST['auth']) : '');
 
     if (isset($_POST['newRegistration'])) {
       update_option('webpush_accepted_prompt_count', get_option('webpush_accepted_prompt_count') + 1);
