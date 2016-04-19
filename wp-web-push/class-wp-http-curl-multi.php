@@ -32,9 +32,6 @@ class WP_Http_Curl_Multi {
 
 		$r = wp_parse_args( $args, $defaults );
 
-		// Construct Cookie: header if any cookies are set.
-		WP_Http::buildCookieHeader( $r );
-
 		$handle = curl_init();
 
 		// cURL offers really easy proxy support.
