@@ -2,43 +2,6 @@
 // Based on the WordPress WP_Http_Curl class.
 
 class WP_Http_Curl_Multi {
-
-	/**
-	 * Temporary header storage for during requests.
-	 *
-	 * @since 3.2.0
-	 * @access private
-	 * @var string
-	 */
-	private $headers = '';
-
-	/**
-	 * Temporary body storage for during requests.
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @var string
-	 */
-	private $body = '';
-
-	/**
-	 * The maximum amount of data to receive from the remote server.
-	 *
-	 * @since 3.6.0
-	 * @access private
-	 * @var int
-	 */
-	private $max_body_length = false;
-
-	/**
-	 * The total bytes written in the current request.
-	 *
-	 * @since 4.1.0
-	 * @access private
-	 * @var int
-	 */
-	private $bytes_written_total = 0;
-
 	/**
 	 * Create cURL handle for a HTTP request.
 	 *
@@ -47,20 +10,12 @@ class WP_Http_Curl_Multi {
 	 *
 	 * @param string $url The request URL.
 	 * @param string|array $args Optional. Override the defaults.
-	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @return cURL handle
 	 */
 	public function createHandle($url, $args = array()) {
-		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
-		);
+		$defaults = array('timeout' => 5, 'headers' => array(), 'body' => null);
 
 		$r = wp_parse_args( $args, $defaults );
-
-		// Construct Cookie: header if any cookies are set.
-		WP_Http::buildCookieHeader( $r );
 
 		$handle = curl_init();
 
@@ -79,16 +34,6 @@ class WP_Http_Curl_Multi {
 			}
 		}
 
-		$is_local = isset($r['local']) && $r['local'];
-		$ssl_verify = isset($r['sslverify']) && $r['sslverify'];
-		if ( $is_local ) {
-			/** This filter is documented in wp-includes/class-wp-http-streams.php */
-			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
-		} elseif ( ! $is_local ) {
-			/** This filter is documented in wp-includes/class-wp-http-streams.php */
-			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
-		}
-
 		/*
 		 * CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since.
 		 * a value of 0 will allow an unlimited timeout.
@@ -99,12 +44,8 @@ class WP_Http_Curl_Multi {
 
 		curl_setopt( $handle, CURLOPT_URL, $url);
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, ( $ssl_verify === true ) ? 2 : false );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
-
-		if ( $ssl_verify ) {
-			curl_setopt( $handle, CURLOPT_CAINFO, $r['sslcertificates'] );
-		}
+		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, 2 );
+		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, true );
 
 		/*
 		 * The option doesn't work with safe mode or when open_basedir is set, and there's
@@ -114,45 +55,17 @@ class WP_Http_Curl_Multi {
 		if ( defined( 'CURLOPT_PROTOCOLS' ) ) // PHP 5.2.10 / cURL 7.19.4
 			curl_setopt( $handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
 
-		switch ( $r['method'] ) {
-			case 'HEAD':
-				curl_setopt( $handle, CURLOPT_NOBODY, true );
-				break;
-			case 'POST':
-				curl_setopt( $handle, CURLOPT_POST, true );
-				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-			case 'PUT':
-				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'PUT' );
-				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-			default:
-				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
-				if ( ! is_null( $r['body'] ) )
-					curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
-		}
+		curl_setopt( $handle, CURLOPT_POST, true );
+		curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 
-		if ( isset( $r['limit_response_size'] ) )
-			$this->max_body_length = intval( $r['limit_response_size'] );
-		else
-			$this->max_body_length = false;
-
-		if ( !empty( $r['headers'] ) ) {
-			// cURL expects full header strings in each element.
-			$headers = array();
-			foreach ( $r['headers'] as $name => $value ) {
-				$headers[] = "{$name}: $value";
-			}
-			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
+		// cURL expects full header strings in each element.
+		$headers = array();
+		foreach ( $r['headers'] as $name => $value ) {
+			$headers[] = "{$name}: $value";
 		}
-
-		if ( $r['httpversion'] == '1.0' )
-			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-		else
-			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
+		curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 
 		/**
 		 * Fires before the cURL request is executed.
@@ -183,14 +96,10 @@ class WP_Http_Curl_Multi {
 		if ( ! function_exists( 'curl_multi_init' ) || ! function_exists( 'curl_multi_exec' ) )
 			return false;
 
-		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
-
-		if ( $is_ssl ) {
-			$curl_version = curl_version();
-			// Check whether this cURL version support SSL requests.
-			if ( ! (CURL_VERSION_SSL & $curl_version['features']) )
-				return false;
-		}
+		$curl_version = curl_version();
+		// Check whether this cURL version support SSL requests.
+		if ( ! (CURL_VERSION_SSL & $curl_version['features']) )
+			return false;
 
 		/**
 		 * Filter whether cURL can be used as a transport for retrieving a URL.
