@@ -24,7 +24,7 @@ class WP_Http_Curl_Multi {
 	 */
 	public function createHandle($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 5, 'httpversion' => '1.0',
+			'method' => 'GET', 'timeout' => 5,
 			'blocking' => true, 'headers' => array(), 'body' => null
 		);
 
@@ -97,11 +97,6 @@ class WP_Http_Curl_Multi {
 			}
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
-
-		if ( $r['httpversion'] == '1.0' )
-			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-		else
-			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
 		/**
 		 * Fires before the cURL request is executed.
