@@ -123,6 +123,8 @@ class WebPush_Admin {
         'blog_icon' => function_exists('get_site_icon_url') ? get_site_icon_url() : '',
         'custom_icon' => $custom_icon_url,
         'post_icon_placeholder' => plugins_url('lib/placeholder.png', __FILE__),
+        'vapid_show_button' => esc_attr__('Show advanced options', 'web-push'),
+        'vapid_hide_button' => esc_attr__('Hide advanced options', 'web-push'),
       ));
       wp_enqueue_script('options-page-script');
     }
@@ -377,13 +379,15 @@ class WebPush_Admin {
 </table>
 
 
-<table class="form-table">
 <h2 class="title"><?php _e('Voluntary Application Server Identification (VAPID)', 'web-push'); ?></h2>
-<p><?php _e('VAPID is useful to monitor your push messages. It allows your server to submit information about itself to the push service, which improves application stability, exception handling, and security.', 'web-push'); ?></p>
+<p><?php _e('VAPID is useful to monitor your push messages. It allows your server to submit information about itself to the push service, which improves application stability, exception handling, and security. <b>It is automatically configured for you.</b>', 'web-push'); ?></p>
 
 <?php
   if (USE_VAPID) {
 ?>
+<input type="button" class="button" id="webpush_vapid_show_config" value="<?php esc_attr_e('Show advanced options', 'web-push'); ?>"></input>
+<br>
+<table class="form-table" id="vapid_config" style="display:none;">
 <tr>
 <th scope="row"><label for="webpush_vapid_key"><?php _e('Private Key', 'web-push'); ?></label></th>
 <td><textarea name="webpush_vapid_key" type="text" rows="5" cols="65" class="regular-text code"><?php echo $vapid_key_option; ?></textarea>

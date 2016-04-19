@@ -139,4 +139,18 @@ window.onload = function() {
   });
 
   updateButtonColor();
+
+
+  // VAPID Config
+  var vapidButton = document.getElementById('webpush_vapid_show_config');
+  var vapidTable = document.getElementById('vapid_config');
+  vapidButton.addEventListener('click', function(event) {
+    if (vapidTable.style.display === 'none') {
+      vapidTable.style.display = 'initial';
+      vapidButton.value = webPushOptions.vapid_hide_button;
+    } else {
+      vapidTable.style.display = 'none';
+      vapidButton.value = webPushOptions.vapid_show_button;
+    }
+  });
 };
