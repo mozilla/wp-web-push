@@ -79,6 +79,18 @@ class WebPush {
     );
   }
 
+  function preferStreams($transports) {
+    $streamsIdx = array_search('streams', $transports, true);
+    $curlIdx = array_search('curl', $transports, true);
+
+    if ($streamsIdx !== false && $curlIdx !== false && $streamsIdx > $curlIdx) {
+      $transports[$streamsIdx] = 'curl';
+      $transports[$curlIdx] = 'streams';
+    }
+
+    return $transports;
+  }
+
   function sendNotifications() {
     if ($this->httpCurlMulti) {
       $handles = array();
@@ -117,6 +129,8 @@ class WebPush {
 
       curl_multi_close($mh);
     } else {
+      add_filter('http_api_transports', array($this, 'preferStreams'), 10, 1);
+
       $num = count($this->requests);
       foreach ($this->requests as $request) {
         // Clean approximately ten random subscriptions, to avoid performance problems
@@ -137,6 +151,8 @@ class WebPush {
           in_array($result['response']['code'], array(200, 201))
         );
       }
+
+      remove_filter('http_api_transports', array($this, 'preferStreams'));
     }
   }
 }
