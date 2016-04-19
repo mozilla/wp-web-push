@@ -21,7 +21,7 @@ class WebPush {
   private $additionalHeaders = array();
 
   function __construct($forceWP = false) {
-    if (!$forceWP && WP_Http_Curl_Multi::test(array('ssl' => true))) {
+    if (!$forceWP && WP_Http_Curl_Multi::test()) {
       $this->httpCurlMulti = new WP_Http_Curl_Multi();
     }
   }
