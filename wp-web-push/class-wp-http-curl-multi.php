@@ -2,16 +2,6 @@
 // Based on the WordPress WP_Http_Curl class.
 
 class WP_Http_Curl_Multi {
-
-	/**
-	 * Temporary header storage for during requests.
-	 *
-	 * @since 3.2.0
-	 * @access private
-	 * @var string
-	 */
-	private $headers = '';
-
 	/**
 	 * Create cURL handle for a HTTP request.
 	 *
