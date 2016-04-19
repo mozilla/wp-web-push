@@ -144,6 +144,9 @@ window.onload = function() {
   // VAPID Config
   var vapidButton = document.getElementById('webpush_vapid_show_config');
   var vapidTable = document.getElementById('vapid_config');
+  var vapidPrivateKey = document.getElementById('webpush_vapid_key');
+  var vapidPublicKey = document.getElementById('webpush_vapid_public_key');
+
   vapidButton.addEventListener('click', function(event) {
     if (vapidTable.style.display === 'none') {
       vapidTable.style.display = 'initial';
@@ -152,5 +155,17 @@ window.onload = function() {
       vapidTable.style.display = 'none';
       vapidButton.value = webPushOptions.vapid_show_button;
     }
+  });
+
+  vapidPrivateKey.addEventListener('input', function(event) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        vapidPublicKey.textContent = xhr.responseText;
+      }
+    };
+    xhr.open('POST', ajaxurl + '?action=webpush_get_public_key', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('privateKey=' + vapidPrivateKey.value);
   });
 };
