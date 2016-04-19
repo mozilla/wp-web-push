@@ -24,10 +24,8 @@ class WP_Http_Curl_Multi {
 	 */
 	public function createHandle($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
+			'method' => 'GET', 'timeout' => 5, 'httpversion' => '1.0',
+			'blocking' => true, 'headers' => array(), 'body' => null
 		);
 
 		$r = wp_parse_args( $args, $defaults );
