@@ -45,16 +45,26 @@
 
   self.addEventListener('push', function(event) {
     event.waitUntil(
-      fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        return self.registration.showNotification(data.title, {
-          body: data.body,
-          icon: data.icon,
-          data: data,
-          tag: 'wp-web-push',
+      localforage.getItem('lastNotificationTime')
+      .then(function(lastNotificationTime) {
+        if (lastNotificationTime && (Date.now() < lastNotificationTime + 30000)) {
+          return;
+        }
+
+        return fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          return self.registration.showNotification(data.title, {
+            body: data.body,
+            icon: data.icon,
+            data: data,
+            tag: 'wp-web-push',
+          });
+        })
+        .then(function() {
+          return localforage.setItem('lastNotificationTime', Date.now());
         });
       })
     );
