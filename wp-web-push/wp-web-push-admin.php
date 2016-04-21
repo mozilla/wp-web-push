@@ -450,7 +450,7 @@ class WebPush_Admin {
 ?>
 <p><?php _e('Unfortunately, VAPID can\'t be enabled on your website, because one or more prerequisites are missing.', 'web-push'); ?></p>
 <tr>
-<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Prerequisites:', 'web-push'); ?></label></th>
+<th scope="row"><?php _e('VAPID Prerequisites:', 'web-push'); ?></th>
 <td>
 <ul style="list-style-type: circle;">
 <li style="color:<?php echo (version_compare(phpversion(), '5.4') >= 0) ? 'green' : 'red'; ?>;">PHP 5.4+</li>
