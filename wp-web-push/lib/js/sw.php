@@ -43,13 +43,17 @@
     );
   });
 
+  var lastNotificationTime;
+
   self.addEventListener('push', function(event) {
     event.waitUntil(
-      localforage.getItem('lastNotificationTime')
-      .then(function(lastNotificationTime) {
+      Promise.resolve()
+      .then(function() {
         if (lastNotificationTime && (Date.now() < lastNotificationTime + 30000)) {
           return;
         }
+
+        lastNotificationTime = Date.now();
 
         return fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
         .then(function(response) {
@@ -62,9 +66,6 @@
             data: data,
             tag: 'wp-web-push',
           });
-        })
-        .then(function() {
-          return localforage.setItem('lastNotificationTime', Date.now());
         });
       })
     );
