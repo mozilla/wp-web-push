@@ -43,18 +43,29 @@
     );
   });
 
+  var lastNotificationTime = 0;
+
   self.addEventListener('push', function(event) {
     event.waitUntil(
-      fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        return self.registration.showNotification(data.title, {
-          body: data.body,
-          icon: data.icon,
-          data: data,
-          tag: 'wp-web-push',
+      Promise.resolve()
+      .then(function() {
+        if (Date.now() < lastNotificationTime + 30000) {
+          return;
+        }
+
+        lastNotificationTime = Date.now();
+
+        return fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          return self.registration.showNotification(data.title, {
+            body: data.body,
+            icon: data.icon,
+            data: data,
+            tag: 'wp-web-push',
+          });
         });
       })
     );
