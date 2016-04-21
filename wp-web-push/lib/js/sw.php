@@ -43,13 +43,13 @@
     );
   });
 
-  var lastNotificationTime;
+  var lastNotificationTime = 0;
 
   self.addEventListener('push', function(event) {
     event.waitUntil(
       Promise.resolve()
       .then(function() {
-        if (lastNotificationTime && (Date.now() < lastNotificationTime + 30000)) {
+        if (Date.now() < lastNotificationTime + 30000) {
           return;
         }
 
