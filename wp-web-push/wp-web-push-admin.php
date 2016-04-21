@@ -449,6 +449,7 @@ class WebPush_Admin {
   } else {
 ?>
 <p><?php _e('Unfortunately, VAPID can\'t be enabled on your website, because one or more prerequisites are missing.', 'web-push'); ?></p>
+<table class="form-table">
 <tr>
 <th scope="row"><?php _e('VAPID Prerequisites:', 'web-push'); ?></th>
 <td>
