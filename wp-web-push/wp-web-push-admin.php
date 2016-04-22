@@ -213,6 +213,7 @@ class WebPush_Admin {
     $triggers_option = get_option('webpush_triggers');
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
+    $generate_manifest_option = get_option('webpush_generate_manifest');
     if (USE_VAPID) {
       // Regenerate VAPID info if needed (for example, when the user installs the needed
       // dependencies).
@@ -279,6 +280,7 @@ class WebPush_Admin {
         $manifestGenerator->set_field('gcm_sender_id', $gcm_sender_id_option);
         $manifestGenerator->set_field('gcm_user_visible_only', true);
       }
+      $generate_manifest_option = isset($_POST['webpush_generate_manifest']) ? true : false;
 
       if (USE_VAPID) {
         $vapid_key_option = $_POST['webpush_vapid_key'];
@@ -294,6 +296,7 @@ class WebPush_Admin {
       update_option('webpush_triggers', $triggers_option);
       update_option('webpush_gcm_key', $gcm_key_option);
       update_option('webpush_gcm_sender_id', $gcm_sender_id_option);
+      update_option('webpush_generate_manifest', $generate_manifest_option);
       if (USE_VAPID) {
         update_option('webpush_vapid_key', $vapid_key_option);
         update_option('webpush_vapid_audience', $vapid_audience_option);
@@ -480,9 +483,14 @@ class WebPush_Admin {
 
 <tr>
 <th scope="row"><label for="webpush_gcm_sender_id"><?php _e('GCM Project Number', 'web-push'); ?></label></th>
-<td><input name="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
+<td><input name="webpush_gcm_sender_id" id="webpush_gcm_sender_id" type="text" value="<?php echo $gcm_sender_id_option; ?>" class="code" /></td>
 </tr>
 </table>
+
+<p><?php _e('The GCM project number should be added to your Web App Manifest. You can either let the plugin generate a manifest for you or add the info to your own manifest (if you already have one). The plugin is compatible with the <a href="https://wordpress.org/plugins/add-to-home-screen">Add to Home Screen plugin</a>. <b>You only need to disable the following option if you have created your own manifest manually</b>.', 'web-push'); ?></p>
+<label><input type="checkbox" name="webpush_generate_manifest" id="webpush_generate_manifest" <?php echo $generate_manifest_option ? 'checked' : ''; ?> /> <?php _e('The plugin will automatically create a Web App Manifest for you and add it to your page.', 'web-push'); ?></label>
+<br><br>
+<p id="webpush_generate_manifest_text" style="display:none;"><?php printf(__('You need to add %s and %s to your manifest', 'web-push'), '<b>"gcm_sender_id": "<span id="webpush_generate_manifest_sender_id_field">%s"</b>', '<b>"gcm_user_visible_only": true</b>'); ?></p>
 
 <?php submit_button(__('Save Changes'), 'primary'); ?>
 

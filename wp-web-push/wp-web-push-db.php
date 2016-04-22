@@ -108,6 +108,7 @@ class WebPush_DB {
     add_option('webpush_prompt_interval', 3);
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
+    add_option('webpush_generate_manifest', true);
 
     self::generate_vapid_options();
 
