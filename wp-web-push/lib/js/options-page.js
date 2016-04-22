@@ -170,4 +170,25 @@ window.onload = function() {
       xhr.send('_ajax_nonce=' + encodeURIComponent(webPushOptions.vapid_nonce) + '&privateKey=' + encodeURIComponent(vapidPrivateKey.value));
     });
   }
+
+
+  // Automatic manifest generation
+  var generateManifestElem = document.getElementById('webpush_generate_manifest');
+  var generateManifestText = document.getElementById('webpush_generate_manifest_text');
+  var generateManifestSenderIdField = document.getElementById('webpush_generate_manifest_sender_id_field');
+  var gcmSenderId = document.getElementById('webpush_gcm_sender_id');
+
+  function showManifestJSON() {
+    generateManifestSenderIdField.textContent = gcmSenderId.value;
+
+    if (generateManifestElem.checked) {
+      generateManifestText.style.display = 'none';
+    } else {
+      generateManifestText.style.display = 'initial';
+    }
+  }
+
+  generateManifestElem.addEventListener('change', showManifestJSON);
+  gcmSenderId.addEventListener('input', showManifestJSON);
+  showManifestJSON();
 };
