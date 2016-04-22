@@ -214,6 +214,9 @@ class WebPush_Admin {
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
     if (USE_VAPID) {
+      // Regenerate VAPID info if needed (for example, when the user installs the needed
+      // dependencies).
+      WebPush_DB::generate_vapid_options();
       $vapid_key_option = get_option('webpush_vapid_key');
       $vapid_subject_option = get_option('webpush_vapid_subject');
       $vapid_audience_option = get_option('webpush_vapid_audience');
@@ -312,7 +315,6 @@ class WebPush_Admin {
 <h2><?php _e('Web Push Settings', 'web-push'); ?></h2>
 
 <form method="post" action="" enctype="multipart/form-data">
-<table class="form-table">
 <h2 class="title"><?php _e('Notification UI Options', 'web-push'); ?></h2>
 <p><?php _e('In this section, you can customize the information that appears in the notifications that will be shown to users.<br> Here\'s a preview of the notification:', 'web-push'); ?></p>
 
@@ -324,6 +326,7 @@ class WebPush_Admin {
 
 <input type="hidden" name="webpush_form" value="submitted" />
 
+<table class="form-table">
 <tr>
 <th scope="row"><?php _e('Title', 'web-push'); ?></th>
 <td>
@@ -360,10 +363,10 @@ class WebPush_Admin {
 </table>
 
 
-<table class="form-table">
 <h2 class="title"><?php _e('Subscription Behavior', 'web-push'); ?></h2>
 <p><?php _e('In this section, you can customize the subscription behavior and tailor it to your site. We suggest limiting automatic prompting to avoid nagging users and always giving the option to subscribe/unsubscribe through the subscription button.', 'web-push'); ?></p>
 
+<table class="form-table">
 <tr>
 <th scope="row"></th>
 <td>
@@ -396,10 +399,10 @@ class WebPush_Admin {
 </table>
 
 
-<table class="form-table">
 <h2 class="title"><?php _e('Push Triggers', 'web-push'); ?></h2>
 <p><?php _e('Select which events should trigger sending a push notification to users.', 'web-push'); ?></p>
 
+<table class="form-table">
 <tr>
 <th scope="row"></th>
 <td>
@@ -449,8 +452,9 @@ class WebPush_Admin {
   } else {
 ?>
 <p><?php _e('Unfortunately, VAPID can\'t be enabled on your website, because one or more prerequisites are missing.', 'web-push'); ?></p>
+<table class="form-table">
 <tr>
-<th scope="row"><label for="webpush_vapid_subject"><?php _e('VAPID Prerequisites:', 'web-push'); ?></label></th>
+<th scope="row"><?php _e('VAPID Prerequisites:', 'web-push'); ?></th>
 <td>
 <ul style="list-style-type: circle;">
 <li style="color:<?php echo (version_compare(phpversion(), '5.4') >= 0) ? 'green' : 'red'; ?>;">PHP 5.4+</li>
@@ -465,10 +469,10 @@ class WebPush_Admin {
 </table>
 
 
-<table class="form-table">
 <a href="#gcm" name="gcm" style="text-decoration:none;"><h2 class="title"><?php _e('Google Chrome Support', 'web-push'); ?></h2></a>
 <p><?php _e('To configure Google Chrome support, follow the steps in <a href="https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04" target="_blank">Make a project on the Google Developer Console</a> to configure Google Cloud Messaging (GCM), then copy the <i>GCM API Key</i> and <i>Project Number</i> into the fields below.', 'web-push'); ?></p>
 
+<table class="form-table">
 <tr>
 <th scope="row"><label for="webpush_gcm_key"><?php _e('GCM API Key', 'web-push'); ?></label></th>
 <td><input name="webpush_gcm_key" type="text" value="<?php echo $gcm_key_option; ?>" class="regular-text code" /></td>

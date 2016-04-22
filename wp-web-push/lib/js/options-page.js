@@ -147,25 +147,27 @@ window.onload = function() {
   var vapidPrivateKey = document.getElementById('webpush_vapid_key');
   var vapidPublicKey = document.getElementById('webpush_vapid_public_key');
 
-  vapidButton.addEventListener('click', function(event) {
-    if (vapidTable.style.display === 'none') {
-      vapidTable.style.display = 'initial';
-      vapidButton.value = webPushOptions.vapid_hide_button;
-    } else {
-      vapidTable.style.display = 'none';
-      vapidButton.value = webPushOptions.vapid_show_button;
-    }
-  });
-
-  vapidPrivateKey.addEventListener('input', function(event) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        vapidPublicKey.textContent = xhr.responseText;
+  if (vapidButton && vapidPrivateKey) {
+    vapidButton.addEventListener('click', function(event) {
+      if (vapidTable.style.display === 'none') {
+        vapidTable.style.display = 'initial';
+        vapidButton.value = webPushOptions.vapid_hide_button;
+      } else {
+        vapidTable.style.display = 'none';
+        vapidButton.value = webPushOptions.vapid_show_button;
       }
-    };
-    xhr.open('POST', ajaxurl + '?action=webpush_get_public_key', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('_ajax_nonce=' + encodeURIComponent(webPushOptions.vapid_nonce) + '&privateKey=' + encodeURIComponent(vapidPrivateKey.value));
-  });
+    });
+
+    vapidPrivateKey.addEventListener('input', function(event) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          vapidPublicKey.textContent = xhr.responseText;
+        }
+      };
+      xhr.open('POST', ajaxurl + '?action=webpush_get_public_key', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send('_ajax_nonce=' + encodeURIComponent(webPushOptions.vapid_nonce) + '&privateKey=' + encodeURIComponent(vapidPrivateKey.value));
+    });
+  }
 };

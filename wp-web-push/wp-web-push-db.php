@@ -57,6 +57,26 @@ class WebPush_DB {
     return $wpdb->get_var('SELECT COUNT(*) FROM ' . $table_name);
   }
 
+  public static function generate_vapid_options() {
+    if (USE_VAPID) {
+      if (!get_option('webpush_vapid_key')) {
+        $generator = EccFactory::getNistCurves()->generator256();
+        $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+
+        update_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
+      }
+
+      if (!get_option('webpush_vapid_subject')) {
+        update_option('webpush_vapid_subject', 'mailto:' . get_option('admin_email'));
+      }
+
+      if (!get_option('webpush_vapid_audience')) {
+        $parsedURL = parse_url(home_url('/', 'https'));
+        update_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
+      }
+    }
+  }
+
   public function update_check() {
     global $wpdb;
 
@@ -89,15 +109,7 @@ class WebPush_DB {
     add_option('webpush_gcm_key', '');
     add_option('webpush_gcm_sender_id', '');
 
-    if (USE_VAPID) {
-      $generator = EccFactory::getNistCurves()->generator256();
-      $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
-
-      add_option('webpush_vapid_key', $privKeySerializer->serialize($generator->createPrivateKey()));
-      $parsedURL = parse_url(home_url('/', 'https'));
-      add_option('webpush_vapid_audience', $parsedURL['scheme'] . '://' . $parsedURL['host'] . (isset($parsedURL['port']) ? ':' . $parsedURL['port'] : ''));
-      add_option('webpush_vapid_subject', 'mailto:' . get_option('admin_email'));
-    }
+    self::generate_vapid_options();
 
     add_option('webpush_prompt_count', 0);
     add_option('webpush_accepted_prompt_count', 0);
