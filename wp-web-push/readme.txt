@@ -48,6 +48,12 @@ The plugin is configurable; it is possible to modify when a visitor is prompted 
 7. Firefox notification on Linux.
 
 == Changelog ==
+= 1.4.0 =
+* Fix bug where multiple notifications were shown when opening the browser for sites sending notifications with a high-frequency.
+* Allow disabling the automatic generation of a Web App Manifest for users that already have one for their site.
+* Performance improvements when sending notifications.
+* Misc improvements for the VAPID section in the settings page.
+
 = 1.3.0 =
 * Support sending custom notifications (not tied to posts) from the Tools menu.
 * Fix for the VAPID settings when an invalid private key is used.
