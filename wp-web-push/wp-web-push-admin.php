@@ -214,6 +214,9 @@ class WebPush_Admin {
     $gcm_key_option = get_option('webpush_gcm_key');
     $gcm_sender_id_option = get_option('webpush_gcm_sender_id');
     if (USE_VAPID) {
+      // Regenerate VAPID info if needed (for example, when the user installs the needed
+      // dependencies).
+      WebPush_DB::generate_vapid_options();
       $vapid_key_option = get_option('webpush_vapid_key');
       $vapid_subject_option = get_option('webpush_vapid_subject');
       $vapid_audience_option = get_option('webpush_vapid_audience');
