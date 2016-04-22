@@ -1,5 +1,8 @@
 <?php
 
+use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
+use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
+
 class WebPushDBTest extends WP_UnitTestCase {
   function test_add_get_remove() {
     $this->assertFalse(WebPush_DB::is_subscription('http://localhost/1'));
@@ -39,6 +42,36 @@ class WebPushDBTest extends WP_UnitTestCase {
 
     $subscriptions = WebPush_DB::get_subscriptions();
     $this->assertEquals(0, count($subscriptions));
+  }
+
+  function test_generate_vapid_options() {
+    if (!USE_VAPID) {
+      return;
+    }
+
+    // Test that when the plugin is installed it has valid VAPID info.
+
+    $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+    $privateKeyObject = $privKeySerializer->parse(get_option('webpush_vapid_key'));
+    $publicKeyObject = $privateKeyObject->getPublicKey();
+
+    $this->assertEquals('mailto:admin@example.org', get_option('webpush_vapid_subject'));
+    $this->assertEquals('https://example.org', get_option('webpush_vapid_audience'));
+
+    // Test regenerating the VAPID info.
+
+    update_option('webpush_vapid_key', '');
+    update_option('webpush_vapid_subject', '');
+    update_option('webpush_vapid_audience', '');
+
+    WebPush_DB::generate_vapid_options();
+
+    $privKeySerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer());
+    $privateKeyObject = $privKeySerializer->parse(get_option('webpush_vapid_key'));
+    $publicKeyObject = $privateKeyObject->getPublicKey();
+
+    $this->assertEquals('mailto:admin@example.org', get_option('webpush_vapid_subject'));
+    $this->assertEquals('https://example.org', get_option('webpush_vapid_audience'));
   }
 }
 
