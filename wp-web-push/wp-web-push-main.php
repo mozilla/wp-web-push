@@ -53,7 +53,7 @@ class WebPush_Main {
     add_action('wp_ajax_nopriv_webpush_prompt', array($this, 'handle_prompt'));
 
     $senderID = get_option('webpush_gcm_sender_id');
-    if ($senderID) {
+    if ($senderID && get_option('webpush_generate_manifest')) {
       $manifestGenerator = Mozilla\WebAppManifestGenerator::getInstance();
     }
 
