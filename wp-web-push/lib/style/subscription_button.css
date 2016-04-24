@@ -10,6 +10,7 @@
 }
 
 #webpush-subscription .subscribe {
+  border: none;
   float: right;
   width: 64px;
   height: 64px;
