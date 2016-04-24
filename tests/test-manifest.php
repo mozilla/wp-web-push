@@ -28,7 +28,7 @@ class ManifestTest extends WP_Ajax_UnitTestCase {
     $result = Mozilla\WebAppManifestGenerator::getInstance()->manifestJSONGenerator();
 
     $this->assertEquals('{"start_url":"\/","test":"Marco"}', $result['content']);
-    $this->assertEquals('application/json', $result['contentType']);
+    $this->assertEquals('application/manifest+json', $result['contentType']);
   }
 }
 
