@@ -1,26 +1,28 @@
+# Copyright (C) 2016 Web Push
+# This file is distributed under the same license as the Web Push package.
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: WordPress Web Push Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-web-push\n"
-"POT-Creation-Date: 2016-04-24 12:34-0300\n"
-"PO-Revision-Date: 2016-04-24 13:20-0300\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: pt_BR\n"
+"POT-Creation-Date: 2016-04-22 15:52:04+00:00\n"
+"PO-Revision-Date: 2016-04-24 16:40+0000\n"
+"Last-Translator: Marco Castelluccio <mar.castelluccio@studenti.unina.it>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/wp-translations/wordpress-web-push-plugin/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
-"X-Poedit-Basepath: web-push\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-SearchPath-0: wp-web-push-admin.php\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: wp-web-push-admin.php:23
 msgid "Your private key is invalid."
 msgstr "Sua Chave Privada (Private Key) é inválida."
 
+#. #-#-#-#-#  wp-web-push.pot (Web Push 1.4.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: wp-web-push-admin.php:56 wp-web-push-admin.php:169 wp-web-push-admin.php:192
+#: wp-web-push-admin.php:56 wp-web-push-admin.php:169
+#: wp-web-push-admin.php:192
 msgid "Web Push"
 msgstr "Web Push"
 
@@ -31,18 +33,13 @@ msgstr "Enviar Notificação Push"
 #: wp-web-push-admin.php:86
 msgid ""
 "You need to serve your website via HTTPS to make the Web Push plugin work."
-msgstr ""
-"Você precisa fornecer acesso via HTTPS ao seu website para que o plugin Web "
-"Push funcione."
+msgstr "Você precisa fornecer acesso via HTTPS ao seu website para que o plugin Web Push funcione."
 
 #: wp-web-push-admin.php:101
 msgid ""
 "You need to set up the GCM-specific information in order to make push "
 "notifications work on Google Chrome. <a href=\"%s\">Do it now</a>."
-msgstr ""
-"Você precisa configurar as configurações específicas do GCM para fazer as "
-"notificações push funcionarem no Google Chrome. <a href=\"%$\">Configurar "
-"agora</a>"
+msgstr "Você precisa configurar as configurações específicas do GCM para fazer as notificações push funcionarem no Google Chrome. <a href=\"%$\">Configurar agora</a>"
 
 #: wp-web-push-admin.php:134
 msgid "Sent notifications"
@@ -119,10 +116,7 @@ msgid ""
 "In this section, you can customize the information that appears in the "
 "notifications that will be shown to users.<br> Here's a preview of the "
 "notification:"
-msgstr ""
-"Nessa seção, você pode personalizar a informação que aparece nas "
-"notificações que serão exibidas para os usuários. <br> Aqui está uma prévia "
-"da notificação:"
+msgstr "Nessa seção, você pode personalizar a informação que aparece nas notificações que serão exibidas para os usuários. <br> Aqui está uma prévia da notificação:"
 
 #: wp-web-push-admin.php:327
 msgid "The title of your post."
@@ -172,14 +166,10 @@ msgstr "Comportamento do Cadastro"
 #: wp-web-push-admin.php:370
 msgid ""
 "In this section, you can customize the subscription behavior and tailor it "
-"to your site. We suggest limiting automatic prompting to avoid nagging users "
-"and always giving the option to subscribe/unsubscribe through the "
+"to your site. We suggest limiting automatic prompting to avoid nagging users"
+" and always giving the option to subscribe/unsubscribe through the "
 "subscription button."
-msgstr ""
-"Nessa seção, você pode personalizar o comportamento do cadastro de acordo "
-"com a necessidade do seu website. Sugerimos limitar as solicitações "
-"automáticas para evitar incomodar os usuários e sempre dar a opção de "
-"cancelar ou cadastrar pelo botão de cadastro."
+msgstr "Nessa seção, você pode personalizar o comportamento do cadastro de acordo com a necessidade do seu website. Sugerimos limitar as solicitações automáticas para evitar incomodar os usuários e sempre dar a opção de cancelar ou cadastrar pelo botão de cadastro."
 
 #: wp-web-push-admin.php:378
 msgid "Show subscription icon"
@@ -188,13 +178,9 @@ msgstr "Mostrar botão de cadastro"
 #: wp-web-push-admin.php:379
 msgid ""
 "A button in the bottom-right corner of the page that the user can use to "
-"subscribe/unsubscribe. We suggest enabling it to offer an easy way for users "
-"to manage their subscription."
-msgstr ""
-"Um botão no canto inferior direito da página que permite que o usuário "
-"cadastre ou cancele a sua inscrição. Sugerimos habilitar essa opção para "
-"fornecer uma maneira mais fácil para seus usuários gerenciarem seus "
-"cadastros."
+"subscribe/unsubscribe. We suggest enabling it to offer an easy way for users"
+" to manage their subscription."
+msgstr "Um botão no canto inferior direito da página que permite que o usuário cadastre ou cancele a sua inscrição. Sugerimos habilitar essa opção para fornecer uma maneira mais fácil para seus usuários gerenciarem seus cadastros."
 
 #: wp-web-push-admin.php:384
 msgid "Automatic prompting"
@@ -214,12 +200,9 @@ msgstr "Nunca pedir automaticamente para o usuário se cadastrar"
 
 #: wp-web-push-admin.php:392
 msgid ""
-"Limiting automatic prompting is suggested to avoid nagging users (unless you "
-"know that your visitors are really interested)."
-msgstr ""
-"Sugerimos limitar as solicitações de cadastro automáticas para evitar "
-"incomodar os usuários (a não ser que você tenha certeza que seus usuários "
-"estejam realmente interessados)."
+"Limiting automatic prompting is suggested to avoid nagging users (unless you"
+" know that your visitors are really interested)."
+msgstr "Sugerimos limitar as solicitações de cadastro automáticas para evitar incomodar os usuários (a não ser que você tenha certeza que seus usuários estejam realmente interessados)."
 
 #: wp-web-push-admin.php:397
 msgid "Interval between prompts"
@@ -229,9 +212,7 @@ msgstr "Intervalo entre os convites"
 msgid ""
 "If the user declines or dismisses the prompt, this is the time interval (in "
 "days) to wait before prompting again."
-msgstr ""
-"Se o usuário cancelar o convite de cadastro, este é o intervalo (em dias) "
-"para aguardar antes de perguntar novamente."
+msgstr "Se o usuário cancelar o convite de cadastro, este é o intervalo (em dias) para aguardar antes de perguntar novamente."
 
 #: wp-web-push-admin.php:405
 msgid "Push Triggers"
@@ -240,22 +221,17 @@ msgstr "Ativadores das Notificações"
 #: wp-web-push-admin.php:406
 msgid ""
 "Select which events should trigger sending a push notification to users."
-msgstr ""
-"Selecione quais eventos devem ativar as notiicações push para os usuários."
+msgstr "Selecione quais eventos devem ativar as notiicações push para os usuários."
 
 #: wp-web-push-admin.php:417
 msgid ""
-"N.B.: You can override these options for individual posts when you create/"
-"edit them."
-msgstr ""
-"Obs.: Você pode sobrescrever essa configuração para postas individuais ou "
-"quando você estiver criando/editando os mesmos."
+"N.B.: You can override these options for individual posts when you "
+"create/edit them."
+msgstr "Obs.: Você pode sobrescrever essa configuração para postas individuais ou quando você estiver criando/editando os mesmos."
 
 #: wp-web-push-admin.php:423
 msgid "Voluntary Application Server Identification (VAPID)"
-msgstr ""
-"Identificação Voluntária do Servidor (Voluntary Application Server "
-"Identification - VAPID)"
+msgstr "Identificação Voluntária do Servidor (Voluntary Application Server Identification - VAPID)"
 
 #: wp-web-push-admin.php:424
 msgid ""
@@ -263,11 +239,7 @@ msgid ""
 "submit information about itself to the push service, which improves "
 "application stability, exception handling, and security. <b>It is "
 "automatically configured for you.</b>"
-msgstr ""
-"Essa função é útil para monitorar as notificações push. Ela permite que seu "
-"servidor envie informações sobre ele mesmo ao serviço de notificações, o que "
-"melhora a estabilidade da aplicação, manuseio de exceções e segurança. "
-"<b>Isso é configurado automatiamente para você.</b>"
+msgstr "Essa função é útil para monitorar as notificações push. Ela permite que seu servidor envie informações sobre ele mesmo ao serviço de notificações, o que melhora a estabilidade da aplicação, manuseio de exceções e segurança. <b>Isso é configurado automatiamente para você.</b>"
 
 #: wp-web-push-admin.php:433
 msgid "Private Key"
@@ -301,9 +273,7 @@ msgstr "O contato primário em caso de erros ou se algo não funcionar."
 msgid ""
 "Unfortunately, VAPID can't be enabled on your website, because one or more "
 "prerequisites are missing."
-msgstr ""
-"Infelizmente, o serviço VAPID não pode ser habilitado em seu website porque "
-"um ou mais requisitos não estão adequados."
+msgstr "Infelizmente, o serviço VAPID não pode ser habilitado em seu website porque um ou mais requisitos não estão adequados."
 
 #: wp-web-push-admin.php:460
 msgid "VAPID Prerequisites:"
@@ -323,18 +293,12 @@ msgstr "Suporte ao Google Chrome"
 
 #: wp-web-push-admin.php:476
 msgid ""
-"To configure Google Chrome support, follow the steps in <a href=\"https://"
-"developers.google.com/web/fundamentals/getting-started/push-notifications/"
-"step-04\" target=\"_blank\">Make a project on the Google Developer Console</"
-"a> to configure Google Cloud Messaging (GCM), then copy the <i>GCM API Key</"
-"i> and <i>Project Number</i> into the fields below."
-msgstr ""
-"Para configurar suporte ao Google Chrome, por favor siga as etapas em <a "
+"To configure Google Chrome support, follow the steps in <a "
 "href=\"https://developers.google.com/web/fundamentals/getting-started/push-"
 "notifications/step-04\" target=\"_blank\">Make a project on the Google "
-"Developer Console</a> para configurar o Google Cloud Messaging (GCM), então "
-"copie o <i>GCM API Key (Chave do API GCM)</i> e o <i>Project Number (Número "
-"do Projeto</i> nos campos abaixo. (Link disponível somente em inglês)"
+"Developer Console</a> to configure Google Cloud Messaging (GCM), then copy "
+"the <i>GCM API Key</i> and <i>Project Number</i> into the fields below."
+msgstr "Para configurar suporte ao Google Chrome, por favor siga as etapas em <a href=\"https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04\" target=\"_blank\">Make a project on the Google Developer Console</a> para configurar o Google Cloud Messaging (GCM), então copie o <i>GCM API Key (Chave do API GCM)</i> e o <i>Project Number (Número do Projeto</i> nos campos abaixo. (Link disponível somente em inglês)"
 
 #: wp-web-push-admin.php:480
 msgid "GCM API Key"
@@ -348,26 +312,17 @@ msgstr "Número do Projeto CGM (CGM Project Number)"
 msgid ""
 "The GCM project number should be added to your Web App Manifest. You can "
 "either let the plugin generate a manifest for you or add the info to your "
-"own manifest (if you already have one). The plugin is compatible with the <a "
-"href=\"https://wordpress.org/plugins/add-to-home-screen\">Add to Home Screen "
-"plugin</a>. <b>You only need to disable the following option if you have "
-"created your own manifest manually</b>."
-msgstr ""
-"O número do projeto GCM deve ser adicionado ao seu manifesto de aplicativo "
-"web (Web App Manifest, geralmente um arquivo <i>manifest.json</i>). Você "
-"pode deixar que o plugin gere um manifesto para você ou adicionar seu "
-"próprio manifesto (se você já tiver um). O plugin é compatível com o <a href="
-"\"https://wordpress.org/plugins/add-to-home-screen\">Plugin Add to Home "
-"Screen (Adicionar a Tela Inicial)</a>. <b>Apenas desabilite a seguinte opção "
-"se você já tiver criado e configurado seu próprio manifesto manualmente</b>"
+"own manifest (if you already have one). The plugin is compatible with the <a"
+" href=\"https://wordpress.org/plugins/add-to-home-screen\">Add to Home "
+"Screen plugin</a>. <b>You only need to disable the following option if you "
+"have created your own manifest manually</b>."
+msgstr "O número do projeto GCM deve ser adicionado ao seu manifesto de aplicativo web (Web App Manifest, geralmente um arquivo <i>manifest.json</i>). Você pode deixar que o plugin gere um manifesto para você ou adicionar seu próprio manifesto (se você já tiver um). O plugin é compatível com o <a href=\"https://wordpress.org/plugins/add-to-home-screen\">Plugin Add to Home Screen (Adicionar a Tela Inicial)</a>. <b>Apenas desabilite a seguinte opção se você já tiver criado e configurado seu próprio manifesto manualmente</b>"
 
 #: wp-web-push-admin.php:491
 msgid ""
 "The plugin will automatically create a Web App Manifest for you and add it "
 "to your page."
-msgstr ""
-"O plugin irá automaticamente criar um manifesto de aplicação web para você e "
-"adiciona-lo a página."
+msgstr "O plugin irá automaticamente criar um manifesto de aplicação web para você e adiciona-lo a página."
 
 #: wp-web-push-admin.php:493
 msgid "You need to add %s and %s to your manifest"
@@ -413,9 +368,7 @@ msgstr "Quando um post ou artigo for atualizado."
 msgid ""
 "Right after subscription (useful to show to users what notifications look "
 "like)."
-msgstr ""
-"Logo depois do cadastramento (útil para mostrar aos usuários como as "
-"notificações se parecem)."
+msgstr "Logo depois do cadastramento (útil para mostrar aos usuários como as notificações se parecem)."
 
 #: wp-web-push-main.php:105
 msgid "Successfully subscribed to notifications"
@@ -423,8 +376,7 @@ msgstr "Cadastrado com sucesso para recebimento de notificações."
 
 #: wp-web-push-main.php:109
 msgid "Welcome! Use this button to subscribe to notifications."
-msgstr ""
-"Bem vindo! Use este botão para se cadastrar e receber nossas notificações."
+msgstr "Bem vindo! Use este botão para se cadastrar e receber nossas notificações."
 
 #: wp-web-push-main.php:110
 msgid "Subscribe to notifications"
@@ -432,9 +384,7 @@ msgstr "Inscrever"
 
 #: wp-web-push-main.php:111
 msgid "You can unsubscribe whenever you want using this button."
-msgstr ""
-"Você pode cancelar o envio das notificações sempre que quiser usando este "
-"botão."
+msgstr "Você pode cancelar o envio das notificações sempre que quiser usando este botão."
 
 #: wp-web-push-main.php:112
 msgid "You are now subscribed!"
