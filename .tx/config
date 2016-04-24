@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[wordpress-web-push-plugin.web-push]
+file_filter = wp-web-push/lang/web-push-<lang>.po
+source_lang = en_US
+type = PO
+

@@ -23,6 +23,7 @@ build: $(COMPOSER)
 	./node_modules/.bin/svgo -f $(PLUGIN_NAME)/lib/ -o build/lib/ -p 1 --enable=cleanupNumericValues --enable=cleanupListOfValues --enable=convertPathData
 	# Need to keep the <?php ... ?>
 	cp $(PLUGIN_NAME)/lib/bell.svg build/lib/bell.svg
+	for file in `find ./build/lang/ -name "*.po"` ; do msgfmt -o $${file%.*}.mo $$file && rm $$file ; done
 	cd build/ && zip $(PLUGIN_NAME).zip -r *
 	mv build/$(PLUGIN_NAME).zip $(PLUGIN_NAME).zip
 
