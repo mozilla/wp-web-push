@@ -132,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marco-c/wp-web-app-manifest-generator.git",
-                "reference": "44647ad63d90c81474eb225079df03e0436c8dcf"
+                "reference": "847bf429b05731b3240a470912152655d7fa4a64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/44647ad63d90c81474eb225079df03e0436c8dcf",
-                "reference": "44647ad63d90c81474eb225079df03e0436c8dcf",
+                "url": "https://api.github.com/repos/marco-c/wp-web-app-manifest-generator/zipball/847bf429b05731b3240a470912152655d7fa4a64",
+                "reference": "847bf429b05731b3240a470912152655d7fa4a64",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 "source": "https://github.com/marco-c/wp-web-app-manifest-generator/tree/master",
                 "issues": "https://github.com/marco-c/wp-web-app-manifest-generator/issues"
             },
-            "time": "2016-04-14 09:39:58"
+            "time": "2016-04-24 09:37:17"
         },
         {
             "name": "marco-c/wp_serve_file",
