@@ -5,7 +5,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marco-c/wp-web-push.git"
+    "url": "git+https://github.com/mozilla/wp-web-push.git"
   },
   "keywords": [
     "wordpress",
@@ -14,9 +14,9 @@
   "author": "Marco Castelluccio <mcastelluccio@mozilla.com>",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/marco-c/wp-web-push/issues"
+    "url": "https://github.com/mozilla/wp-web-push/issues"
   },
-  "homepage": "https://github.com/marco-c/wp-web-push#readme",
+  "homepage": "https://github.com/mozilla/wp-web-push#readme",
   "dependencies": {
     "chart.js": "^1.1.1",
     "localforage": "^1.4.0"
