@@ -131,7 +131,7 @@ class WebPush_Main {
       WebPush_DB::remove_subscription($_POST['oldEndpoint']);
     }
 
-    WebPush_DB::add_subscription($_POST['endpoint'], isset($_POST['key']) ? $_POST['key'] : '', isset($_POST['auth']) ? Base64Url::decode($_POST['auth']) : '');
+    WebPush_DB::add_subscription($_POST['endpoint'], isset($_POST['key']) ? $_POST['key'] : null, isset($_POST['auth']) ? Base64Url::decode($_POST['auth']) : null);
 
     if (isset($_POST['newRegistration'])) {
       update_option('webpush_accepted_prompt_count', get_option('webpush_accepted_prompt_count') + 1);
