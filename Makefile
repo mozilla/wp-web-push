@@ -11,6 +11,7 @@ reinstall: $(WP_CLI) build
 
 build: $(COMPOSER)
 	npm install
+	$(COMPOSER) update
 	$(COMPOSER) install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs
 	rm -rf build $(PLUGIN_NAME).zip
 	cp -r $(PLUGIN_NAME)/ build/
