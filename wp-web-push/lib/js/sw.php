@@ -1,4 +1,4 @@
-(function(self) {
+(function(self, $ajaxUrl) {
   self.addEventListener('install', function(event) {
     event.waitUntil(self.skipWaiting());
   });
@@ -55,7 +55,7 @@
 
         lastNotificationTime = Date.now();
 
-        return fetch('<?php echo admin_url('admin-ajax.php'); ?>?action=webpush_get_payload')
+        return fetch($ajaxUrl + '?action=webpush_get_payload')
         .then(function(response) {
           return response.json();
         })
@@ -91,7 +91,7 @@
             formData.append('oldEndpoint', oldEndpoint);
           }
 
-          return fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+          return fetch($ajaxUrl, {
             method: 'post',
             body: formData,
           });
@@ -99,4 +99,4 @@
       })
     );
   });
-}(self));
+}(self, '<?php echo admin_url('admin-ajax.php'); ?>'));
