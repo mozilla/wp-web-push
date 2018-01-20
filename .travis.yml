@@ -3,9 +3,7 @@ matrix:
   include:
     - php: 5.3
       dist: precise
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 5.4
-      env: WP_VERSION=latest WP_MULTISITE=0
+      env: WP_VERSION=3.7 WP_MULTISITE=0
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install gettext
