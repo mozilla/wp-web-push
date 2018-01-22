@@ -5,6 +5,10 @@ matrix:
   include:
     - php: 5.3
       env: WP_VERSION=latest WP_MULTISITE=0
+      dist: precise
+      before_install:
+        - sudo apt-get -qq update
+        - sudo apt-get install gettext
     - php: 5.4
       env: WP_VERSION=latest WP_MULTISITE=0
     - php: 5.5
@@ -17,10 +21,22 @@ matrix:
       env: WP_VERSION=latest WP_MULTISITE=0
     - php: 5.3
       env: WP_VERSION=3.7 WP_MULTISITE=0
+      dist: precise
+      before_install:
+        - sudo apt-get -qq update
+        - sudo apt-get install gettext
     - php: 5.3
       env: WP_VERSION=3.8 WP_MULTISITE=0
+      dist: precise
+      before_install:
+        - sudo apt-get -qq update
+        - sudo apt-get install gettext
     - php: 5.3
       env: WP_VERSION=3.9 WP_MULTISITE=0
+      dist: precise
+      before_install:
+        - sudo apt-get -qq update
+        - sudo apt-get install gettext
     - php: 5.6
       env: WP_VERSION=4.0 WP_MULTISITE=0
     - php: 5.6
