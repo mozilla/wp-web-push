@@ -16,17 +16,13 @@
         {
             "type": "vcs",
             "url": "https://github.com/mozilla/wp-sw-manager"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/marco-c/jwt"
         }
     ],
     "require": {
         "marco-c/wp-web-app-manifest-generator": "dev-master",
         "mozilla/wp-sw-manager": "dev-master",
         "marco-c/wp_serve_file": "dev-master",
-        "lcobucci/jwt": "dev-3.1-relaxed",
+        "lcobucci/jwt": "3.1.2",
         "mdanter/ecc": "dev-master",
         "spomky-labs/base64url": "^1.0@dev"
     },
