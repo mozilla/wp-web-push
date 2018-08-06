@@ -1,3 +1,5 @@
+# Note: this project is no longer actively maintained.
+
 # wp-web-push
 > Web Push plugin for WordPress.
 
